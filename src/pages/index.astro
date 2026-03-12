@@ -3,121 +3,96 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { BookOpen, Spade, ChartScatter } from 'lucide-astro';
 ---
 <BaseLayout title="Home">
-		<!-- background circles -->
-    <div class="absolute top-0 left-0 w-full h-[300%] pointer-events-none -z-10">
-      <div class="absolute top-[5%] right-[10%] w-[600px] h-[600px] rounded-full bg-amber-100 opacity-70"></div>
-      <div class="absolute top-[35%] left-[5%] w-[400px] h-[400px] rounded-full bg-orange-100 opacity-60"></div>
-      <div class="absolute top-[55%] right-[15%] w-[500px] h-[500px] rounded-full bg-rose-100 opacity-60"></div>
-      <div class="absolute top-[70%] left-[20%] w-[360px] h-[360px] rounded-full bg-amber-100 opacity-50"></div>
-    </div>
-    <!-- Hero -->
-    <section class="px-8 py-32 max-w-5xl mx-auto">
-      <p class="text-5xl md:text-7xl text-stone-400 leading-tight">
-        I make things. <br /> Sometimes they work.
-      </p>
-    </section>
-
-  <main class="max-w-3xl pl-16 md:pl-32 lg:pl-40 pr-6 md:pr-10 py-24">
-  
-    <!-- Philosophy -->
-    <section class="mb-24">
-      <p class="text-stone-600 leading-loose">
-        "When I encounter something new, my first instinct isn't just to accept it — 
-				it's to find what's underneath. The axioms behind the argument. The rule behind the 
-				pattern. I'm not sure if that's curiosity or just the way I'm wired."
-      </p>
-    </section>
-
-		<!-- Background -->
-<section class="mb-24">
-  <h2 class="text-xs uppercase tracking-widest text-stone-400 mb-8">Background</h2>
-  
-  <div class="flex flex-col gap-6">
+  <main class="max-w-3xl mx-auto px-8 pt-32 pb-24">
     
-    <div class="flex gap-6">
-      <span class="text-xs text-stone-400 w-20 pt-1 shrink-0">-2020</span>
-      <div>
-        <span class="text-stone-800 font-medium">Korea</span>
-        <p class="text-sm text-stone-500 mt-1">Born and raised</p>
-      </div>
+    <!-- 10% Accent: Deep Point Color Line -->
+    <div class="w-12 h-px bg-orange-900 mb-12"></div>
+
+    <!-- Hero Section -->
+    <section class="mb-32">
+      <h1 class="text-5xl md:text-7xl text-stone-900 font-serif leading-tight tracking-tight">
+        I make things. <br /> 
+        <span class="text-orange-900/70 italic font-light">Sometimes they work.</span>
+      </h1>
+    </section>
+
+    <div class="space-y-32">
+      
+      <!-- Philosophy: Reduced width and lighter color -->
+      <section>
+        <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-semibold mb-8">Philosophy</h2>
+        <div class="max-w-lg">
+          <p class="text-stone-500 leading-relaxed font-serif text-xl">
+            "When I encounter something new, my first instinct isn't just to accept it — 
+            it's to find what's underneath. The axioms behind the argument. The rule behind the 
+            pattern. I'm not sure if that's curiosity or just the way I'm wired."
+          </p>
+        </div>
+      </section>
+
+      <!-- Background: Moved back under Philosophy -->
+      <section>
+        <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-semibold mb-8">Background</h2>
+        <div class="space-y-6">
+          {[
+            { year: "-2020", title: "Korea", desc: "Born and raised" },
+            { year: "2020-2023", title: "Warsaw", desc: "American School of Warsaw, IB" },
+            { year: "2023–2024", title: "Waterloo", desc: "Honours Mathematics" },
+            { year: "2024–2026", title: "Army", desc: "Republic of Korea Army" },
+            { year: "2026-now", title: "Waterloo", desc: "Honours Computer Science" }
+          ].map(item => (
+            <div class="flex gap-8 group">
+              <span class="text-[10px] tracking-widest text-orange-900/50 pt-1.5 w-24 shrink-0 font-mono font-bold">{item.year}</span>
+              <div class="border-l border-stone-200 pl-8 group-hover:border-orange-900/30 transition-colors duration-500">
+                <h3 class="text-stone-900 font-medium text-sm">{item.title}</h3>
+                <p class="text-stone-500 text-sm mt-0.5">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Projects: Last -->
+      <section>
+        <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-semibold mb-8">Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+          
+          <div class="group">
+            <div class="flex items-center gap-3 mb-2">
+              <BookOpen class="w-4 h-4 text-orange-900/40" />
+              <h3 class="text-stone-900 font-medium">dchup</h3>
+            </div>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              Built a full-stack flashcard app — my first time touching a real backend, a database, and deployment.
+            </p>
+            <div class="mt-4 w-0 group-hover:w-24 h-px bg-orange-900/20 transition-all duration-500"></div>
+          </div>
+
+          <div class="group">
+            <div class="flex items-center gap-3 mb-2">
+              <Spade class="w-4 h-4 text-orange-900/40" />
+              <h3 class="text-stone-900 font-medium">Solitaire</h3>
+            </div>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              Started in Dart, failed, rebuilt in React. Ended up being the project I learned React from.
+            </p>
+            <div class="mt-4 w-0 group-hover:w-24 h-px bg-orange-900/20 transition-all duration-500"></div>
+          </div>
+
+          <div class="group">
+            <div class="flex items-center gap-3 mb-2">
+              <ChartScatter class="w-4 h-4 text-orange-900/40" />
+              <h3 class="text-stone-900 font-medium">CxC Hackathon</h3>
+            </div>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              Analyzed wildfire data with a team. Won the MEF Award.
+            </p>
+            <div class="mt-4 w-0 group-hover:w-24 h-px bg-orange-900/20 transition-all duration-500"></div>
+          </div>
+
+        </div>
+      </section>
+
     </div>
-
-    <div class="flex gap-6">
-      <span class="text-xs text-stone-400 w-20 pt-1 shrink-0">2020-2023</span>
-      <div>
-        <span class="text-stone-800 font-medium">Warsaw</span>
-        <p class="text-sm text-stone-500 mt-1">American School of Warsaw, IB</p>
-      </div>
-    </div>
-
-    <div class="flex gap-6">
-      <span class="text-xs text-stone-400 w-20 pt-1 shrink-0">2023–2024</span>
-      <div>
-        <span class="text-stone-800 font-medium">Waterloo</span>
-        <p class="text-sm text-stone-500 mt-1">Honours Mathematics, University of Waterloo</p>
-      </div>
-    </div>
-
-    <div class="flex gap-6">
-      <span class="text-xs text-stone-400 w-20 pt-1 shrink-0">2024–2026</span>
-      <div>
-        <span class="text-stone-800 font-medium">Army</span>
-        <p class="text-sm text-stone-500 mt-1">Mandatory service for Republic of Korea Army</p>
-      </div>
-    </div>
-
-    <div class="flex gap-6">
-      <span class="text-xs text-stone-400 w-20 pt-1 shrink-0">2026-now</span>
-      <div>
-        <span class="text-stone-800 font-medium">Waterloo</span>
-        <p class="text-sm text-stone-500 mt-1">Honours Computer Science, co-op, University of Waterloo</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-		<!-- Projects -->
-		<section class="mb-24">
-			<h2 class="text-xs uppercase tracking-widest text-stone-400 mb-8">Projects</h2>
-			
-			<div class="flex flex-col gap-8">
-				
-				<div>
-					<div class="flex items-center gap-2 mb-2">
-						<BookOpen class="w-4 h-4 text-stone-400" />
-						<span class="text-stone-800 font-medium">dchup</span>
-						<span class="text-xs text-stone-400">TS-React · Python-fastapi · AWS</span>
-					</div>
-					<p class="text-sm text-stone-500 leading-relaxed">
-						Built a full-stack flashcard app — my first time touching a real backend, a database, and deployment all at once. Learned more from breaking things than from building them.
-					</p>
-				</div>
-
-				<div>
-					<div class="flex items-center gap-2 mb-2">
-						<Spade class="w-4 h-4 text-stone-400" />
-						<span class="text-stone-800 font-medium">Solitaire</span>
-						<span class="text-xs text-stone-400">React</span>
-					</div>
-					<p class="text-sm text-stone-500 leading-relaxed">
-						Started in Dart, failed, rebuilt in React. Ended up being the project I learned React from. Still play it sometimes.
-					</p>
-				</div>
-
-				<div>
-					<div class="flex items-center gap-2 mb-2">
-						<ChartScatter class="w-4 h-4 text-stone-400" />
-						<span class="text-stone-800 font-medium">CxC Hackathon</span>
-						<span class="text-xs text-stone-400">Python · pandas · matplotlib</span>
-					</div>
-					<p class="text-sm text-stone-500 leading-relaxed">
-						My first hackathon. Analyzed wildfire data with a team over three weeks — learned pandas, matplotlib, and how to present technical work to an audience. Won the MEF Award.
-					</p>
-				</div>
-
-			</div>
-		</section>
-
   </main>
 </BaseLayout>
