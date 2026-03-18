@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { thoughts } from '../data/thoughts';
+import LinkDisplay from '../components/LinkDisplay.astro';
 ---
 <BaseLayout title="Thinking">
   <main class="max-w-3xl mx-auto px-8 pt-20 pb-24">
@@ -35,7 +36,10 @@ import { thoughts } from '../data/thoughts';
             </div>
             
             <div class="flex-1">
-              <h2 class="text-2xl text-stone-900 font-serif mb-4 group-hover/article:translate-x-1 transition-transform duration-500">{thought.title}</h2>
+              <div class="flex items-start justify-between mb-4">
+                <h2 class="text-2xl text-stone-900 font-serif group-hover/article:translate-x-1 transition-transform duration-500">{thought.title}</h2>
+                <LinkDisplay id={thought.id} />
+              </div>
               <p class="text-stone-600 leading-relaxed max-w-xl italic font-serif text-lg opacity-80">
                 "{thought.description}"
               </p>

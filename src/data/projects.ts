@@ -2,8 +2,19 @@ import {
   BookOpen, Spade, ChartScatter, Gamepad2, Activity, Layers, Box, Bot, Coins
 } from 'lucide-astro';
 
-export const projects = [
+export interface Project {
+  id: string;
+  title: string;
+  stack: string;
+  description: string;
+  icon: any;
+  github?: string;
+  link?: string;
+}
+
+export const projects: Project[] = [
   {
+    id: "project-dchup",
     title: "Dchup (Study Card Webapp)",
     stack: "React · Python-fastapi · AWS",
     description: "Built a full-stack flashcard architecture aimed at providing a Quizlet-like experience. A deep dive into backend systems and data persistence.",
@@ -11,6 +22,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/Dchup"
   },
   {
+    id: "project-wildfire",
     title: "CxC Hackathon: Wildfire Analysis",
     stack: "Python · Pandas · Matplotlib · AI",
     description: "Analyzed 22,000 wildfire records in Alberta. Built an AI model to predict wildfire sizes and understand their impact on indigenous civilizations. Won the MEF Award.",
@@ -18,6 +30,7 @@ export const projects = [
     github: "https://github.com/hyowon2jjang/CxC-hackathon"
   },
   {
+    id: "project-orbt",
     title: "Orbt!",
     stack: "HTML · CSS · JavaScript",
     description: "A minimalist mini-game built as a Chrome Extension. Focused on smooth animations and simple, addictive mechanics.",
@@ -25,6 +38,7 @@ export const projects = [
     link: "https://chrome.google.com/webstore/detail/keep-orbt/fnojejaphahikdnanchmnccmilgnffmf?hl=en"
   },
   {
+    id: "project-rubiks",
     title: "Rubik's Cube Helper",
     stack: "Python · Pygame",
     description: "IB Computer Science IA project. A solver that visualizes the solution process for a Rubik's cube with a custom UI.",
@@ -32,6 +46,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/Rubik-Cube-Helper"
   },
   {
+    id: "project-solitaire",
     title: "Solitaire (React)",
     stack: "React",
     description: "A complete reconstruction of the SHENZHEN I/O solitaire card game in React. The project where I truly mastered React's state management.",
@@ -40,6 +55,7 @@ export const projects = [
     link: "https://hyoseo837.github.io/ddanzt/"
   },
   {
+    id: "project-fractal",
     title: "Newton Fractal Generator",
     stack: "C++",
     description: "IB Extended Essay project. Researched complex numbers and Newton's method to generate precise fractal images at specific resolutions.",
@@ -47,6 +63,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/Learning-Cpp/blob/master/Gravitation/NewtonFractal.cpp"
   },
   {
+    id: "project-gravitation",
     title: "Gravitational Motion Simulator",
     stack: "C++ · SFML",
     description: "A physics simulator based on the laws of gravitation. Calculates field strength and executes based on classical mechanics.",
@@ -54,6 +71,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/Learning-Cpp/blob/master/Gravitation/Gravitation.cpp"
   },
   {
+    id: "project-bico",
     title: "Bico Game",
     stack: "Python · Pygame",
     description: "A trading simulation game where players earn money based on randomly fluctuating cryptocurrency prices.",
@@ -61,6 +79,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/bico"
   },
   {
+    id: "project-minilol",
     title: "Mini LoL",
     stack: "Python · Pygame",
     description: "A pygame-based mini-game featuring champions and mechanics inspired by League of Legends.",
@@ -68,6 +87,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/minilol"
   },
   {
+    id: "project-dicobot",
     title: "Discord Bot",
     stack: "Python · Discord API · Heroku",
     description: "An automated response bot for Discord servers. Managed deployment and API integration on Heroku.",
@@ -75,6 +95,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/dicobot"
   },
   {
+    id: "project-infection",
     title: "Infection Simulation",
     stack: "Python · Pygame",
     description: "MYP Personal Project. A simulator that visualizes disease spread based on simple contact rules.",
@@ -82,6 +103,7 @@ export const projects = [
     github: "https://github.com/hyoseo837/infection_simulation"
   },
   {
+    id: "project-casino",
     title: "Casino Project",
     stack: "Python",
     description: "A console-based casino program featuring a lobby and various mini-games, built in collaboration with a peer.",

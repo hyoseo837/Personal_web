@@ -3,8 +3,18 @@ import {
   Gamepad2, Languages, ShieldAlert, HeartOff 
 } from 'lucide-astro';
 
-export const thoughts = [
+export interface Thought {
+  id: string;
+  date: string;
+  title: string;
+  category: string;
+  description: string;
+  icon: any;
+}
+
+export const thoughts: Thought[] = [
   {
+    id: "thought-infinity",
     date: "2026.02.15",
     title: "Both Infinity Are Connected",
     category: "Philosophy",
@@ -12,6 +22,7 @@ export const thoughts = [
     icon: Sparkles
   },
   {
+    id: "thought-nihilism",
     date: "2026.02.12",
     title: "Optimistic Nihilism",
     category: "Mindset",
@@ -19,6 +30,7 @@ export const thoughts = [
     icon: Zap
   },
   {
+    id: "thought-language",
     date: "2025.11.22",
     title: "The Identity Trap of Language",
     category: "Linguistics",
@@ -26,6 +38,7 @@ export const thoughts = [
     icon: Languages
   },
   {
+    id: "thought-nothing-owed",
     date: "2025.12.13",
     title: "Nothing Is Owed",
     category: "Stoicism",
@@ -33,6 +46,7 @@ export const thoughts = [
     icon: HeartOff
   },
   {
+    id: "thought-meritocracy",
     date: "2025.10.19",
     title: "Beyond Meritocracy",
     category: "Sociology",
@@ -40,6 +54,7 @@ export const thoughts = [
     icon: Scale
   },
   {
+    id: "thought-axiom",
     date: "2025.10.16",
     title: "Attack the Axiom",
     category: "Logic",
@@ -47,6 +62,7 @@ export const thoughts = [
     icon: Binary
   },
   {
+    id: "thought-vector",
     date: "2025.06.30",
     title: "The Value Vector",
     category: "Psychology",
@@ -54,6 +70,7 @@ export const thoughts = [
     icon: MoveRight
   },
   {
+    id: "thought-single-player",
     date: "2025.05.18",
     title: "Life as a Single Player Game",
     category: "Metaphysics",
@@ -61,6 +78,7 @@ export const thoughts = [
     icon: Gamepad2
   },
   {
+    id: "thought-immersion",
     date: "2026.01.15",
     title: "Logical Immersion",
     category: "Strategy",

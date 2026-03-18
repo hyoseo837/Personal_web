@@ -1,4 +1,6 @@
 ---
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove the leading slash
 ---
 
 <header class="w-full px-8 pt-10 flex justify-between items-center">
@@ -6,18 +8,25 @@
     Hyoseo
   </a>
   
-  <nav class="flex gap-8 text-stone-400 font-sans font-bold text-[10px] uppercase tracking-[0.2em]">
+  <nav class="flex gap-8 font-sans font-bold text-[10px] uppercase tracking-[0.2em]">
     {[
       { name: 'About', href: '/about' },
       { name: 'Thinking', href: '/thinking' },
-      { name: 'Projects', href: '/projects' }
-    ].map((item) => (
-      <a 
-        href={item.href} 
-        class="hover:text-stone-900 transition-colors"
-      >
-        {item.name}
-      </a>
-    ))}
+      { name: 'Projects', href: '/projects' },
+      { name: 'Graph', href: '/graph' }
+    ].map((item) => {
+      const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+      return (
+        <a 
+          href={item.href} 
+          class:list={[
+            "transition-colors duration-300",
+            isActive ? "text-orange-900" : "text-stone-400 hover:text-stone-900"
+          ]}
+        >
+          {item.name}
+        </a>
+      );
+    })}
   </nav>
 </header>
