@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TasteMap from '../components/TasteMap.astro';
+import { User, Monitor, Terminal, Cpu, Lightbulb } from 'lucide-astro';
+import { now } from '../data/now';
+import { stack } from '../data/stack';
+---
+
+<BaseLayout title="About">
+  <main class="max-w-3xl mx-auto px-8 pt-20 pb-24">
+    
+    <!-- Hero Section -->
+    <section class="mb-24">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-px bg-accent-muted/30"></div>
+        <span class="text-xs uppercase tracking-[0.3em] text-accent/60 font-sans font-semibold">About —</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl heading-serif leading-[1.1] tracking-tight mb-10">
+        Hyoseo Lee <br />
+        <span class="text-accent-bright italic font-light">A seeker of patterns.</span>
+      </h1>
+      <p class="text-text-muted max-w-lg leading-relaxed">
+        Computer Science student at the University of Waterloo. 
+        An explorer of systems, logic, and the diverse landscape of computation.
+      </p>
+    </section>
+
+    <div class="space-y-20">
+      <!-- Intro Section -->
+      <section class="soft-block">
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="w-16 shrink-0">
+            <div class="icon-box">
+              <User class="w-6 h-6" />
+            </div>
+          </div>
+          <div class="flex-1">
+            <h2 class="text-2xl heading-serif mb-6">Identity & Exploration</h2>
+            <div class="max-w-xl font-serif text-text-muted leading-relaxed text-lg space-y-4">
+              <p>
+                I'm driven by curiosity and a desire to understand the fundamental patterns 
+                behind everything I encounter. Instead of narrowing my focus, I'm currently 
+                exploring the vast breadth of computer science—from low-level systems to high-level abstractions.
+              </p>
+              <p>
+                Currently navigating my 2A term at Waterloo after completing military service 
+                in the Republic of Korea Army. I'm less interested in finding a niche and more 
+                interested in seeing how everything connects.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Now Section -->
+      <section class="soft-block">
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="w-16 shrink-0">
+            <div class="icon-box">
+              <Terminal class="w-6 h-6" />
+            </div>
+          </div>
+          <div class="flex-1">
+            <h2 class="text-2xl heading-serif mb-6">Now</h2>
+            <ul class="space-y-4 text-text-muted font-serif italic text-lg leading-relaxed">
+              {now.map(item => (
+                <li>• {item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hard Skills -->
+      <section class="soft-block">
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="w-16 shrink-0">
+            <div class="icon-box">
+              <Cpu class="w-6 h-6" />
+            </div>
+          </div>
+          <div class="flex-1">
+            <h2 class="text-2xl heading-serif mb-8">Technical Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+              {stack.skills.hard.map(skill => (
+                <div class="group/skill">
+                  <div class="text-text-main font-serif text-base">{skill.name}</div>
+                  <div class="label-xs group-hover/skill:text-accent-muted transition-colors">{skill.detail}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Soft Skills -->
+      <section class="soft-block">
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="w-16 shrink-0">
+            <div class="icon-box">
+              <Lightbulb class="w-6 h-6" />
+            </div>
+          </div>
+          <div class="flex-1">
+            <h2 class="text-2xl heading-serif mb-8">Personal Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+              {stack.skills.soft.map(skill => (
+                <div class="group/skill">
+                  <div class="text-text-main font-serif text-base">{skill.name}</div>
+                  <div class="label-xs group-hover/skill:text-accent-muted transition-colors">{skill.detail}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stack Section -->
+      <section class="soft-block">
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="w-16 shrink-0">
+            <div class="icon-box">
+              <Monitor class="w-6 h-6" />
+            </div>
+          </div>
+          <div class="flex-1">
+            <h2 class="text-2xl heading-serif mb-8">The Setup</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div>
+                <h3 class="label-xs mb-6 opacity-60">Hardware</h3>
+                <div class="space-y-4">
+                  {stack.hardware.map(item => (
+                    <div class="group/item">
+                      <div class="text-text-main font-serif text-base">{item.name}</div>
+                      <div class="label-xs group-hover/item:text-accent-muted transition-colors">{item.detail}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h3 class="label-xs mb-6 opacity-60">Environment</h3>
+                <div class="grid grid-cols-1 gap-4">
+                  {stack.software.map(item => (
+                    <div class="group/item">
+                      <div class="text-text-main font-serif text-base">{item.name}</div>
+                      <div class="label-xs group-hover/item:text-accent-muted transition-colors">{item.detail}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Taste Map Section -->
+      <section class="mt-24">
+        <TasteMap />
+      </section>
+    </div>
+
+  </main>
+</BaseLayout>

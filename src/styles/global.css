@@ -3,11 +3,26 @@
 @theme {
   --font-serif: "Newsreader", serif;
   --font-sans: "Inter", sans-serif;
+
+  /* Semantic Colors */
+  --color-accent: var(--color-orange-900);
+  --color-accent-soft: rgba(124, 45, 18, 0.05); /* orange-900/5 */
+  --color-accent-muted: rgba(124, 45, 18, 0.4); /* orange-900/40 */
+  --color-accent-bright: rgba(124, 45, 18, 0.8); /* orange-900/80 */
+  
+  --color-surface: var(--color-stone-100);
+  --color-surface-hover: var(--color-white);
+  --color-border-dim: rgba(231, 229, 228, 0.2); /* stone-200/20 */
+  --color-border-hover: rgba(231, 229, 228, 0.5); /* stone-200/50 */
+  
+  --color-text-main: var(--color-stone-900);
+  --color-text-muted: var(--color-stone-500);
+  --color-text-dim: var(--color-stone-400);
 }
 
 @layer base {
   body {
-    @apply selection:bg-orange-200/50 transition-colors duration-500;
+    @apply selection:bg-orange-200/50 transition-colors duration-500 text-text-main font-sans;
     position: relative;
   }
 
@@ -28,10 +43,22 @@
 
 @layer utilities {
   .soft-block {
-    @apply bg-stone-100/40 rounded-3xl p-8 md:p-12 border border-stone-200/20 shadow-sm transition-all duration-700;
+    @apply bg-surface/40 rounded-3xl p-8 md:p-12 border border-border-dim shadow-sm transition-all duration-700;
   }
   
   .soft-block:hover {
-    @apply bg-white border-stone-200/50 shadow-md transform -translate-y-0.5;
+    @apply bg-surface-hover border-border-hover shadow-md transform -translate-y-0.5;
+  }
+
+  .icon-box {
+    @apply p-3 bg-accent-soft rounded-xl inline-block text-accent/60 transition-colors duration-300;
+  }
+
+  .label-xs {
+    @apply text-[10px] uppercase tracking-widest font-sans font-bold text-accent/50 transition-colors duration-500;
+  }
+
+  .heading-serif {
+    @apply font-serif text-stone-900;
   }
 }

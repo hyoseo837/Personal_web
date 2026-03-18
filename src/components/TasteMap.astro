@@ -1,0 +1,94 @@
+---
+import { tastes } from '../data/tastes';
+import { Heart } from 'lucide-astro';
+
+const categories = [
+  { id: 'books', label: 'Books', color: 'bg-stone-500', creatorLabel: 'Author' },
+  { id: 'films', label: 'Films', color: 'bg-orange-500', creatorLabel: 'Director' },
+  { id: 'games', label: 'Games', color: 'bg-amber-500', creatorLabel: 'Studio' },
+  { id: 'music', label: 'Music', color: 'bg-rose-500', creatorLabel: 'Artist' },
+  { id: 'pokemon', label: 'Pokémon', color: 'bg-teal-500' },
+];
+
+const groupedTastes = categories.map(cat => ({
+  ...cat,
+  items: tastes.filter(item => item.category === cat.id)
+}));
+---
+
+<div class="soft-block">
+  <!-- Header inside the box -->
+  <div class="flex items-center gap-4 mb-12">
+    <div class="icon-box">
+      <Heart class="w-6 h-6" />
+    </div>
+    <div>
+      <h2 class="text-2xl heading-serif">Taste Map</h2>
+      <p class="label-xs">
+        A curated collection of influences
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-16">
+    {groupedTastes.map(group => (
+      <div class="group/cat">
+        <div class="flex items-center gap-3 mb-6">
+          <div class={`w-2 h-2 rounded-full ${group.color} opacity-40 group-hover/cat:opacity-100 transition-opacity`}></div>
+          <h3 class="label-xs text-text-main font-bold">
+            {group.label}
+          </h3>
+        </div>
+        
+        <div class="flex flex-wrap gap-x-3 gap-y-3">
+          {group.items.map(item => (
+            <div class="group relative">
+              <span class="inline-flex items-center px-3 py-1.5 rounded-xl bg-surface/60 border border-border-dim text-[13px] text-text-muted font-serif hover:bg-surface-hover hover:border-border-hover hover:text-text-main transition-all duration-300 cursor-default">
+                {item.name}
+              </span>
+              
+              <!-- Minimalist Tooltip -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-4 bg-stone-900 text-white rounded-2xl text-[11px] opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50 shadow-2xl translate-y-2 group-hover:translate-y-0">
+                <div class="flex flex-col gap-2">
+                  <div class="flex justify-between items-start">
+                    <span class="font-sans font-bold uppercase tracking-widest text-[8px] text-white/40">
+                      {group.label}
+                    </span>
+                    {item.creator && (
+                      <span class="font-sans font-bold uppercase tracking-widest text-[8px] text-orange-200/60">
+                        {group.creatorLabel}: {item.creator}
+                      </span>
+                    )}
+                  </div>
+
+                  {item.category === 'pokemon' && item.id && (
+                    <div class="flex justify-center -my-2">
+                      <img 
+                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.id}.png`} 
+                        alt={item.name}
+                        class="w-24 h-24 pixelated drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
+                      />
+                    </div>
+                  )}
+                  
+                  <p class="font-serif italic text-[12px] text-white/90 leading-relaxed">
+                    "{item.description}"
+                  </p>
+                </div>
+                
+                <!-- Tooltip Arrow -->
+                <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-8 border-transparent border-t-stone-900"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .pixelated {
+    image-rendering: pixelated;
+  }
+</style>
