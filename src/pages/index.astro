@@ -1,93 +1,100 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { BookOpen, Spade, ChartScatter } from 'lucide-astro';
+import { BookOpen, Spade, ChartScatter, ArrowRight } from 'lucide-astro';
 ---
 <BaseLayout title="Home">
-  <main class="max-w-3xl mx-auto px-8 pt-32 pb-24">
+  <main class="max-w-3xl mx-auto px-8 pt-20 pb-24">
     
-    <!-- 10% Accent: Deep Point Color Line -->
-    <div class="w-12 h-px bg-orange-900 mb-12"></div>
-
     <!-- Hero Section -->
-    <section class="mb-32">
-      <h1 class="text-5xl md:text-7xl text-stone-900 font-serif leading-tight tracking-tight">
+    <section class="mb-24">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-px bg-orange-900/30"></div>
+        <span class="text-xs uppercase tracking-[0.3em] text-orange-900/60 font-sans font-semibold">Hello, I'm Hyoseo —</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl text-stone-900 font-serif leading-[1.1] tracking-tight">
         I make things. <br /> 
-        <span class="text-orange-900/70 italic font-light">Sometimes they work.</span>
+        <span class="text-orange-900/80 italic font-light">Sometimes they work.</span>
       </h1>
     </section>
 
-    <div class="space-y-32">
+    <div class="space-y-20">
       
-      <!-- Philosophy: Reduced width and lighter color -->
-      <section>
-        <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-semibold mb-8">Philosophy</h2>
-        <div class="max-w-lg">
-          <p class="text-stone-500 leading-relaxed font-serif text-xl">
+      <!-- Philosophy -->
+      <section class="soft-block">
+        <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-sans font-bold mb-10 opacity-70">Philosophy</h2>
+        <div class="max-w-xl">
+          <p class="text-stone-600 leading-relaxed font-serif text-2xl mb-10">
             "When I encounter something new, my first instinct isn't just to accept it — 
             it's to find what's underneath. The axioms behind the argument. The rule behind the 
-            pattern. I'm not sure if that's curiosity or just the way I'm wired."
+            pattern."
           </p>
+          <div class="flex flex-wrap gap-y-4 gap-x-6 text-[10px] uppercase tracking-[0.3em] text-orange-900/50 font-sans font-bold">
+            <span class="hover:text-orange-900 transition-colors cursor-default">Be happy</span>
+            <span class="text-stone-200">•</span>
+            <span class="hover:text-orange-900 transition-colors cursor-default">Be unique</span>
+            <span class="text-stone-200">•</span>
+            <span class="hover:text-orange-900 transition-colors cursor-default">Be useful</span>
+          </div>
         </div>
       </section>
 
-      <!-- Background: Moved back under Philosophy -->
-      <section>
-        <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-semibold mb-8">Background</h2>
-        <div class="space-y-6">
+      <!-- Background: Where I've Been -->
+      <section class="soft-block">
+        <div class="flex justify-between items-end mb-12">
+          <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-sans font-bold opacity-70">Where I've been</h2>
+        </div>
+        <div class="relative space-y-8 before:absolute before:left-[111px] md:before:left-[111px] before:top-2 before:bottom-2 before:w-px before:bg-stone-200/60">
           {[
-            { year: "-2020", title: "Korea", desc: "Born and raised" },
-            { year: "2020-2023", title: "Warsaw", desc: "American School of Warsaw, IB" },
-            { year: "2023–2024", title: "Waterloo", desc: "Honours Mathematics" },
-            { year: "2024–2026", title: "Army", desc: "Republic of Korea Army" },
-            { year: "2026-now", title: "Waterloo", desc: "Honours Computer Science" }
+            { year: "2026-Now", title: "Waterloo, Canada", desc: "Honours Computer Science" },
+            { year: "2024-2026", title: "ROKA", desc: "Republic of Korea Army" },
+            { year: "2023-2024", title: "Waterloo, Canada", desc: "Honours Mathematics" },
+            { year: "2020-2023", title: "Warsaw, Poland", desc: "American School of Warsaw, IB" },
+            { year: "-2020", title: "Anyang, Korea", desc: "Born and raised" }
           ].map(item => (
-            <div class="flex gap-8 group">
-              <span class="text-[10px] tracking-widest text-orange-900/50 pt-1.5 w-24 shrink-0 font-mono font-bold">{item.year}</span>
-              <div class="border-l border-stone-200 pl-8 group-hover:border-orange-900/30 transition-colors duration-500">
-                <h3 class="text-stone-900 font-medium text-sm">{item.title}</h3>
-                <p class="text-stone-500 text-sm mt-0.5">{item.desc}</p>
+            <div class="flex gap-12 group relative">
+              <span class="text-[10px] tracking-widest text-orange-900/40 pt-1.5 w-24 shrink-0 font-sans font-bold group-hover:text-orange-900/80 transition-colors duration-500">{item.year}</span>
+              <div class="relative pl-0">
+                <div class="absolute -left-[37px] top-[11px] w-2 h-2 rounded-full bg-stone-200 group-hover:bg-orange-900/40 transition-all duration-500 ring-4 ring-transparent group-hover:ring-orange-900/5 z-10"></div>
+                <h3 class="text-stone-900 font-medium text-base group-hover:translate-x-1 transition-transform duration-500">{item.title}</h3>
+                <p class="text-stone-500 text-sm mt-1 group-hover:translate-x-1 transition-transform duration-500">{item.desc}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <!-- Projects: Last -->
-      <section>
-        <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-semibold mb-8">Projects</h2>
+      <!-- Projects: What I've built -->
+      <section class="soft-block">
+        <div class="flex justify-between items-end mb-12">
+          <h2 class="text-xs uppercase tracking-[0.2em] text-orange-900 font-sans font-bold opacity-70">What I've built</h2>
+          <a href="/projects" class="text-[10px] uppercase tracking-widest text-stone-400 hover:text-orange-900 font-sans font-bold flex items-center gap-2 group/link transition-colors">
+            View all <ArrowRight class="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+          </a>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
           
-          <div class="group">
-            <div class="flex items-center gap-3 mb-2">
-              <BookOpen class="w-4 h-4 text-orange-900/40" />
-              <h3 class="text-stone-900 font-medium">dchup</h3>
+          <div class="group/item">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="p-2 bg-orange-900/5 rounded-lg group-hover/item:bg-orange-900/10 transition-colors">
+                <BookOpen class="w-4 h-4 text-orange-900/60" />
+              </div>
+              <h3 class="text-stone-900 font-serif text-lg">dchup</h3>
             </div>
-            <p class="text-sm text-stone-600 leading-relaxed">
+            <p class="text-sm text-stone-500 leading-relaxed font-sans">
               Built a full-stack flashcard app — my first time touching a real backend, a database, and deployment.
             </p>
-            <div class="mt-4 w-0 group-hover:w-24 h-px bg-orange-900/20 transition-all duration-500"></div>
           </div>
 
-          <div class="group">
-            <div class="flex items-center gap-3 mb-2">
-              <Spade class="w-4 h-4 text-orange-900/40" />
-              <h3 class="text-stone-900 font-medium">Solitaire</h3>
+          <div class="group/item">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="p-2 bg-orange-900/5 rounded-lg group-hover/item:bg-orange-900/10 transition-colors">
+                <Spade class="w-4 h-4 text-orange-900/60" />
+              </div>
+              <h3 class="text-stone-900 font-serif text-lg">Solitaire</h3>
             </div>
-            <p class="text-sm text-stone-600 leading-relaxed">
+            <p class="text-sm text-stone-500 leading-relaxed font-sans">
               Started in Dart, failed, rebuilt in React. Ended up being the project I learned React from.
             </p>
-            <div class="mt-4 w-0 group-hover:w-24 h-px bg-orange-900/20 transition-all duration-500"></div>
-          </div>
-
-          <div class="group">
-            <div class="flex items-center gap-3 mb-2">
-              <ChartScatter class="w-4 h-4 text-orange-900/40" />
-              <h3 class="text-stone-900 font-medium">CxC Hackathon</h3>
-            </div>
-            <p class="text-sm text-stone-600 leading-relaxed">
-              Analyzed wildfire data with a team. Won the MEF Award.
-            </p>
-            <div class="mt-4 w-0 group-hover:w-24 h-px bg-orange-900/20 transition-all duration-500"></div>
           </div>
 
         </div>

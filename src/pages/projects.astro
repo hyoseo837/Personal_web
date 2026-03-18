@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { 
   BookOpen, Spade, ChartScatter, ExternalLink, Github, 
-  Gamepad2, Cpu, Activity, Globe, Bot, Coins, Layers, Box
+  Gamepad2, Activity, Layers, Box, Bot, Coins
 } from 'lucide-astro';
 
 const projects = [
@@ -94,61 +94,59 @@ const projects = [
 ];
 ---
 <BaseLayout title="Projects">
-  <main class="max-w-3xl mx-auto px-8 pt-32 pb-24">
+  <main class="max-w-3xl mx-auto px-8 pt-20 pb-24">
     
-    <!-- Accent Line -->
-    <div class="w-12 h-px bg-orange-900 mb-12"></div>
-
     <!-- Hero -->
-    <header class="mb-32">
-      <h1 class="text-5xl md:text-7xl text-stone-900 font-serif leading-tight tracking-tight mb-8">
+    <header class="mb-24">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-px bg-orange-900/30"></div>
+        <span class="text-xs uppercase tracking-[0.3em] text-orange-900/60 font-sans font-semibold">Artifacts of my learning —</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl text-stone-900 font-serif leading-[1.1] tracking-tight mb-10">
         Projects <br />
-        <span class="text-stone-400 italic font-light">Artifacts of my learning.</span>
+        <span class="text-orange-900/80 italic font-light">Evidence of exploration.</span>
       </h1>
-      <p class="text-stone-500 max-w-lg leading-relaxed">
+      <p class="text-stone-500 max-w-lg leading-relaxed font-sans">
         From my first infection simulation in 10th grade to full-stack architectures. 
         A comprehensive log of my journey through physics, data, and software.
       </p>
     </header>
 
-    <!-- horizontal divider -->
-    <div class="w-full h-px bg-stone-200 mb-32"></div>
-
     <!-- Project List -->
-    <div class="space-y-32">
+    <div class="space-y-12">
       {projects.map((project) => (
-        <section class="group">
-          <div class="flex flex-col md:flex-row gap-8 md:gap-16">
-            <div class="w-24 shrink-0">
-              <project.icon class="w-8 h-8 text-orange-900/40" />
+        <section class="soft-block group/project">
+          <div class="flex flex-col md:flex-row gap-8">
+            <div class="w-16 shrink-0">
+              <div class="p-3 bg-orange-900/5 rounded-xl group-hover/project:bg-orange-900/10 transition-colors inline-block">
+                <project.icon class="w-6 h-6 text-orange-900/60" />
+              </div>
             </div>
             
             <div class="flex-1">
               <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl text-stone-900 font-serif">{project.title}</h2>
+                <h2 class="text-2xl text-stone-900 font-serif group-hover/project:translate-x-1 transition-transform duration-500">{project.title}</h2>
                 <div class="flex gap-4">
                   {project.github && (
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-orange-900 transition-colors">
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-orange-900 transition-colors p-1">
                       <Github class="w-4 h-4" />
                     </a>
                   )}
                   {project.link && (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-orange-900 transition-colors">
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-orange-900 transition-colors p-1">
                       <ExternalLink class="w-4 h-4" />
                     </a>
                   )}
                 </div>
               </div>
               
-              <div class="text-[10px] uppercase tracking-widest text-orange-900/60 font-mono mb-6">
+              <div class="text-[10px] uppercase tracking-widest text-orange-900/50 font-sans font-bold mb-6 group-hover/project:text-orange-900/80 transition-colors">
                 {project.stack}
               </div>
               
-              <p class="text-stone-600 leading-relaxed max-w-xl">
+              <p class="text-stone-600 leading-relaxed max-w-xl font-sans opacity-90">
                 {project.description}
               </p>
-              
-              <div class="mt-12 w-0 group-hover:w-full h-px bg-stone-200 transition-all duration-700"></div>
             </div>
           </div>
         </section>
@@ -156,8 +154,8 @@ const projects = [
     </div>
 
     <!-- Footer Note -->
-    <footer class="mt-32 pt-16 border-t border-stone-100">
-      <p class="text-sm text-stone-400 italic">
+    <footer class="mt-24 pt-16 border-t border-stone-200/40">
+      <p class="text-sm text-stone-400 italic font-serif">
         And many more minor experiments in Python, JS, and Dart.
       </p>
     </footer>

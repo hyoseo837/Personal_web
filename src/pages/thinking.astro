@@ -72,46 +72,42 @@ const thoughts = [
 ];
 ---
 <BaseLayout title="Thinking">
-  <main class="max-w-3xl mx-auto px-8 pt-32 pb-24">
+  <main class="max-w-3xl mx-auto px-8 pt-20 pb-24">
     
-    <!-- Accent Line -->
-    <div class="w-12 h-px bg-orange-900 mb-12"></div>
-
     <!-- Hero -->
-    <header class="mb-32">
-      <h1 class="text-5xl md:text-7xl text-stone-900 font-serif leading-tight tracking-tight mb-8">
+    <header class="mb-24">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-12 h-px bg-orange-900/30"></div>
+        <span class="text-xs uppercase tracking-[0.3em] text-orange-900/60 font-sans font-semibold">Fragments of thought —</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl text-stone-900 font-serif leading-[1.1] tracking-tight mb-10">
         Thinking <br />
-        <span class="text-stone-400 italic font-light">Explorations of the abstract.</span>
+        <span class="text-orange-900/80 italic font-light">Explorations of the abstract.</span>
       </h1>
-      <p class="text-stone-500 max-w-lg leading-relaxed">
+      <p class="text-stone-500 max-w-lg leading-relaxed font-sans">
         Notes on philosophy, logic, and the structures underneath. 
         A digital garden for ideas that aren't code, but define it.
       </p>
     </header>
 
     <!-- Thought List -->
-    <div class="space-y-32">
+    <div class="space-y-12">
       {thoughts.map((thought) => (
-        <article class="group">
-          <div class="flex flex-col md:flex-row gap-8 md:gap-16">
-            <div class="w-24 shrink-0">
-              <span class="text-[10px] tracking-widest text-orange-900/50 font-mono font-bold">{thought.date}</span>
+        <article class="soft-block group/article">
+          <div class="flex flex-col md:flex-row gap-8">
+            <div class="w-24 shrink-0 flex flex-col gap-2">
+              <span class="text-[10px] tracking-widest text-orange-900/40 font-sans font-bold group-hover/article:text-orange-900/80 transition-colors duration-500">{thought.date}</span>
+              <div class="flex items-center gap-2 text-[9px] uppercase tracking-widest text-stone-400 font-sans font-bold">
+                <thought.icon class="w-3 h-3" />
+                {thought.category}
+              </div>
             </div>
             
             <div class="flex-1">
-              <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl text-stone-900 font-serif">{thought.title}</h2>
-                <div class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-orange-900/40 font-mono">
-                  <thought.icon class="w-3 h-3" />
-                  {thought.category}
-                </div>
-              </div>
-              
-              <p class="text-stone-600 leading-relaxed max-w-xl italic">
+              <h2 class="text-2xl text-stone-900 font-serif mb-4 group-hover/article:translate-x-1 transition-transform duration-500">{thought.title}</h2>
+              <p class="text-stone-600 leading-relaxed max-w-xl italic font-serif text-lg opacity-80">
                 "{thought.description}"
               </p>
-              
-              <div class="mt-12 w-0 group-hover:w-full h-px bg-stone-200 transition-all duration-700"></div>
             </div>
           </div>
         </article>
@@ -119,8 +115,8 @@ const thoughts = [
     </div>
 
     <!-- Footer Note -->
-    <footer class="mt-32 pt-16 border-t border-stone-100">
-      <p class="text-sm text-stone-400 italic">
+    <footer class="mt-24 pt-16 border-t border-stone-200/40">
+      <p class="text-sm text-stone-400 italic font-serif">
         Building my own personalized agent with these fragments.
       </p>
     </footer>

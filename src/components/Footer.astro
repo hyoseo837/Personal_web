@@ -1,20 +1,42 @@
 ---
-import { Github, Mail, Linkedin, Instagram } from 'lucide-astro';
+import { Github, Mail, Linkedin, Instagram, MapPin } from 'lucide-astro';
 ---
-<footer class="max-w-2xl mx-auto px-8 py-16 flex justify-between items-center border-t border-stone-200">
-  <span class="text-xs text-stone-400">Hyoseo Lee</span>
-  <div class="flex gap-6 text-stone-400">
-    <a href="https://github.com/hyoseo837" class="hover:text-stone-600 transition-colors">
-      <Github class="w-4 h-4" />
-    </a>
-    <a href="https://www.instagram.com/hyoseo837/" class="hover:text-stone-600 transition-colors">
-      <Instagram class="w-4 h-4" />
-    </a>
-    <a href="https://www.linkedin.com/in/hyoseo-lee-564b95246/" class="hover:text-stone-600 transition-colors">
-      <Linkedin class="w-4 h-4" />
-    </a>
-    <a href="mailto:hyoseo837@gmail.com" class="hover:text-stone-600 transition-colors">
-      <Mail class="w-4 h-4" />
-    </a>
+<footer class="max-w-3xl mx-auto px-8 py-24 border-t border-stone-200/40">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
+    
+    <div class="space-y-4">
+      <div class="flex items-center gap-3 text-stone-400 group">
+        <MapPin class="w-3.5 h-3.5 group-hover:text-orange-900 transition-colors" />
+        <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">Anyang, Korea</span>
+      </div>
+      <p class="text-stone-400 text-xs font-serif italic max-w-xs leading-relaxed">
+        Personal site renewal — one axiom at a time. 
+        <!-- <span class="opacity-70 text-[10px] uppercase tracking-widest font-sans font-bold not-italic">one axiom at a time.</span> -->
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-4">
+      {[
+        { icon: Github, href: 'https://github.com/hyoseo837', label: 'GitHub' },
+        { icon: Instagram, href: 'https://www.instagram.com/hyoseo837/', label: 'Instagram' },
+        { icon: Linkedin, href: 'https://www.linkedin.com/in/hyoseo-lee-564b95246/', label: 'LinkedIn' },
+        { icon: Mail, href: 'mailto:hyoseo837@gmail.com', label: 'Email' }
+      ].map((item) => (
+        <a 
+          href={item.href} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="p-3 bg-stone-100/60 rounded-xl border border-stone-200/20 text-stone-400 hover:text-orange-900 hover:bg-white hover:border-stone-200/50 hover:shadow-sm transition-all duration-300 group"
+          title={item.label}
+        >
+          <item.icon class="w-4 h-4 group-hover:scale-110 transition-transform" />
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-20 pt-8 border-t border-stone-100 flex justify-between items-center text-[9px] uppercase tracking-[0.3em] text-stone-300 font-sans font-bold">
+    <span>&copy; 2026 Hyoseo Lee</span>
+    <span class="hidden md:inline">Be happy • Be unique • Be useful</span>
   </div>
 </footer>
