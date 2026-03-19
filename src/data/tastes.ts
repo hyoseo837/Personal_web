@@ -35,7 +35,7 @@ export const tastes: TasteItem[] = [
     creator: "Hermann Hesse",
     description: "The journey of self-discovery and breaking out of one's shell.",
     connections: ["Sherlock", "Riolu", "We're no different"],
-  },
+    },
   {
     id: "taste-books-justice",
     name: "Justice",

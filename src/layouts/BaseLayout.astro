@@ -38,7 +38,7 @@ const siteTitle = `${title} - Hyoseo`;
     <meta name="title" content={siteTitle} />
     <meta name="description" content={description} />
     <meta name="author" content="Hyoseo Lee" />
-    <meta name="keywords" content="Hyoseo Lee, Computer Science, University of Waterloo, Software Engineering, Philosophy, Seeker of Patterns" />
+    <meta name="keywords" content="Hyoseo Lee, hyoseo.dev, Computer Science, University of Waterloo, Software Engineering, Philosophy, Seeker of Patterns" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -46,7 +46,7 @@ const siteTitle = `${title} - Hyoseo`;
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.url)} />
-    <meta property="og:site_name" content="Hyoseo's Digital Garden" />
+    <meta property="og:site_name" content="hyoseo.dev" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -57,6 +57,25 @@ const siteTitle = `${title} - Hyoseo`;
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#7c2d12" />
+
+    <!-- Schema.org (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Hyoseo Lee",
+        "url": "https://hyoseo.dev",
+        "jobTitle": "Student",
+        "description": "Computer Science student at the University of Waterloo, seeker of patterns, and explorer of abstract structures.",
+        "sameAs": [
+          "https://github.com/hyoseo837"
+        ],
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Waterloo"
+        }
+      }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
