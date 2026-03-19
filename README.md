@@ -1,43 +1,47 @@
-# Astro Starter Kit: Minimal
+# hyoseo.dev
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Hyoseo Lee's personal digital garden, portfolio, and "thinking" space.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🚀 Overview
 
-## 🚀 Project Structure
+This is the source code for [hyoseo.dev](https://hyoseo.dev). It serves as a personal website, a repository for projects, and a space for philosophical thoughts and abstract structures.
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🛠 Tech Stack
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- **Framework:** [Astro](https://astro.build/) (v6.0+)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) (v4.0+)
+- **Icons:** [Lucide Astro](https://lucide.dev/)
+- **Language:** TypeScript
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 📂 Project Structure
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
+- `src/data/`: The "Content" of the site. Managed as TypeScript objects.
+- `src/components/`: Modular Astro components (Header, Footer, etc.).
+- `src/layouts/`: Common page structures, primarily `BaseLayout.astro`.
+- `src/pages/`: Route-specific Astro files.
+- `src/scripts/`: Client-side logic and data integrity checks.
 
 ## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+All commands are run from the project root:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| Command | Action |
+| :--- | :--- |
+| `npm install` | Installs dependencies |
+| `npm run dev` | Starts local dev server at `localhost:4321` |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run test` | Run data integrity checks (cross-links, etc.) |
 
-## 👀 Want to learn more?
+## 📝 Updating Content
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Most content is data-driven. To update projects, thoughts, or links:
+1. Navigate to `src/data/`.
+2. Edit the corresponding TypeScript file.
+3. Run `npm run test` to ensure all cross-links and connections are valid.
+
+## 👤 About the Author
+
+**Hyoseo Lee**
+- CS student at the University of Waterloo (Co-op).
+- Philosophies: *Be happy, Be unique, Be useful*, *Both Infinity Are Connected*, *Optimistic Nihilism*, *Attack the Axiom*.
