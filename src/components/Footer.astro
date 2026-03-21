@@ -1,7 +1,7 @@
 ---
-import { Github, Mail, Linkedin, Instagram, MapPin } from 'lucide-astro';
+import { Github, Mail, Linkedin, Instagram, MapPin, SquarePen } from 'lucide-astro';
 ---
-<footer class="max-w-3xl mx-auto px-8 py-24 border-t border-stone-200/40">
+<footer class="max-w-3xl mx-auto px-6 md:px-8 py-20 md:py-24 border-t border-stone-200/40">
   <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
     
     <div class="space-y-4">
@@ -17,6 +17,7 @@ import { Github, Mail, Linkedin, Instagram, MapPin } from 'lucide-astro';
     <div class="flex flex-wrap gap-4">
       {[
         { icon: Github, href: 'https://github.com/hyoseo837', label: 'GitHub' },
+        { icon: SquarePen, href: 'https://blog.hyoseo.dev', label: 'Blog' },
         { icon: Instagram, href: 'https://www.instagram.com/hyoseo837/', label: 'Instagram' },
         { icon: Linkedin, href: 'https://www.linkedin.com/in/hyoseo-lee-564b95246/', label: 'LinkedIn' },
         { icon: Mail, href: 'mailto:hyoseo837@gmail.com', label: 'Email' }

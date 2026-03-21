@@ -6,20 +6,23 @@ import { now } from '../data/now';
 import { stack } from '../data/stack';
 ---
 
-<BaseLayout title="About">
-  <main class="max-w-3xl mx-auto px-8 pt-20 pb-24">
+<BaseLayout 
+  title="About" 
+  description="Learn more about Hyoseo Lee, a CS student at UWaterloo. Exploring identity, technical skills, and the patterns of the world."
+>
+  <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
     
     <!-- Hero Section -->
-    <section class="mb-24">
-      <div class="flex items-center gap-4 mb-8">
-        <div class="w-12 h-px bg-accent-muted/30"></div>
-        <span class="text-xs uppercase tracking-[0.3em] text-accent/60 font-sans font-semibold">About —</span>
+    <section class="mb-20 md:mb-24">
+      <div class="flex items-center gap-4 mb-6 md:mb-8">
+        <div class="w-8 md:w-12 h-px bg-accent-muted/30"></div>
+        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-accent/60 font-sans font-semibold">About —</span>
       </div>
-      <h1 class="text-5xl md:text-7xl heading-serif leading-[1.1] tracking-tight mb-10">
+      <h1 class="text-4xl sm:text-5xl md:text-7xl heading-serif leading-[1.1] tracking-tight mb-8 md:mb-10">
         Hyoseo Lee <br />
         <span class="text-accent-bright italic font-light">A seeker of patterns.</span>
       </h1>
-      <p class="text-text-muted max-w-lg leading-relaxed">
+      <p class="text-text-muted max-w-lg leading-relaxed text-base md:text-lg">
         Computer Science student at the University of Waterloo. 
         An explorer of systems, logic, and the diverse landscape of computation.
       </p>
@@ -28,15 +31,15 @@ import { stack } from '../data/stack';
     <div class="space-y-20">
       <!-- Intro Section -->
       <section class="soft-block">
-        <div class="flex flex-col md:flex-row gap-8">
-          <div class="w-16 shrink-0">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+          <div class="w-12 md:w-16 shrink-0">
             <div class="icon-box">
-              <User class="w-6 h-6" />
+              <User class="w-5 h-5 md:w-6 md:h-6" />
             </div>
           </div>
           <div class="flex-1">
-            <h2 class="text-2xl heading-serif mb-6">Identity & Exploration</h2>
-            <div class="max-w-xl font-serif text-text-muted leading-relaxed text-lg space-y-4">
+            <h2 class="text-xl md:text-2xl heading-serif mb-4 md:mb-6">Identity & Exploration</h2>
+            <div class="max-w-xl font-serif text-text-muted leading-relaxed text-base md:text-lg space-y-4">
               <p>
                 I'm driven by curiosity and a desire to understand the fundamental patterns 
                 behind everything I encounter. Instead of narrowing my focus, I'm currently 
@@ -54,15 +57,15 @@ import { stack } from '../data/stack';
 
       <!-- Now Section -->
       <section class="soft-block">
-        <div class="flex flex-col md:flex-row gap-8">
-          <div class="w-16 shrink-0">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+          <div class="w-12 md:w-16 shrink-0">
             <div class="icon-box">
-              <Terminal class="w-6 h-6" />
+              <Terminal class="w-5 h-5 md:w-6 md:h-6" />
             </div>
           </div>
           <div class="flex-1">
-            <h2 class="text-2xl heading-serif mb-6">Now</h2>
-            <ul class="space-y-4 text-text-muted font-serif italic text-lg leading-relaxed">
+            <h2 class="text-xl md:text-2xl heading-serif mb-4 md:mb-6">Now</h2>
+            <ul class="space-y-3 md:space-y-4 text-text-muted font-serif italic text-base md:text-lg leading-relaxed">
               {now.map(item => (
                 <li>• {item}</li>
               ))}
@@ -73,15 +76,15 @@ import { stack } from '../data/stack';
 
       <!-- Hard Skills -->
       <section class="soft-block">
-        <div class="flex flex-col md:flex-row gap-8">
-          <div class="w-16 shrink-0">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+          <div class="w-12 md:w-16 shrink-0">
             <div class="icon-box">
-              <Cpu class="w-6 h-6" />
+              <Cpu class="w-5 h-5 md:w-6 md:h-6" />
             </div>
           </div>
           <div class="flex-1">
-            <h2 class="text-2xl heading-serif mb-8">Technical Skills</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+            <h2 class="text-xl md:text-2xl heading-serif mb-6 md:mb-8">Technical Skills</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 md:gap-y-8">
               {stack.skills.hard.map(skill => (
                 <div class="group/skill">
                   <div class="text-text-main font-serif text-base">{skill.name}</div>
@@ -117,16 +120,16 @@ import { stack } from '../data/stack';
 
       <!-- Stack Section -->
       <section class="soft-block">
-        <div class="flex flex-col md:flex-row gap-8">
-          <div class="w-16 shrink-0">
+        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+          <div class="w-12 md:w-16 shrink-0">
             <div class="icon-box">
-              <Monitor class="w-6 h-6" />
+              <Monitor class="w-5 h-5 md:w-6 md:h-6" />
             </div>
           </div>
           <div class="flex-1">
-            <h2 class="text-2xl heading-serif mb-8">The Setup</h2>
+            <h2 class="text-xl md:text-2xl heading-serif mb-6 md:mb-8">The Setup</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 md:gap-12">
               <div>
                 <h3 class="label-xs mb-6 opacity-60">Hardware</h3>
                 <div class="space-y-4">

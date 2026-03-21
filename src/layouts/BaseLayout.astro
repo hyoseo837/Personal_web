@@ -13,8 +13,8 @@ interface Props {
 const {
   title,
   description = "Hyoseo Lee's personal website. A Computer Science student at the University of Waterloo, seeker of patterns, and explorer of abstract structures.",
-  canonicalURL = Astro.url.href,
-  image = "/favicon.ico", // Default image if one isn't provided
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  image = "/android-chrome-512x512.png", 
 } = Astro.props;
 
 const siteTitle = `${title} - Hyoseo`;
@@ -47,21 +47,22 @@ const siteTitle = `${title} - Hyoseo`;
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
     <meta property="og:site_name" content="hyoseo.dev" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={siteTitle} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#7c2d12" />
 
     <!-- Schema.org (JSON-LD) -->
-    <script type="application/ld+json">
+    <script is:inline type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
