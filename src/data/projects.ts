@@ -50,7 +50,7 @@ export const projects: Project[] = [
     stack: "Astro · TypeScript · Tailwind CSS, cloudflare pages",
     description:
       "Redesigned and rebuilt my personal website and Blog with a modern look and improved performance.",
-    github: "https://github.com/hyoseo837/personal-website",
+    github: "https://github.com/hyoseo837/Personal_web",
     link: "https://hyoseo.dev",
     icon: PersonStanding,
     duration: "2026.03 - 2026.03",
