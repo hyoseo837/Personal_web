@@ -57,8 +57,18 @@ import LinkDisplay from '../components/LinkDisplay.astro';
                 </div>
               </div>
               
-              <div class="text-[10px] uppercase tracking-widest text-orange-900/50 font-sans font-bold mb-6 group-hover/project:text-orange-900/80 transition-colors">
-                {project.stack}
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-[10px] uppercase tracking-widest text-orange-900/50 font-sans font-bold group-hover/project:text-orange-900/80 transition-colors">
+                  {project.stack}
+                </div>
+                {project.duration && (
+                  <>
+                    <span class="text-orange-900/30 text-[10px]">•</span>
+                    <div class="text-[10px] uppercase tracking-widest text-stone-500 font-sans font-medium">
+                      {project.duration}
+                    </div>
+                  </>
+                )}
               </div>
               
               <p class="text-stone-600 leading-relaxed max-w-xl font-sans opacity-90">
