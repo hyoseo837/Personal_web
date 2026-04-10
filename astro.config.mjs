@@ -20,7 +20,7 @@ export default defineConfig({
     ],
     rehypePlugins: [rehypeKatex],
     shikiConfig: {
-      themes: { light: 'min-light', dark: 'night-owl' },
+      theme: 'night-owl',
       wrap: false,
     },
   },
