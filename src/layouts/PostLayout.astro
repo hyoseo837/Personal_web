@@ -1,0 +1,172 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { ArrowLeft, Tag, BookOpen, Hash } from 'lucide-astro';
+import { getAllPosts, getRelatedPosts, getSlugFromId, formatDate } from '../utils/posts';
+
+interface Props {
+	post?: any;
+	frontmatter?: any;
+}
+
+const { post, frontmatter: manualFrontmatter } = Astro.props;
+const frontmatter = post ? post.data : manualFrontmatter;
+
+if (!frontmatter) {
+	throw new Error('PostLayout requires either a "post" or "frontmatter" prop.');
+}
+
+const { title, date, category, topic, area, tags = [], summary, related = [] } = frontmatter;
+
+const allPosts = await getAllPosts();
+const relatedPosts = await getRelatedPosts(related, allPosts);
+---
+
+<BaseLayout title={title} description={summary}>
+	<article class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-10 md:pb-16">
+		<nav class="mb-12">
+			<a href="/blog" class="label-xs text-stone-400 hover:text-orange-900 transition-colors inline-flex items-center gap-2 group">
+				<ArrowLeft class="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
+				Back to the feed
+			</a>
+		</nav>
+
+		<header class="mb-20">
+			<div class="flex items-center gap-4 mb-6">
+				<time class="label-xs text-stone-400 tabular-nums uppercase">
+					{formatDate(date)}
+				</time>
+				<div class="w-1 h-1 bg-stone-200 rounded-full"></div>
+				<a href={`/blog/${category}`} class="label-xs text-orange-900 font-bold hover:opacity-70 transition-opacity">
+					{category}
+				</a>
+			</div>
+			
+			<h1 class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-stone-900 tracking-tight leading-tight mb-8">
+				{title}
+			</h1>
+			
+			<div class="flex flex-wrap items-center gap-x-8 gap-y-3 mb-12">
+				<div class="flex items-center gap-3">
+					<div class="p-2 bg-stone-100 rounded-lg text-stone-400">
+						<Tag class="w-3.5 h-3.5" />
+					</div>
+					<div class="flex flex-col">
+						<span class="label-xs !text-[8px] !text-stone-300 -mb-1">Topic</span>
+						<span class="text-sm font-serif italic text-stone-600 font-medium">{topic}</span>
+					</div>
+				</div>
+				<div class="flex items-center gap-3">
+					<div class="p-2 bg-stone-100 rounded-lg text-stone-400">
+						<BookOpen class="w-3.5 h-3.5" />
+					</div>
+					<div class="flex flex-col">
+						<span class="label-xs !text-[8px] !text-stone-300 -mb-1">Area</span>
+						<span class="text-sm font-serif italic text-stone-600 font-medium">{area}</span>
+					</div>
+				</div>
+			</div>
+
+			{summary && (
+				<details class="group bg-stone-100/40 rounded-xl border border-stone-200/40 overflow-hidden transition-all duration-300 max-w-2xl w-full">
+					<summary class="flex items-center justify-between px-4 py-3 cursor-pointer list-none select-none">
+						<div class="flex items-center gap-2">
+							<BookOpen class="w-3 h-3 text-stone-400 group-hover:text-orange-900 transition-colors" />
+							<span class="label-xs !text-[9px] text-stone-400 group-hover:text-stone-900 transition-colors">Summary</span>
+						</div>
+						<div class="text-stone-300 group-open:rotate-180 transition-transform duration-300">
+							<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+						</div>
+					</summary>
+					<div class="px-4 pb-4 font-serif text-base text-stone-600 leading-relaxed border-t border-stone-200/20">
+						<div class="pt-3 italic">
+							{summary}
+						</div>
+					</div>
+				</details>
+			)}
+		</header>
+
+		<div class="prose prose-stone prose-lg max-w-none 
+			prose-headings:font-serif prose-headings:font-bold prose-headings:text-stone-900
+			prose-p:text-stone-700 prose-p:leading-relaxed prose-p:font-serif prose-p:text-lg md:prose-p:text-xl
+			prose-a:text-orange-900 prose-a:no-underline hover:prose-a:underline
+			prose-strong:text-stone-900 prose-blockquote:font-serif prose-blockquote:italic prose-blockquote:text-orange-900/80
+			
+			/* Global Code Styling Reset */
+			prose-code:before:content-none prose-code:after:content-none
+			
+			/* Inline Code Styling */
+			[&_:not(pre)>code]:text-stone-900 
+			[&_:not(pre)>code]:bg-stone-200/50 
+			[&_:not(pre)>code]:px-1.5 
+			[&_:not(pre)>code]:py-0.5 
+			[&_:not(pre)>code]:rounded-md 
+			[&_:not(pre)>code]:font-medium 
+			[&_:not(pre)>code]:text-[0.85em]
+			
+			/* Code Block Styling */
+			prose-pre:!bg-stone-900 prose-pre:rounded-2xl prose-pre:shadow-xl prose-pre:border prose-pre:border-stone-800/50 prose-pre:p-6 prose-pre:my-10
+			prose-pre:code:!bg-transparent prose-pre:code:!p-0 prose-pre:code:!text-inherit prose-pre:code:!text-[0.85em]
+			
+			/* Table Styling */
+			prose-table:w-full prose-table:my-12 prose-table:border-separate prose-table:border-spacing-0
+			prose-th:text-stone-900 prose-th:font-bold prose-th:text-xs prose-th:uppercase prose-th:tracking-widest prose-th:pb-4 prose-th:border-b prose-th:border-stone-200
+			prose-td:text-stone-600 prose-td:text-sm prose-td:py-4 prose-td:border-b prose-td:border-stone-100/60
+			
+			/* KaTeX Display Styling */
+			[&_.katex-display]:my-10 [&_.katex-display]:p-8 [&_.katex-display]:bg-stone-100/30 [&_.katex-display]:rounded-3xl [&_.katex-display]:overflow-x-auto
+			[&_.katex-mathml]:hidden
+			[&_.katex]:text-stone-800
+			
+			prose-img:rounded-3xl prose-img:shadow-lg
+			mb-24">
+			<slot />
+		</div>
+
+		<footer class="mt-24 pt-16 border-t border-stone-200/60">
+			<div class="mb-16">
+				<div class="flex items-center gap-2 mb-6">
+					<Hash class="w-4 h-4 text-orange-900/40" />
+					<h3 class="label-xs text-stone-900">Categorized under</h3>
+				</div>
+				<div class="flex flex-wrap gap-2">
+					{tags.map((tag: string) => (
+						<span class="px-4 py-2 bg-stone-100 text-stone-500 text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-stone-200 transition-colors cursor-default">
+							#{tag}
+						</span>
+					))}
+				</div>
+			</div>
+
+			{relatedPosts.length > 0 && (
+				<div>
+					<h3 class="text-2xl font-serif font-bold text-stone-900 mb-8 italic flex items-center gap-3">
+						<span class="w-8 h-[1px] bg-stone-200"></span>
+						Related Thoughts
+					</h3>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						{relatedPosts.map(post => (
+							<a href={`/blog/${getSlugFromId(post.id)}`}
+								class="soft-block !p-6 !rounded-2xl flex flex-col justify-between group h-full">
+								<div>
+									<p class="label-xs !text-[8px] text-stone-400 mb-2 group-hover:text-orange-900 transition-colors">[{post.data.category}]</p>
+									<h4 class="text-xl font-serif font-bold text-stone-900 group-hover:text-orange-900 transition-colors leading-snug">{post.data.title}</h4>
+								</div>
+								<div class="mt-4 flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+									<ArrowLeft class="w-4 h-4 rotate-180 text-orange-900" />
+								</div>
+							</a>
+						))}
+					</div>
+				</div>
+			)}
+			
+			<div class="mt-24 text-center">
+				<a href="/blog" class="label-xs text-stone-400 hover:text-orange-900 transition-colors inline-flex items-center gap-2 group">
+					<ArrowLeft class="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
+					Return to feed
+				</a>
+			</div>
+		</footer>
+	</article>
+</BaseLayout>

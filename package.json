@@ -14,9 +14,14 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",
+    "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^6.0.3",
     "lucide-astro": "^0.556.0",
+    "rehype-katex": "^7.0.1",
+    "remark-collapse": "^0.1.2",
+    "remark-math": "^6.0.0",
+    "remark-toc": "^9.0.0",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
