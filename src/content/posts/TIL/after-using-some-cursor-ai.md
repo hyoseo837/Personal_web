@@ -5,7 +5,7 @@ category: "TIL"
 topic: "Software development with ai agent"
 area: "Software development"
 tags: [cursor, programming, AI, technology]
-summary: ""
+summary: "Reflections on returning to programming after military service — experimenting with AI coding tools like Gemini CLI and Cursor, and questioning what the role of a software engineer looks like in an AI-first world."
 related: []
 ---
 
