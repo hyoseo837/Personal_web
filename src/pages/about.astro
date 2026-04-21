@@ -4,6 +4,12 @@ import TasteMap from '../components/TasteMap.astro';
 import { User, Monitor, Terminal, Cpu, Lightbulb } from 'lucide-astro';
 import { now } from '../data/now';
 import { stack } from '../data/stack';
+
+const nowList = [
+  `Living in ${now.location}`,
+  `Building ${now.building}`,
+  ...now.items,
+];
 ---
 
 <BaseLayout 
@@ -46,9 +52,9 @@ import { stack } from '../data/stack';
                 exploring the vast breadth of computer science—from low-level systems to high-level abstractions.
               </p>
               <p>
-                Currently navigating my 2A term at Waterloo after completing military service 
-                in the Republic of Korea Army. I'm less interested in finding a niche and more 
-                interested in seeing how everything connects.
+                Recently completed military service in the Republic of Korea Army
+                and waiting for my next Waterloo term to start. I'm less interested
+                in finding a niche and more interested in seeing how everything connects.
               </p>
             </div>
           </div>
@@ -66,7 +72,7 @@ import { stack } from '../data/stack';
           <div class="flex-1">
             <h2 class="text-xl md:text-2xl heading-serif mb-4 md:mb-6">Now</h2>
             <ul class="space-y-3 md:space-y-4 text-text-muted font-serif italic text-base md:text-lg leading-relaxed">
-              {now.map(item => (
+              {nowList.map(item => (
                 <li>• {item}</li>
               ))}
             </ul>

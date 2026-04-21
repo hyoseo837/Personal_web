@@ -46,16 +46,16 @@ import { BookOpen, Spade, ArrowRight } from 'lucide-astro';
         <div class="flex justify-between items-end mb-10 md:mb-12">
           <h2 class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-orange-900 font-sans font-bold opacity-70">Where I've been</h2>
         </div>
-        <div class="relative space-y-8 before:absolute before:left-[11px] md:before:left-[111px] before:top-2 before:bottom-2 before:w-px before:bg-stone-200/60">
+        <div class="relative space-y-8 before:absolute before:left-[11px] md:before:left-[159px] before:top-2 before:bottom-2 before:w-px before:bg-stone-200/60">
           {[
-            { year: "2026-Now", title: "Waterloo, Canada", desc: "Honours Computer Science" },
-            { year: "2024-2026", title: "ROKA", desc: "Republic of Korea Army" },
-            { year: "2023-2024", title: "Waterloo, Canada", desc: "Honours Mathematics" },
-            { year: "2020-2023", title: "Warsaw, Poland", desc: "American School of Warsaw, IB" },
-            { year: "-2020", title: "Anyang, Korea", desc: "Born and raised" }
+            { year: "2026.05 - Now", title: "Waterloo, Canada", desc: "Honours Computer Science" },
+            { year: "2024.10 - 2026.04", title: "ROKA", desc: "Republic of Korea Army" },
+            { year: "2023.09 - 2024.09", title: "Waterloo, Canada", desc: "Honours Mathematics" },
+            { year: "2020.08 - 2023.05", title: "Warsaw, Poland", desc: "American School of Warsaw, IB" },
+            { year: "-2020.07", title: "Anyang, Korea", desc: "Born and raised" }
           ].map(item => (
             <div class="flex flex-col md:flex-row gap-2 md:gap-12 group relative pl-8 md:pl-0">
-              <span class="text-[9px] md:text-[10px] tracking-widest text-orange-900/40 pt-1.5 w-auto md:w-24 shrink-0 font-sans font-bold group-hover:text-orange-900/80 transition-colors duration-500">{item.year}</span>
+              <span class="text-[9px] md:text-[10px] tracking-widest text-orange-900/40 pt-1.5 w-auto md:w-36 shrink-0 font-sans font-bold group-hover:text-orange-900/80 transition-colors duration-500">{item.year}</span>
               <div class="relative pl-0">
                 <div class="absolute -left-[21px] md:-left-[37px] top-[4px] md:top-[11px] w-2 h-2 rounded-full bg-stone-200 group-hover:bg-orange-900/40 transition-all duration-500 ring-4 ring-transparent group-hover:ring-orange-900/5 z-10"></div>
                 <h3 class="text-stone-900 font-medium text-base group-hover:translate-x-1 transition-transform duration-500">{item.title}</h3>

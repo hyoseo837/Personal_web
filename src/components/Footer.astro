@@ -1,5 +1,6 @@
 ---
-import { Github, Mail, Linkedin, Instagram, MapPin, SquarePen } from 'lucide-astro';
+import { Github, Mail, Linkedin, Instagram, MapPin, SquarePen, Coffee, Hammer } from 'lucide-astro';
+import { now } from '../data/now';
 ---
 <footer class="max-w-3xl mx-auto px-6 md:px-8 py-20 md:py-24 border-t border-stone-200/40">
   <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
@@ -7,11 +8,12 @@ import { Github, Mail, Linkedin, Instagram, MapPin, SquarePen } from 'lucide-ast
     <div class="space-y-4">
       <div class="flex items-center gap-3 text-stone-400 group">
         <MapPin class="w-3.5 h-3.5 group-hover:text-orange-900 transition-colors" />
-        <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">Anyang, Korea</span>
+        <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">Now at · {now.location}</span>
       </div>
-      <p class="text-stone-400 text-xs font-serif italic max-w-xs leading-relaxed">
-        Personal site renewal — one axiom at a time. 
-      </p>
+      <div class="flex items-center gap-3 text-stone-400 group">
+        <Hammer class="w-3.5 h-3.5 group-hover:text-orange-900 transition-colors" />
+        <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">Now building · {now.building}</span>
+      </div>
     </div>
 
     <div class="flex flex-wrap gap-4">
@@ -20,7 +22,8 @@ import { Github, Mail, Linkedin, Instagram, MapPin, SquarePen } from 'lucide-ast
         { icon: SquarePen, href: 'https://blog.hyoseo.dev', label: 'Blog' },
         { icon: Instagram, href: 'https://www.instagram.com/hyoseo837/', label: 'Instagram' },
         { icon: Linkedin, href: 'https://www.linkedin.com/in/hyoseo-lee-564b95246/', label: 'LinkedIn' },
-        { icon: Mail, href: 'mailto:hyoseo837@gmail.com', label: 'Email' }
+        { icon: Mail, href: 'mailto:hyoseo837@gmail.com', label: 'Email' },
+        { icon: Coffee, href: 'https://ko-fi.com/hyoseo', label: 'Buy me a coffee' }
       ].map((item) => (
         <a 
           href={item.href} 

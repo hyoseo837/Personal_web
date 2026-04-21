@@ -10,6 +10,7 @@ import {
   Coins,
   PersonStanding,
   Languages,
+  LayoutDashboard,
 } from "lucide-astro";
 
 export interface Project {
@@ -34,6 +35,15 @@ export const projects: Project[] = [
   //   icon: IconComponent,
   //   duration: "optional project duration",
   // },
+  {
+    id: "macro-dashboard",
+    title: "Macro-dashboard",
+    stack: "stack TBD",
+    description:
+      "A highly customizable finance dashboard that helps users build the habit of 'looking around' — showing asset prices and news on a single screen.",
+    icon: LayoutDashboard,
+    duration: "2026.04 - present",
+  },
   {
     id: "empkl-project",
     title: "English material provider for Korean language Project (EMPKL)",

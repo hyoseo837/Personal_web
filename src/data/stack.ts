@@ -4,6 +4,7 @@ export const stack = {
     { name: "Galaxy Tab S10 FE +", detail: "Digital Paper" },
     { name: "Galaxy Phone", detail: "Daily Driver" },
     { name: "Galaxy Buds 3 pro", detail: "Audio" },
+    { name: "Logitech pro wireless", detail: "Mouse" },
     { name: "Xbox wireless controller", detail: "Gaming" },
   ],
   software: [
@@ -11,11 +12,12 @@ export const stack = {
     { name: "Python", detail: "General Purpose" },
     { name: "Obsidian", detail: "Knowledge Management" },
     { name: "Gemini CLI", detail: "AI Assistant" },
+    { name: "Claude Code", detail: "AI Assistant" },
     { name: "Chrome", detail: "Browser" },
   ],
   skills: {
     hard: [
-      { name: "Python", detail: "Pandas, Matplotlib, Pygame" },
+      { name: "Python", detail: "FastAPI, Pandas, Matplotlib, Pygame" },
       { name: "C / C++", detail: "SFML, System Architectures" },
       { name: "JavaScript / TS", detail: "React, Node.js, Astro" },
       { name: "AWS", detail: "EC2, RDS, Deployment" },
