@@ -13,7 +13,7 @@ related:
   ]
 ---
 
-# How the project is going
+## How the project is going
 
 There are many things I want to talk about but let's start with the current state of the project.
 
@@ -27,7 +27,7 @@ there are so many things to talk about monetizing so I will bring this to the en
 
 before, that I need to explain about the implementation process.
 
-# The implementation.
+## The implementation.
 
 Honestly, It is hard to say I build this software, becuase of this wonderful technology.
 
@@ -41,7 +41,7 @@ Anyway, even I didn't do any coding in this project, I could find some ways to u
 
 Before talking about the tips I found, I need to clarify some points about my situation. I'm I use Claude pro plan so my limit is really tight. Therefore, I couldn't try many methods and compare them. Also, I use VS code and run claude code on the terminal, not using extension. I just found that is more compact, minimal and comfortable for me. Lastly, I found something few days ago that there is some guidelines about agent harness and .md structure. However, I didn't knew them while I was working on this project, so I didn't included any of those tips except /graphify skill.
 
-# How I use claude code
+## How I use claude code
 
 It is really difficult to explain how I use it, so I'll just write this down how I actually work with it.
 
@@ -77,7 +77,7 @@ and repeating this process will bring you the product.
 
 The brain dump session is done only once for a whole project, but it's document remains. and I think that prevents some unnecessary questinos of ai about the project.
 
-# What is next?
+## What is next?
 
 This is the hardest part now. My original plan for this project was monetizing it. But there is some questions and problems about it.
 
