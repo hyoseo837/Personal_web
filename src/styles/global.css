@@ -3,22 +3,40 @@
 
 @theme {
   --font-serif: "Newsreader", serif;
-  --font-sans: "Inter", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+
+  /* Stone palette — Lived-In Minimalism */
+  --color-stone-50: #fbf9f1;
+  --color-stone-100: #f5f4ec;
+  --color-stone-200: #e4e3db;
+  --color-stone-300: #dac1b9;
+  --color-stone-400: #87736c;
+  --color-stone-500: #54433d;
+  --color-stone-600: #4a3930;
+  --color-stone-700: #3d2d25;
+  --color-stone-800: #2a1e18;
+  --color-stone-900: #1b1c17;
+
+  /* Orange palette — terracotta */
+  --color-orange-900: #94492c;
+  --color-orange-800: #b05c38;
+  --color-orange-200: #fbdbac;
+  --color-orange-100: #fdefd8;
 
   /* Semantic Colors */
-  --color-accent: var(--color-orange-900);
-  --color-accent-soft: rgba(124, 45, 18, 0.05); /* orange-900/5 */
-  --color-accent-muted: rgba(124, 45, 18, 0.4); /* orange-900/40 */
-  --color-accent-bright: rgba(124, 45, 18, 0.8); /* orange-900/80 */
-  
-  --color-surface: var(--color-stone-100);
-  --color-surface-hover: var(--color-white);
-  --color-border-dim: rgba(231, 229, 228, 0.2); /* stone-200/20 */
-  --color-border-hover: rgba(231, 229, 228, 0.5); /* stone-200/50 */
-  
-  --color-text-main: var(--color-stone-900);
-  --color-text-muted: var(--color-stone-500);
-  --color-text-dim: var(--color-stone-400);
+  --color-accent: #94492c;
+  --color-accent-soft: rgba(148, 73, 44, 0.06);
+  --color-accent-muted: rgba(148, 73, 44, 0.4);
+  --color-accent-bright: rgba(148, 73, 44, 0.8);
+
+  --color-surface: #f5f4ec;
+  --color-surface-hover: #f0eee6;
+  --color-border-dim: rgba(218, 193, 185, 0.25);
+  --color-border-hover: rgba(218, 193, 185, 0.55);
+
+  --color-text-main: #1b1c17;
+  --color-text-muted: #54433d;
+  --color-text-dim: #87736c;
 }
 
 @layer base {
@@ -44,11 +62,12 @@
 
 @layer utilities {
   .soft-block {
-    @apply bg-surface/40 rounded-3xl p-8 md:p-12 border border-border-dim shadow-sm transition-all duration-700;
+    @apply bg-surface/40 rounded-2xl p-8 md:p-12 border border-border-dim shadow-sm transition-all duration-700;
   }
-  
+
   .soft-block:hover {
-    @apply bg-surface-hover border-border-hover shadow-md transform -translate-y-0.5;
+    background-color: var(--color-surface-hover);
+    border-color: rgba(218, 193, 185, 0.55);
   }
 
   .icon-box {
@@ -61,5 +80,11 @@
 
   .heading-serif {
     @apply font-serif text-stone-900;
+  }
+
+  .chip {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-[11px] font-sans font-semibold tracking-wide;
+    background-color: #fbdbac;
+    color: #54433d;
   }
 }

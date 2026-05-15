@@ -25,8 +25,7 @@ const nowList = [
         <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-accent/60 font-sans font-semibold">About —</span>
       </div>
       <h1 class="text-4xl sm:text-5xl md:text-7xl heading-serif leading-[1.1] tracking-tight mb-8 md:mb-10">
-        Hyoseo Lee <br />
-        <span class="text-accent-bright italic font-light">A seeker of patterns.</span>
+        A continuous draft of thoughts, systems, and stories.
       </h1>
       <p class="text-text-muted max-w-lg leading-relaxed text-base md:text-lg mb-6">
         Computer Science student at the University of Waterloo.
@@ -67,6 +66,14 @@ const nowList = [
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- Guiding Principles Section -->
+      <section class="soft-block text-center">
+        <div class="label-xs text-[#94492c] mb-6 tracking-[0.3em]">Guiding Principles</div>
+        <blockquote class="font-serif italic text-text-muted text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+          "Technology should not shout. It should sit quietly in the background, making us <strong class="font-semibold not-italic text-[#94492c]">happy</strong>, allowing us to be <strong class="font-semibold not-italic text-[#94492c]">unique</strong>, and serving to be deeply <strong class="font-semibold not-italic text-[#94492c]">useful</strong>."
+        </blockquote>
       </section>
 
       <!-- Now Section -->
@@ -131,12 +138,9 @@ const nowList = [
           </div>
           <div class="flex-1">
             <h2 class="text-xl md:text-2xl heading-serif mb-6 md:mb-8">Technical Skills</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 md:gap-y-8">
+            <div class="flex flex-wrap gap-2">
               {stack.skills.hard.map(skill => (
-                <div class="group/skill">
-                  <div class="text-text-main font-serif text-base">{skill.name}</div>
-                  <div class="label-xs group-hover/skill:text-accent-muted transition-colors">{skill.detail}</div>
-                </div>
+                <span class="chip">{skill.name}</span>
               ))}
             </div>
           </div>

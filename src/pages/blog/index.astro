@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getPostsByCategory, getAllPosts, getSlugFromId, formatDate } from '../../utils/posts';
+import { getAllPosts, getPostsByCategory, getSlugFromId, formatDate } from '../../utils/posts';
 
 const categoryMeta = [
-  { slug: 'dev-log',     label: 'Dev Log',     description: 'Project build logs and development notes.' },
-  { slug: 'brain-dumps', label: 'Brain Dumps',  description: 'Unfiltered thoughts and explorations.' },
-  { slug: 'leetcode',    label: 'LeetCode',     description: 'Algorithm problem solutions.' },
-  { slug: 'TIL',         label: 'TIL',          description: 'Bite-sized technical insights.' },
-  { slug: 'tech-news',   label: 'Tech News',    description: 'Commentary on tech trends.' },
+  { slug: 'dev-log',     label: 'Dev Log' },
+  { slug: 'brain-dumps', label: 'Brain Dumps' },
+  { slug: 'leetcode',    label: 'LeetCode' },
+  { slug: 'TIL',         label: 'TIL' },
+  { slug: 'tech-news',   label: 'Tech News' },
 ];
 
 const categoriesWithCounts = await Promise.all(
@@ -17,92 +17,68 @@ const categoriesWithCounts = await Promise.all(
   })
 );
 
-const activeCategories = categoriesWithCounts.filter((c) => c.count > 0);
+const visibleCategories = categoriesWithCounts.filter((c) => c.count > 0 && c.slug !== 'tech-news' || (c.slug === 'tech-news' && c.count > 0));
 
-const recentPosts = (await getAllPosts()).slice(0, 5);
+const allPosts = await getAllPosts();
+const displayPosts = allPosts
+  .filter(p => p.data.category !== 'leetcode')
+  .slice(0, 20);
 ---
 
 <BaseLayout
-  title="Archive"
-  description="A collection of distilled thoughts, technical patterns, and TILs by Hyoseo Lee."
+  title="Writing & Thinking"
+  description="A collection of thoughts on software engineering, design patterns, and continuous learning."
 >
-  <div class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-10 md:pb-16">
+  <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
 
-    <header class="mb-20 md:mb-24">
-      <div class="flex items-center gap-4 mb-8">
-        <div class="w-8 md:w-12 h-px bg-orange-900/30"></div>
-        <span class="label-xs !text-orange-900/60 tracking-[0.3em]">Distilled Thoughts —</span>
-      </div>
-      <h1 class="text-4xl sm:text-5xl md:text-7xl font-serif text-stone-900 leading-[1.1] tracking-tight mb-6">
-        Archive<span class="text-stone-300 mx-4 font-light">/</span>
+    <header class="mb-12 md:mb-16">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-stone-900 leading-[1.1] tracking-tight mb-4">
+        Writing & Thinking
       </h1>
-      <p class="mt-8 text-stone-500 font-serif italic text-xl md:text-2xl max-w-2xl leading-relaxed">
-        The complete collection of distilled thoughts and technical patterns.
+      <p class="text-[#54433d] font-serif text-lg leading-relaxed max-w-xl">
+        A collection of thoughts on software engineering, design patterns, and continuous learning.
       </p>
     </header>
 
-    <!-- Category grid -->
-    <section class="mb-20">
-      <h2 class="label-xs !text-stone-400 mb-8">Browse by category</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {activeCategories.map((c) => (
-          <a href={`/blog/${c.slug}`} class="soft-block group flex flex-col gap-3 no-underline">
-            <div class="flex items-center justify-between">
-              <span class="font-serif text-stone-900 text-lg group-hover:text-orange-900 transition-colors">{c.label}</span>
-              <span class="label-xs !text-stone-300">{c.count} post{c.count === 1 ? '' : 's'}</span>
-            </div>
-            <p class="text-stone-400 font-serif text-sm leading-relaxed">{c.description}</p>
-          </a>
-        ))}
-      </div>
-    </section>
+    <!-- Category pills -->
+    <div class="flex flex-wrap gap-2 mb-12">
+      <span class="bg-[#94492c] text-white rounded-full px-4 py-2 text-sm font-sans font-semibold cursor-default">
+        All Posts
+      </span>
+      {visibleCategories.map((c) => (
+        <a
+          href={`/blog/${c.slug}`}
+          class="bg-[#f5f4ec] text-[#54433d] rounded-full px-4 py-2 text-sm font-sans font-semibold hover:bg-[#e4e3db] transition-colors"
+        >
+          {c.label}
+        </a>
+      ))}
+    </div>
 
-    <!-- Recent posts -->
-    <section>
-      <h2 class="label-xs !text-stone-400 mb-8">Recent posts</h2>
-      <div class="grid grid-cols-1 gap-8">
-        {recentPosts.map((post) => (
-          <article class="soft-block group">
-            <div class="flex flex-col md:flex-row md:items-start gap-8">
-              <div class="flex-grow">
-                <div class="flex items-center gap-4 mb-6">
-                  <time class="label-xs text-stone-400 tabular-nums">
-                    {formatDate(post.data.date)}
-                  </time>
-                  <div class="w-1 h-1 bg-stone-200 rounded-full"></div>
-                  <a href={`/blog/${post.data.category}`} class="label-xs hover:text-orange-900 transition-colors">
-                    {post.data.category}
-                  </a>
-                </div>
+    <!-- Editorial post list -->
+    <div>
+      {displayPosts.map((post) => (
+        <article class="py-8 border-b border-[#dac1b9]/40">
+          <div class="flex items-center gap-3 mb-3">
+            <time class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
+              {formatDate(post.data.date)}
+            </time>
+            <span class="text-stone-300 text-xs">•</span>
+            <span class="chip">{post.data.category}</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-serif text-stone-900 leading-snug mb-3">
+            <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-[#94492c] transition-colors">
+              {post.data.title}
+            </a>
+          </h2>
+          {post.data.summary && (
+            <p class="text-[#54433d] font-serif text-base leading-relaxed">
+              {post.data.summary}
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
 
-                <h2 class="text-3xl font-serif font-bold text-stone-900 mb-4 group-hover:text-orange-900 transition-colors leading-tight">
-                  <a href={`/blog/${getSlugFromId(post.id)}`}>
-                    {post.data.title}
-                  </a>
-                </h2>
-
-                <div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-sm">
-                  <div class="flex items-center gap-2">
-                    <span class="label-xs !text-stone-300">Topic</span>
-                    <span class="font-serif italic text-stone-600">{post.data.topic}</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="label-xs !text-stone-300">Area</span>
-                    <span class="font-serif italic text-stone-600">{post.data.area}</span>
-                  </div>
-                </div>
-
-                {post.data.summary && (
-                  <p class="text-stone-500 leading-relaxed font-serif text-lg max-w-2xl">
-                    {post.data.summary}
-                  </p>
-                )}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-
-  </div>
+  </main>
 </BaseLayout>

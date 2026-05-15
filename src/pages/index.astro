@@ -1,108 +1,96 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { BookOpen, Spade, ArrowRight } from 'lucide-astro';
+import { BookOpen, Code, Lightbulb } from 'lucide-astro';
+import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
+import { now } from '../data/now';
+
+const allPosts = await getAllPosts();
+const recentPosts = allPosts
+  .filter(p => p.data.category !== 'leetcode')
+  .slice(0, 2);
+
+const exploringIcons = [BookOpen, Code, Lightbulb];
+const exploringItems = now.items.slice(0, 3);
 ---
-<BaseLayout 
-  title="Home" 
-  description="Hyoseo Lee's personal website. Computer Science student at the University of Waterloo, seeker of patterns, and explorer of abstract structures."
+<BaseLayout
+  title="Home"
+  description="Hyoseo Lee's personal website. A Computer Science student at the University of Waterloo, quietly building tools and writing about the intersection of technology, humanity, and everyday life."
 >
-  <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
-    
+  <main class="max-w-4xl mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-24">
+
     <!-- Hero Section -->
-    <section class="mb-20 md:mb-24">
-      <div class="flex items-center gap-4 mb-6 md:mb-8">
-        <div class="w-8 md:w-12 h-px bg-orange-900/30"></div>
-        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-orange-900/60 font-sans font-semibold">Hello, I'm Hyoseo —</span>
-      </div>
-      <h1 class="text-4xl sm:text-5xl md:text-7xl text-stone-900 font-serif leading-[1.1] tracking-tight">
-        I make things. <br /> 
-        <span class="text-orange-900/80 italic font-light">Sometimes they work.</span>
+    <section class="mb-20 md:mb-28">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl text-[#94492c] font-serif leading-[1.15] tracking-tight mb-8">
+        Be happy • Be unique • Be useful.
       </h1>
+      <p class="text-[#54433d] font-serif text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
+        Hello, I'm Hyoseo. A computer science student at the University of Waterloo, quietly building tools and writing about the intersection of technology, humanity, and everyday life. Welcome to my digital library.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/blog"
+          class="bg-[#94492c] text-white px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-[#b05c38] transition-colors"
+        >
+          Read Latest
+        </a>
+        <a
+          href="/about"
+          class="border border-[#94492c] text-[#94492c] px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-[#94492c]/5 transition-colors"
+        >
+          About Me
+        </a>
+      </div>
     </section>
 
-    <div class="space-y-16 md:space-y-20">
-      
-      <!-- Philosophy -->
-      <section class="soft-block">
-        <h2 class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-orange-900 font-sans font-bold mb-8 md:mb-10 opacity-70">Philosophy</h2>
-        <div class="max-w-xl">
-          <p class="text-stone-600 leading-relaxed font-serif text-xl md:text-2xl mb-8 md:mb-10">
-            "When I encounter something new, my first instinct isn't just to accept it — 
-            it's to find what's underneath. The axioms behind the argument. The rule behind the 
-            pattern."
-          </p>
-          <div class="flex flex-wrap gap-y-4 gap-x-6 text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-orange-900/50 font-sans font-bold">
-            <span class="hover:text-orange-900 transition-colors cursor-default">Be happy</span>
-            <span class="text-stone-200">•</span>
-            <span class="hover:text-orange-900 transition-colors cursor-default">Be unique</span>
-            <span class="text-stone-200">•</span>
-            <span class="hover:text-orange-900 transition-colors cursor-default">Be useful</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Background: Where I've Been -->
-      <section class="soft-block">
-        <div class="flex justify-between items-end mb-10 md:mb-12">
-          <h2 class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-orange-900 font-sans font-bold opacity-70">Where I've been</h2>
-        </div>
-        <div class="relative space-y-8 before:absolute before:left-[11px] md:before:left-[159px] before:top-2 before:bottom-2 before:w-px before:bg-stone-200/60">
-          {[
-            { year: "2026.05 - Now", title: "Waterloo, Canada", desc: "Honours Computer Science" },
-            { year: "2024.10 - 2026.04", title: "ROKA", desc: "Republic of Korea Army" },
-            { year: "2023.09 - 2024.09", title: "Waterloo, Canada", desc: "Honours Mathematics" },
-            { year: "2020.08 - 2023.05", title: "Warsaw, Poland", desc: "American School of Warsaw, IB" },
-            { year: "-2020.07", title: "Anyang, Korea", desc: "Born and raised" }
-          ].map(item => (
-            <div class="flex flex-col md:flex-row gap-2 md:gap-12 group relative pl-8 md:pl-0">
-              <span class="text-[9px] md:text-[10px] tracking-widest text-orange-900/40 pt-1.5 w-auto md:w-36 shrink-0 font-sans font-bold group-hover:text-orange-900/80 transition-colors duration-500">{item.year}</span>
-              <div class="relative pl-0">
-                <div class="absolute -left-[21px] md:-left-[37px] top-[4px] md:top-[11px] w-2 h-2 rounded-full bg-stone-200 group-hover:bg-orange-900/40 transition-all duration-500 ring-4 ring-transparent group-hover:ring-orange-900/5 z-10"></div>
-                <h3 class="text-stone-900 font-medium text-base group-hover:translate-x-1 transition-transform duration-500">{item.title}</h3>
-                <p class="text-stone-500 text-sm mt-1 group-hover:translate-x-1 transition-transform duration-500">{item.desc}</p>
-              </div>
+    <!-- Recent Thoughts Section -->
+    <section class="mb-20 md:mb-24">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-xl font-serif text-stone-900 font-semibold">Recent Thoughts</h2>
+        <a href="/blog" class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400 hover:text-[#94492c] transition-colors">
+          View all →
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {recentPosts.map((post) => (
+          <article class="soft-block flex flex-col gap-4">
+            <div class="flex items-center gap-2">
+              <span class="chip">{post.data.category}</span>
             </div>
-          ))}
-        </div>
-      </section>
+            <h3 class="font-serif text-stone-900 text-xl leading-snug">
+              <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-[#94492c] transition-colors">
+                {post.data.title}
+              </a>
+            </h3>
+            {post.data.summary && (
+              <p class="text-[#54433d] font-serif text-sm leading-relaxed flex-grow">
+                {post.data.summary}
+              </p>
+            )}
+            <time class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400 mt-auto">
+              {formatDate(post.data.date)}
+            </time>
+          </article>
+        ))}
+      </div>
+    </section>
 
-      <!-- Projects: What I've built -->
-      <section class="soft-block">
-        <div class="flex justify-between items-end mb-10 md:mb-12">
-          <h2 class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-orange-900 font-sans font-bold opacity-70">What I've built</h2>
-          <a href="/projects" class="text-[9px] md:text-[10px] uppercase tracking-widest text-stone-400 hover:text-orange-900 font-sans font-bold flex items-center gap-2 group/link transition-colors">
-            View all <ArrowRight class="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-          </a>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16">
-          
-          <div class="group/item">
-            <div class="flex items-center gap-3 mb-3 md:mb-4">
-              <div class="p-2 bg-orange-900/5 rounded-lg group-hover/item:bg-orange-900/10 transition-colors">
-                <BookOpen class="w-4 h-4 text-orange-900/60" />
+    <!-- Currently Exploring Section -->
+    <section>
+      <h2 class="text-xl font-serif text-stone-900 font-semibold mb-8">Currently Exploring</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {exploringItems.map((item, i) => {
+          const Icon = exploringIcons[i];
+          return (
+            <div class="soft-block flex flex-col gap-4">
+              <div class="icon-box self-start">
+                <Icon class="w-5 h-5" />
               </div>
-              <h3 class="text-stone-900 font-serif text-lg">dchup</h3>
+              <p class="text-[#54433d] font-serif text-sm leading-relaxed">{item}</p>
             </div>
-            <p class="text-sm text-stone-500 leading-relaxed font-sans">
-              Built a full-stack flashcard app — my first time touching a real backend, a database, and deployment.
-            </p>
-          </div>
+          );
+        })}
+      </div>
+    </section>
 
-          <div class="group/item">
-            <div class="flex items-center gap-3 mb-3 md:mb-4">
-              <div class="p-2 bg-orange-900/5 rounded-lg group-hover/item:bg-orange-900/10 transition-colors">
-                <Spade class="w-4 h-4 text-orange-900/60" />
-              </div>
-              <h3 class="text-stone-900 font-serif text-lg">Solitaire</h3>
-            </div>
-            <p class="text-sm text-stone-500 leading-relaxed font-sans">
-              Started in Dart, failed, rebuilt in React. Ended up being the project I learned React from.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-    </div>
   </main>
 </BaseLayout>

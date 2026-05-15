@@ -4,84 +4,84 @@ import { ExternalLink, Github } from 'lucide-astro';
 import { projects } from '../data/projects';
 import LinkDisplay from '../components/LinkDisplay.astro';
 ---
-<BaseLayout 
-  title="Projects" 
-  description="A collection of things I've built, from full-stack applications to failed experiments that taught me everything."
+<BaseLayout
+  title="Projects"
+  description="Software is not just logic; it's a medium for expressing care. A collection of tools built at the quiet intersection of utility and beauty."
 >
-  <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
-    
+  <main class="max-w-5xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
+
     <!-- Hero -->
-    <header class="mb-20 md:mb-24">
-      <div class="flex items-center gap-4 mb-6 md:mb-8">
-        <div class="w-8 md:w-12 h-px bg-orange-900/30"></div>
-        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-orange-900/60 font-sans font-semibold">Artifacts of my learning —</span>
-      </div>
-      <h1 class="text-4xl sm:text-5xl md:text-7xl text-stone-900 font-serif leading-[1.1] tracking-tight mb-8 md:mb-10">
-        Projects <br />
-        <span class="text-orange-900/80 italic font-light">Evidence of exploration.</span>
+    <header class="mb-16 md:mb-20 max-w-2xl">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl text-[#94492c] font-serif leading-[1.1] tracking-tight mb-6">
+        Philosophy of Code
       </h1>
-      <p class="text-stone-500 max-w-lg leading-relaxed font-sans text-base">
-        From my first infection simulation in 10th grade to full-stack architectures. 
-        A comprehensive log of my journey through physics, data, and software.
+      <p class="text-[#54433d] font-sans text-base leading-relaxed">
+        Software is not just logic; it's a medium for expressing care. I build tools that aim for the quiet intersection of utility and beauty. Minimalist architecture, intentional interactions, and an unwavering respect for the user's time and attention.
       </p>
     </header>
 
-    <!-- Project List -->
-    <div class="space-y-10 md:space-y-12">
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
-        <section class="soft-block group/project">
-          <div class="flex flex-col md:flex-row gap-6 md:gap-8">
-            <div class="w-12 md:w-16 shrink-0">
-              <div class="p-3 bg-orange-900/5 rounded-xl group-hover/project:bg-orange-900/10 transition-colors inline-block">
-                <project.icon class="w-5 h-5 md:w-6 md:h-6 text-orange-900/60" />
-              </div>
+        <section class="soft-block flex flex-col h-full gap-4">
+          <!-- Icon -->
+          <div class="icon-box self-start">
+            <project.icon class="w-5 h-5 md:w-6 md:h-6" />
+          </div>
+
+          <!-- Title -->
+          <h2 class="font-serif text-xl text-stone-900">{project.title}</h2>
+
+          <!-- Tech stack chips -->
+          <div class="flex flex-wrap gap-1">
+            {project.stack.split(/[·•,]/).map(tech => tech.trim()).filter(Boolean).map(tech => (
+              <span class="inline-flex items-center bg-[#fbdbac] text-[#54433d] text-[10px] rounded-full px-2 py-0.5 font-sans font-semibold">
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          <!-- Description -->
+          <p class="text-sm text-[#54433d] font-sans leading-relaxed flex-grow">
+            {project.description}
+          </p>
+
+          <!-- Bottom row -->
+          <div class="flex items-center justify-between mt-auto pt-2">
+            <div class="flex items-center gap-3">
+              {project.github && (
+                <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-[#94492c] transition-colors">
+                  <Github class="w-4 h-4" />
+                </a>
+              )}
+              {project.link && (
+                <a href={project.link} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-[#94492c] transition-colors">
+                  <ExternalLink class="w-4 h-4" />
+                </a>
+              )}
+              {project.duration && (
+                <span class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
+                  {project.duration}
+                </span>
+              )}
             </div>
-            
-            <div class="flex-1">
-              <div class="flex items-start justify-between mb-4">
-                <h2 class="text-2xl text-stone-900 font-serif group-hover/project:translate-x-1 transition-transform duration-500">{project.title}</h2>
-                <div class="flex items-center gap-6">
-                  <LinkDisplay id={project.id} />
-                  <div class="flex gap-4">
-                    {project.github && (
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-orange-900 transition-colors p-1">
-                        <Github class="w-4 h-4" />
-                      </a>
-                    )}
-                    {project.link && (
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-orange-900 transition-colors p-1">
-                        <ExternalLink class="w-4 h-4" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              <div class="flex items-center gap-3 mb-6">
-                <div class="text-[10px] uppercase tracking-widest text-orange-900/50 font-sans font-bold group-hover/project:text-orange-900/80 transition-colors">
-                  {project.stack}
-                </div>
-                {project.duration && (
-                  <>
-                    <span class="text-orange-900/30 text-[10px]">•</span>
-                    <div class="text-[10px] uppercase tracking-widest text-stone-500 font-sans font-medium">
-                      {project.duration}
-                    </div>
-                  </>
-                )}
-              </div>
-              
-              <p class="text-stone-600 leading-relaxed max-w-xl font-sans opacity-90">
-                {project.description}
-              </p>
-            </div>
+            {(project.link || project.github) && (
+              <a
+                href={project.link || project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[11px] font-sans font-semibold text-[#94492c] hover:text-[#b05c38] transition-colors"
+              >
+                View Project →
+              </a>
+            )}
           </div>
         </section>
       ))}
     </div>
 
     <!-- Footer Note -->
-    <footer class="mt-24 pt-16 border-t border-stone-200/40">
+    <footer class="mt-20 pt-12 border-t border-stone-200/40">
       <p class="text-sm text-stone-400 italic font-serif">
         And many more minor experiments in Python, JS, and Dart.
       </p>
