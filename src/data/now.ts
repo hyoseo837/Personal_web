@@ -1,11 +1,10 @@
 export const now = {
-  location: "Anyang, Korea",
+  location: "Waterloo, ON, Canada",
   building: "Macro-dashboard",
   items: [
-    "Discharged from Korean mandatory military service on 2026-04-14",
-    "Waiting for the 2026 Spring term at University of Waterloo",
+    "2026 Spring term at University of Waterloo — focused and running",
+    "Studying CS at UWaterloo — algorithms, systems, and more",
     "Exploring various fields of computation",
     "Reading and thinking about abstract structures",
-    "Looking for a brilliant million dollar idea",
   ],
 };

@@ -38,7 +38,7 @@ export const projects: Project[] = [
   {
     id: "macro-dashboard",
     title: "Macro-dashboard",
-    stack: "stack TBD",
+    stack: "React · FastAPI · PostgreSQL · yfinance · Gemini AI · Docker",
     description:
       "A highly customizable finance dashboard that helps users build the habit of 'looking around' — showing asset prices and news on a single screen.",
     icon: LayoutDashboard,

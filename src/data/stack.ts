@@ -11,7 +11,6 @@ export const stack = {
     { name: "VS Code", detail: "Editor" },
     { name: "Python", detail: "General Purpose" },
     { name: "Obsidian", detail: "Knowledge Management" },
-    { name: "Gemini CLI", detail: "AI Assistant" },
     { name: "Claude Code", detail: "AI Assistant" },
     { name: "Chrome", detail: "Browser" },
   ],
