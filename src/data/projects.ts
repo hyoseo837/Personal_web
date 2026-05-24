@@ -36,13 +36,23 @@ export const projects: Project[] = [
   //   duration: "optional project duration",
   // },
   {
+    id: "ww-extension",
+    title: "WW Extension",
+    stack: "JavaScript · Chrome Extension · Gemini API",
+    description:
+      "An AI-powered Chrome extension that scores WaterlooWorks co-op postings against your CV using Google Gemini — giving each job a score, verdict, and reason so you can triage hundreds of applications in seconds.",
+    github: "https://github.com/hyoseo837/ww-extension",
+    icon: Bot,
+    duration: "2026.05 - present",
+  },
+  {
     id: "macro-dashboard",
     title: "Macro-dashboard",
     stack: "React · FastAPI · PostgreSQL · yfinance · Gemini AI · Docker",
     description:
       "A highly customizable finance dashboard that helps users build the habit of 'looking around' — showing asset prices and news on a single screen.",
     icon: LayoutDashboard,
-    duration: "2026.04 - present",
+    duration: "2026.04 - 2026.05",
   },
   {
     id: "empkl-project",
