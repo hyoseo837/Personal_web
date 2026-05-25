@@ -1,15 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TasteMap from '../components/TasteMap.astro';
-import { User, Monitor, Terminal, Cpu, Lightbulb, FileText, Award } from 'lucide-astro';
-import { now } from '../data/now';
+import { User, Monitor, Cpu, Lightbulb, FileText, Award } from 'lucide-astro';
 import { stack } from '../data/stack';
-
-const nowList = [
-  `Living in ${now.location}`,
-  `Building ${now.building}`,
-  ...now.items,
-];
 ---
 
 <BaseLayout 
@@ -32,7 +25,7 @@ const nowList = [
         An explorer of systems, logic, and the diverse landscape of computation.
       </p>
       <a
-        href="/CV.pdf"
+        href="/Hyoseo_Lee_CV.pdf"
         target="_blank"
         class="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-sans font-bold text-stone-400 hover:text-orange-900 transition-colors"
       >
@@ -70,29 +63,10 @@ const nowList = [
 
       <!-- Guiding Principles Section -->
       <section class="soft-block text-center">
-        <div class="label-xs text-[#94492c] mb-6 tracking-[0.3em]">Guiding Principles</div>
+        <div class="label-xs text-accent mb-6 tracking-[0.3em]">Guiding Principles</div>
         <blockquote class="font-serif italic text-text-muted text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-          "Technology should not shout. It should sit quietly in the background, making us <strong class="font-semibold not-italic text-[#94492c]">happy</strong>, allowing us to be <strong class="font-semibold not-italic text-[#94492c]">unique</strong>, and serving to be deeply <strong class="font-semibold not-italic text-[#94492c]">useful</strong>."
+          "Technology should not shout. It should sit quietly in the background, making us <strong class="font-semibold not-italic text-accent">happy</strong>, allowing us to be <strong class="font-semibold not-italic text-accent">unique</strong>, and serving to be deeply <strong class="font-semibold not-italic text-accent">useful</strong>."
         </blockquote>
-      </section>
-
-      <!-- Now Section -->
-      <section class="soft-block">
-        <div class="flex flex-col md:flex-row gap-6 md:gap-8">
-          <div class="w-12 md:w-16 shrink-0">
-            <div class="icon-box">
-              <Terminal class="w-5 h-5 md:w-6 md:h-6" />
-            </div>
-          </div>
-          <div class="flex-1">
-            <h2 class="text-xl md:text-2xl heading-serif mb-4 md:mb-6">Now</h2>
-            <ul class="space-y-3 md:space-y-4 text-text-muted font-serif italic text-base md:text-lg leading-relaxed">
-              {nowList.map(item => (
-                <li>• {item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
       </section>
 
       <!-- Certifications -->

@@ -21,7 +21,7 @@ const navItems = [
     {navItems.map((item) => {
       const isActive = item.href === '/'
         ? pathname === '/'
-        : pathname === item.href || pathname.startsWith(item.href);
+        : pathname === item.href || pathname.startsWith(item.href + '/');
       return (
         <a
           href={item.href}
@@ -43,6 +43,8 @@ const navItems = [
     id="menu-toggle"
     class="md:hidden p-2 text-stone-500 hover:text-orange-900 transition-colors z-50"
     aria-label="Toggle Menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
   >
     <Menu id="menu-icon" class="w-6 h-6" />
     <X id="close-icon" class="w-6 h-6 hidden" />
@@ -51,12 +53,12 @@ const navItems = [
   <!-- Mobile Nav Overlay -->
   <div
     id="mobile-menu"
-    class="fixed inset-0 bg-[#fbf9f1]/98 backdrop-blur-md z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-300 md:hidden"
+    class="fixed inset-0 bg-stone-50/98 backdrop-blur-md z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-300 md:hidden"
   >
     {navItems.map((item) => {
       const isActive = item.href === '/'
         ? pathname === '/'
-        : pathname === item.href || pathname.startsWith(item.href);
+        : pathname === item.href || pathname.startsWith(item.href + '/');
       return (
         <a
           href={item.href}
@@ -95,6 +97,8 @@ const navItems = [
         closeIcon.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
       }
+
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
     });
   }
 </script>

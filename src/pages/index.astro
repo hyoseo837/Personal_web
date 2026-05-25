@@ -1,16 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { BookOpen, Code, Lightbulb } from 'lucide-astro';
 import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
-import { now } from '../data/now';
 
 const allPosts = await getAllPosts();
 const recentPosts = allPosts
   .filter(p => p.data.category !== 'leetcode')
   .slice(0, 2);
-
-const exploringIcons = [BookOpen, Code, Lightbulb];
-const exploringItems = now.items.slice(0, 3);
 ---
 <BaseLayout
   title="Home"
@@ -20,22 +15,22 @@ const exploringItems = now.items.slice(0, 3);
 
     <!-- Hero Section -->
     <section class="mb-20 md:mb-28">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl text-[#94492c] font-serif leading-[1.15] tracking-tight mb-8">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl text-accent font-serif leading-[1.15] tracking-tight mb-8">
         Be happy • Be unique • Be useful.
       </h1>
-      <p class="text-[#54433d] font-serif text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
+      <p class="text-text-muted font-serif text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
         Hello, I'm Hyoseo. A computer science student at the University of Waterloo, quietly building tools and writing about the intersection of technology, humanity, and everyday life. Welcome to my digital library.
       </p>
       <div class="flex flex-wrap gap-4">
         <a
           href="/blog"
-          class="bg-[#94492c] text-white px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-[#b05c38] transition-colors"
+          class="bg-accent text-white px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-orange-800 transition-colors"
         >
           Read Latest
         </a>
         <a
           href="/about"
-          class="border border-[#94492c] text-[#94492c] px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-[#94492c]/5 transition-colors"
+          class="border border-accent text-accent px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-accent/5 transition-colors"
         >
           About Me
         </a>
@@ -46,7 +41,7 @@ const exploringItems = now.items.slice(0, 3);
     <section class="mb-20 md:mb-24">
       <div class="flex items-center justify-between mb-8">
         <h2 class="text-xl font-serif text-stone-900 font-semibold">Recent Thoughts</h2>
-        <a href="/blog" class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400 hover:text-[#94492c] transition-colors">
+        <a href="/blog" class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400 hover:text-accent transition-colors">
           View all →
         </a>
       </div>
@@ -57,12 +52,12 @@ const exploringItems = now.items.slice(0, 3);
               <span class="chip">{post.data.category}</span>
             </div>
             <h3 class="font-serif text-stone-900 text-xl leading-snug">
-              <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-[#94492c] transition-colors">
+              <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-accent transition-colors">
                 {post.data.title}
               </a>
             </h3>
             {post.data.summary && (
-              <p class="text-[#54433d] font-serif text-sm leading-relaxed flex-grow">
+              <p class="text-text-muted font-serif text-sm leading-relaxed flex-grow">
                 {post.data.summary}
               </p>
             )}
@@ -71,24 +66,6 @@ const exploringItems = now.items.slice(0, 3);
             </time>
           </article>
         ))}
-      </div>
-    </section>
-
-    <!-- Currently Exploring Section -->
-    <section>
-      <h2 class="text-xl font-serif text-stone-900 font-semibold mb-8">Currently Exploring</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {exploringItems.map((item, i) => {
-          const Icon = exploringIcons[i];
-          return (
-            <div class="soft-block flex flex-col gap-4">
-              <div class="icon-box self-start">
-                <Icon class="w-5 h-5" />
-              </div>
-              <p class="text-[#54433d] font-serif text-sm leading-relaxed">{item}</p>
-            </div>
-          );
-        })}
       </div>
     </section>
 

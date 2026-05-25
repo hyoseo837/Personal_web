@@ -83,8 +83,6 @@
   }
 
   .chip {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-[11px] font-sans font-semibold tracking-wide;
-    background-color: #fbdbac;
-    color: #54433d;
+    @apply inline-flex items-center bg-orange-200 text-text-muted px-3 py-1 rounded-full text-[11px] font-sans font-semibold tracking-wide;
   }
 }

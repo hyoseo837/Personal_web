@@ -17,7 +17,7 @@ const categoriesWithCounts = await Promise.all(
   })
 );
 
-const visibleCategories = categoriesWithCounts.filter((c) => c.count > 0 && c.slug !== 'tech-news' || (c.slug === 'tech-news' && c.count > 0));
+const visibleCategories = categoriesWithCounts.filter((c) => c.count > 0);
 
 const allPosts = await getAllPosts();
 const displayPosts = allPosts
@@ -35,20 +35,20 @@ const displayPosts = allPosts
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-stone-900 leading-[1.1] tracking-tight mb-4">
         Writing & Thinking
       </h1>
-      <p class="text-[#54433d] font-serif text-lg leading-relaxed max-w-xl">
+      <p class="text-text-muted font-serif text-lg leading-relaxed max-w-xl">
         A collection of thoughts on software engineering, design patterns, and continuous learning.
       </p>
     </header>
 
     <!-- Category pills -->
     <div class="flex flex-wrap gap-2 mb-12">
-      <span class="bg-[#94492c] text-white rounded-full px-4 py-2 text-sm font-sans font-semibold cursor-default">
+      <span class="bg-accent text-white rounded-full px-4 py-2 text-sm font-sans font-semibold cursor-default">
         All Posts
       </span>
       {visibleCategories.map((c) => (
         <a
           href={`/blog/${c.slug}`}
-          class="bg-[#f5f4ec] text-[#54433d] rounded-full px-4 py-2 text-sm font-sans font-semibold hover:bg-[#e4e3db] transition-colors"
+          class="bg-surface text-text-muted rounded-full px-4 py-2 text-sm font-sans font-semibold hover:bg-stone-200 transition-colors"
         >
           {c.label}
         </a>
@@ -58,7 +58,7 @@ const displayPosts = allPosts
     <!-- Editorial post list -->
     <div>
       {displayPosts.map((post) => (
-        <article class="py-8 border-b border-[#dac1b9]/40">
+        <article class="py-8 border-b border-stone-300/40">
           <div class="flex items-center gap-3 mb-3">
             <time class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
               {formatDate(post.data.date)}
@@ -67,12 +67,12 @@ const displayPosts = allPosts
             <span class="chip">{post.data.category}</span>
           </div>
           <h2 class="text-2xl md:text-3xl font-serif text-stone-900 leading-snug mb-3">
-            <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-[#94492c] transition-colors">
+            <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-accent transition-colors">
               {post.data.title}
             </a>
           </h2>
           {post.data.summary && (
-            <p class="text-[#54433d] font-serif text-base leading-relaxed">
+            <p class="text-text-muted font-serif text-base leading-relaxed">
               {post.data.summary}
             </p>
           )}
