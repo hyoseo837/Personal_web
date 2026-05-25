@@ -31,14 +31,14 @@ All commands are run from the project root:
 | `npm run dev` | Starts local dev server at `localhost:4321` |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build |
-| `npm run test` | Run data integrity checks (cross-links, etc.) |
+| `npm run test` | Run data integrity checks (ID uniqueness) |
 
 ## 📝 Updating Content
 
-Most content is data-driven. To update projects, thoughts, or links:
+Most content is data-driven. To update projects, thoughts, or tastes:
 1. Navigate to `src/data/`.
 2. Edit the corresponding TypeScript file.
-3. Run `npm run test` to ensure all cross-links and connections are valid.
+3. Run `npm run test` to ensure IDs are unique within each collection.
 
 ## 👤 About the Author
 

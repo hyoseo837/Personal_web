@@ -11,7 +11,6 @@ const posts = defineCollection({
     area: z.string(),
     tags: z.array(z.string()),
     summary: z.string().optional(),
-    related: z.array(z.string()).optional(),
   }),
 });
 

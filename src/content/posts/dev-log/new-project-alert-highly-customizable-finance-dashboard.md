@@ -6,7 +6,6 @@ topic: "macro-dashboard"
 area: "finance"
 tags: ["dashboard", "finance", "customization", "side-project"]
 summary: "Starting a new project: a highly customizable finance dashboard that helps users build the habit of 'looking around' by showing asset prices and news on a single screen."
-related: []
 ---
 
 I did too much thinking about my second project after military. The first one was personal page/blog renewal, which was too obvious. I didn't think it was a 'PROJECT' since there wasn't any special creativity involved with that. A PROJECT should have a vision, challenge, and goal.

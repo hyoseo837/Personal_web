@@ -6,11 +6,6 @@ topic: "AI-Assisted Development"
 area: "Software Engineering"
 tags: ["claude-code", "fastapi", "docker", "deployment", "monetization"]
 summary: "Reflecting on the successful deployment of the macro dashboard, the specific phase-based workflow used to guide Claude Code through the implementation, and the upcoming challenges of operations and monetization."
-related:
-  [
-    "After using some cursor.ai",
-    "New Project Alert - Highly customizable finance dashboard",
-  ]
 ---
 
 ## How the project is going

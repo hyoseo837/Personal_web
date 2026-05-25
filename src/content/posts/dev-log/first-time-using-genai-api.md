@@ -6,7 +6,6 @@ topic: "Automating PDF Data Extraction with GenAI API"
 area: "side-project"
 tags: ["GenAI", "API", "PDF", "Python", "automation", "Gemini"]
 summary: "A first experience using GenAI API to extract questions from TOPIK exam PDFs. Built an extraction program with an LLM coding agent and automated the process with a bash script."
-related: []
 ---
 
 ## Context

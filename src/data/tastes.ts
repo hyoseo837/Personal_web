@@ -5,7 +5,6 @@ export type TasteItem = {
   description: string;
   creator?: string; // Author, Director, Studio, or Artist
   pid?: number; // Pokedex ID for Pokemon pixel art
-  connections?: string[]; // Internal TasteMap connections
 };
 
 export const tastes: TasteItem[] = [
@@ -17,7 +16,6 @@ export const tastes: TasteItem[] = [
     creator: "Andy Weir",
     description:
       "A masterpiece of scientific optimism and the pure joy of problem-solving.",
-    connections: ["Outer Wilds", "Life of Pi"],
   },
   {
     id: "taste-books-torrent",
@@ -26,7 +24,6 @@ export const tastes: TasteItem[] = [
     creator: "Jeong Dae-geon",
     description:
       "It explores their intense first love, secret-filled lives, and a traumatic accident that changes them, resonating with themes of navigating turbulent youth.",
-    connections: ["If I have you only"],
   },
   {
     id: "taste-books-demian",
@@ -34,8 +31,7 @@ export const tastes: TasteItem[] = [
     category: "books",
     creator: "Hermann Hesse",
     description: "The journey of self-discovery and breaking out of one's shell.",
-    connections: ["Sherlock", "Riolu", "We're no different"],
-    },
+  },
   {
     id: "taste-books-justice",
     name: "Justice",
@@ -43,7 +39,6 @@ export const tastes: TasteItem[] = [
     creator: "Michael Sandel",
     description:
       "Michael Sandel's deep dive into the moral frameworks that define our society.",
-    connections: ["The Big Short", "Zero to One"],
   },
   {
     id: "taste-books-zero-to-one",
@@ -52,7 +47,6 @@ export const tastes: TasteItem[] = [
     creator: "Peter Thiel , Blake Masters",
     description:
       "Peter Thiel's philosophy on building the future by creating new things.",
-    connections: ["Justice", "Tiny Riot"],
   },
 
   // Films
@@ -63,7 +57,6 @@ export const tastes: TasteItem[] = [
     creator: "Ang Lee",
     description:
       "A visual and philosophical meditation on faith, survival, and storytelling.",
-    connections: ["Project Hail Mary", "Outer Wilds"],
   },
   {
     id: "taste-films-sherlock",
@@ -72,7 +65,6 @@ export const tastes: TasteItem[] = [
     creator: "Steven Moffat & Mark Gatiss",
     description:
       "The ultimate showcase of logical deduction and the beauty of a sharp mind.",
-    connections: ["Demian", "The Big Short"],
   },
   {
     id: "taste-big-short",
@@ -81,7 +73,6 @@ export const tastes: TasteItem[] = [
     creator: "Adam McKay",
     description:
       "A fast-paced, cynical, yet educational look at the 2008 financial collapse.",
-    connections: ["Justice", "Sherlock"],
   },
 
   // Games
@@ -92,7 +83,6 @@ export const tastes: TasteItem[] = [
     creator: "Mobius Digital",
     description:
       "The purest game about curiosity. A clockwork universe waiting to be understood.",
-    connections: ["Project Hail Mary", "Spore", "Life of Pi", "Buizel"],
   },
   {
     id: "taste-games-hk",
@@ -101,7 +91,6 @@ export const tastes: TasteItem[] = [
     creator: "Team Cherry",
     description:
       "Perfect atmosphere and tight mechanics. A lesson in environmental storytelling.",
-    connections: ["Absol", "Skul", "Forest of Dreams"],
   },
   {
     id: "taste-games-spore",
@@ -110,7 +99,6 @@ export const tastes: TasteItem[] = [
     creator: "Maxis",
     description:
       "A childhood classic that sparked my fascination with evolution and systems.",
-    connections: ["Outer Wilds", "Torterra"],
   },
   {
     id: "taste-games-sts",
@@ -118,7 +106,6 @@ export const tastes: TasteItem[] = [
     category: "games",
     creator: "MegaCrit",
     description: "The gold standard of deck-building games. Pure mechanical elegance.",
-    connections: ["Skul"],
   },
   {
     id: "taste-games-skul",
@@ -126,7 +113,6 @@ export const tastes: TasteItem[] = [
     category: "games",
     creator: "SouthPAW Games",
     description: 'Fast-paced action with a unique "head-swapping" mechanic.',
-    connections: ["Hollow Knight", "Slay the Spire"],
   },
 
   // Music
@@ -137,7 +123,6 @@ export const tastes: TasteItem[] = [
     creator: "UmYull",
     description:
       "explores themes of shared loneliness, mutual understanding, and finding warmth in companionship despite feeling tired or uncertain.",
-    connections: ["Demian"],
   },
   {
     id: "taste-music-riot",
@@ -145,7 +130,6 @@ export const tastes: TasteItem[] = [
     category: "music",
     creator: "Sam Ryder",
     description: "Powerful, emotive, and full of raw energy.",
-    connections: ["Zero to One"],
   },
   {
     id: "taste-music-forest",
@@ -153,7 +137,6 @@ export const tastes: TasteItem[] = [
     category: "music",
     creator: "Kinetic Flow",
     description: "Ethereal and nostalgic. A track that feels like a memory.",
-    connections: ["Hollow Knight"],
   },
   {
     id: "taste-music-only-you",
@@ -161,7 +144,6 @@ export const tastes: TasteItem[] = [
     category: "music",
     creator: "Nerd connection",
     description: "A timeless melody about presence and longing.",
-    connections: ["The Torrent"],
   },
 
   // Pokemon
@@ -171,7 +153,6 @@ export const tastes: TasteItem[] = [
     category: "pokemon",
     pid: 27,
     description: "Always appreciated its simple design and resilient nature.",
-    connections: ["Torterra"],
   },
   {
     id: "taste-pkmn-torterra",
@@ -179,7 +160,6 @@ export const tastes: TasteItem[] = [
     category: "pokemon",
     pid: 389,
     description: 'The "Continent Pokémon." Represents stability and growth.',
-    connections: ["Spore", "Sandshrew"],
   },
   {
     id: "taste-pkmn-absol",
@@ -187,7 +167,6 @@ export const tastes: TasteItem[] = [
     category: "pokemon",
     pid: 359,
     description: "A misunderstood guardian. Elegant design with a dark backstory.",
-    connections: ["Hollow Knight"],
   },
   {
     id: "taste-pkmn-buizel",
@@ -195,7 +174,6 @@ export const tastes: TasteItem[] = [
     category: "pokemon",
     pid: 418,
     description: "Swift and energetic. One of my favorites from the Sinnoh region.",
-    connections: ["Outer Wilds"],
   },
   {
     id: "taste-pkmn-riolu",
@@ -203,6 +181,5 @@ export const tastes: TasteItem[] = [
     category: "pokemon",
     pid: 447,
     description: "Small but determined. A symbol of potential and aura.",
-    connections: ["Demian"],
   },
 ];

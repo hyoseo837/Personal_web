@@ -14,7 +14,6 @@ tags:
     "luck",
   ]
 summary: "A reflection on the internal standards used to filter social connections, identifying the assumption of entitlement as the ultimate red flag. The author argues that since existence and talent are products of luck, active gratitude is a moral necessity."
-related: []
 ---
 
 ## Where it all started

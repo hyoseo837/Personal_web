@@ -6,7 +6,6 @@ topic: "ww-extension"
 area: "side-projects"
 tags: ["chrome-extension", "ai", "co-op", "waterlooworks", "side-project"]
 summary: "Introducing ww-extension, a new Chrome extension that uses AI to automate WaterlooWorks job triage, and a reflection on shutting down the unfinished Macro-dashboard project to focus on this new tool."
-related: []
 ---
 
 ## My new project

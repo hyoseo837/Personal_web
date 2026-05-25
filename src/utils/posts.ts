@@ -44,21 +44,6 @@ export function sortPostsByDate(posts: CollectionEntry<'posts'>[]): CollectionEn
 }
 
 /**
- * Get related posts for a given post.
- */
-export async function getRelatedPosts(
-  relatedSlugs: string[] | undefined, 
-  allPosts: CollectionEntry<'posts'>[]
-): Promise<CollectionEntry<'posts'>[]> {
-  if (!relatedSlugs || relatedSlugs.length === 0) return [];
-  
-  return allPosts.filter(p => {
-    const slug = getSlugFromId(p.id);
-    return relatedSlugs.includes(slug);
-  });
-}
-
-/**
  * Format a date consistently across the blog.
  */
 export function formatDate(date: Date): string {

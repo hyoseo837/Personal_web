@@ -6,7 +6,6 @@ topic: "AI-Assisted Development"
 area: "Side Projects"
 tags: ["ai-agents", "chrome-extension", "claude-code", "harness-engineering", "uwaterloo"]
 summary: "A reflection on building a Waterlooworks Chrome extension in two days using Claude Code, highlighting how 'harness engineering' provided full control over AI agents and drastically improved the development experience."
-related: []
 ---
 
 ## How it has gone

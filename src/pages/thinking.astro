@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { thoughts } from '../data/thoughts';
-import LinkDisplay from '../components/LinkDisplay.astro';
 ---
 <BaseLayout 
   title="Thinking" 
@@ -39,10 +38,7 @@ import LinkDisplay from '../components/LinkDisplay.astro';
             </div>
             
             <div class="flex-1">
-              <div class="flex items-start justify-between mb-4">
-                <h2 class="text-2xl text-stone-900 font-serif group-hover/article:translate-x-1 transition-transform duration-500">{thought.title}</h2>
-                <LinkDisplay id={thought.id} />
-              </div>
+              <h2 class="text-2xl text-stone-900 font-serif group-hover/article:translate-x-1 transition-transform duration-500 mb-4">{thought.title}</h2>
               <p class="text-stone-600 leading-relaxed max-w-xl italic font-serif text-lg opacity-80">
                 "{thought.description}"
               </p>
@@ -51,12 +47,5 @@ import LinkDisplay from '../components/LinkDisplay.astro';
         </article>
       ))}
     </div>
-
-    <!-- Footer Note -->
-    <footer class="mt-24 pt-16 border-t border-stone-200/40">
-      <p class="text-sm text-stone-400 italic font-serif">
-        Building my own personalized agent with these fragments.
-      </p>
-    </footer>
   </main>
 </BaseLayout>

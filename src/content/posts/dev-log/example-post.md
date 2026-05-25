@@ -6,7 +6,6 @@ topic: "UI Testing"
 area: "Web Development"
 tags: ["Astro", "Tailwind", "Markdown"]
 summary: "A comprehensive test of the blog's UI, showcasing various Markdown features including tables, code blocks, and typography."
-related: []
 ---
 
 # UI Testing: Exploring Markdown Features

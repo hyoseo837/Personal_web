@@ -57,7 +57,6 @@ topic: ""
 area: ""
 tags: []
 summary: ""
-related: []
 ---
 Start writing your post here...
 
