@@ -22,6 +22,10 @@ export interface Project {
   github?: string;
   link?: string;
   duration?: string;
+  media?:
+    | { type: 'video'; src: string; poster?: string }
+    | { type: 'image'; src: string }
+    | { type: 'demo' }; // CSS-animated demo component, keyed off the project id
 }
 
 export const projects: Project[] = [
@@ -44,6 +48,7 @@ export const projects: Project[] = [
     github: "https://github.com/hyoseo837/ww-extension",
     icon: Bot,
     duration: "2026.05 - present",
+    media: { type: 'demo' },
   },
   {
     id: "macro-dashboard",

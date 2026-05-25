@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "tsx src/scripts/check-data.ts"
+    "test": "tsx src/scripts/check-data.ts",
+    "encode-demo": "./encode-demo.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",

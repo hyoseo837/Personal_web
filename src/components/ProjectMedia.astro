@@ -1,0 +1,51 @@
+---
+import type { Project } from '../data/projects';
+import WwExtensionDemo from './demos/WwExtensionDemo.astro';
+
+interface Props {
+  project: Project;
+  variant?: 'featured' | 'timeline';
+}
+
+const { project, variant = 'timeline' } = Astro.props;
+const media = project.media;
+const Icon = project.icon;
+
+// Demo components keyed by project id.
+// To add a new demo: create src/components/demos/<Name>.astro, import above, add an entry here.
+const demoMap: Record<string, any> = {
+  'ww-extension': WwExtensionDemo,
+};
+
+const DemoComponent = media?.type === 'demo' ? demoMap[project.id] : null;
+const hoverScale = variant === 'timeline' ? 'group-hover/p:scale-[1.02] transition-transform duration-500' : '';
+---
+
+{media?.type === 'video' && (
+  <video
+    src={media.src}
+    poster={media.poster}
+    autoplay={variant === 'featured'}
+    loop
+    muted
+    playsinline
+    preload={variant === 'featured' ? 'auto' : 'metadata'}
+    class={`w-full h-full object-cover ${hoverScale}`}
+    {...(variant === 'timeline' ? { onmouseover: 'this.play()', onmouseout: 'this.pause()' } : {})}
+  />
+)}
+
+{media?.type === 'image' && (
+  <img
+    src={media.src}
+    alt={project.title}
+    loading="lazy"
+    class={`w-full h-full object-cover ${hoverScale}`}
+  />
+)}
+
+{DemoComponent && <DemoComponent />}
+
+{!media && (
+  <Icon class={variant === 'featured' ? 'w-16 h-16 text-accent/40' : 'w-8 h-8 text-accent/40'} />
+)}

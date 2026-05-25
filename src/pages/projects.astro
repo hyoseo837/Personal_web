@@ -1,8 +1,31 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { ExternalLink, Github } from 'lucide-astro';
-import { projects } from '../data/projects';
-import LinkDisplay from '../components/LinkDisplay.astro';
+import { ExternalLink, Github, Sparkles } from 'lucide-astro';
+import { projects, type Project } from '../data/projects';
+import ProjectMedia from '../components/ProjectMedia.astro';
+
+const currentProject = projects.find(p => p.duration?.includes('present'));
+const otherProjects = projects.filter(p => p.id !== currentProject?.id);
+
+// Parse the latest year of activity from a duration like "2026.05 - present" or "high school - 2023.05".
+// Returns 0 when no year is detectable (treated as "older / undated" bucket).
+function latestYearOf(duration?: string): number {
+  if (!duration) return 0;
+  if (duration.includes('present')) return new Date().getFullYear();
+  const years = duration.match(/\d{4}/g);
+  return years ? Math.max(...years.map(Number)) : 0;
+}
+
+const byYear: Record<number, Project[]> = {};
+for (const p of otherProjects) {
+  const y = latestYearOf(p.duration);
+  (byYear[y] ||= []).push(p);
+}
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+
+function parseStack(stack: string): string[] {
+  return stack.split(/[·•,]/).map(s => s.trim()).filter(Boolean);
+}
 ---
 <BaseLayout
   title="Projects"
@@ -12,79 +35,145 @@ import LinkDisplay from '../components/LinkDisplay.astro';
 
     <!-- Hero -->
     <header class="mb-16 md:mb-20 max-w-2xl">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl text-[#94492c] font-serif leading-[1.1] tracking-tight mb-6">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl text-accent font-serif leading-[1.1] tracking-tight mb-6">
         Philosophy of Code
       </h1>
-      <p class="text-[#54433d] font-sans text-base leading-relaxed">
+      <p class="text-text-muted font-sans text-base leading-relaxed">
         Software is not just logic; it's a medium for expressing care. I build tools that aim for the quiet intersection of utility and beauty. Minimalist architecture, intentional interactions, and an unwavering respect for the user's time and attention.
       </p>
     </header>
 
-    <!-- Projects Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projects.map((project) => (
-        <section class="soft-block flex flex-col h-full gap-4">
-          <!-- Icon -->
-          <div class="icon-box self-start">
-            <project.icon class="w-5 h-5 md:w-6 md:h-6" />
+    <!-- Featured: Now Building -->
+    {currentProject && (
+      <section class="soft-block !p-8 md:!p-12 mb-20 md:mb-24 grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-10">
+        <!-- Media / fallback -->
+        <div class="md:col-span-2 aspect-video md:aspect-auto rounded-2xl bg-accent-soft border border-border-dim overflow-hidden flex items-center justify-center relative">
+          <ProjectMedia project={currentProject} variant="featured" />
+        </div>
+
+        <!-- Text -->
+        <div class="md:col-span-3 flex flex-col gap-4">
+          <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-accent font-sans font-bold">
+            <Sparkles class="w-3 h-3" />
+            Now Building
           </div>
-
-          <!-- Title -->
-          <h2 class="font-serif text-xl text-stone-900">{project.title}</h2>
-
-          <!-- Tech stack chips -->
-          <div class="flex flex-wrap gap-1">
-            {project.stack.split(/[·•,]/).map(tech => tech.trim()).filter(Boolean).map(tech => (
-              <span class="inline-flex items-center bg-[#fbdbac] text-[#54433d] text-[10px] rounded-full px-2 py-0.5 font-sans font-semibold">
-                {tech}
-              </span>
+          <h2 class="font-serif text-3xl md:text-4xl text-stone-900 leading-tight">{currentProject.title}</h2>
+          <div class="flex flex-wrap gap-1.5">
+            {parseStack(currentProject.stack).map(tech => (
+              <span class="chip">{tech}</span>
             ))}
           </div>
-
-          <!-- Description -->
-          <p class="text-sm text-[#54433d] font-sans leading-relaxed flex-grow">
-            {project.description}
+          <p class="text-text-muted font-serif text-base md:text-lg leading-relaxed">
+            {currentProject.description}
           </p>
-
-          <!-- Bottom row -->
-          <div class="flex items-center justify-between mt-auto pt-2">
-            <div class="flex items-center gap-3">
-              {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-[#94492c] transition-colors">
-                  <Github class="w-4 h-4" />
-                </a>
-              )}
-              {project.link && (
-                <a href={project.link} target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-[#94492c] transition-colors">
-                  <ExternalLink class="w-4 h-4" />
-                </a>
-              )}
-              {project.duration && (
-                <span class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
-                  {project.duration}
-                </span>
-              )}
-            </div>
-            {(project.link || project.github) && (
-              <a
-                href={project.link || project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-[11px] font-sans font-semibold text-[#94492c] hover:text-[#b05c38] transition-colors"
-              >
-                View Project →
+          <div class="flex items-center gap-4 mt-2">
+            {currentProject.github && (
+              <a href={currentProject.github} target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-orange-800 transition-colors">
+                <Github class="w-4 h-4" /> Source
               </a>
             )}
+            {currentProject.link && (
+              <a href={currentProject.link} target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-orange-800 transition-colors">
+                <ExternalLink class="w-4 h-4" /> Live
+              </a>
+            )}
+            {currentProject.duration && (
+              <span class="ml-auto text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
+                {currentProject.duration}
+              </span>
+            )}
           </div>
-        </section>
-      ))}
-    </div>
+        </div>
+      </section>
+    )}
 
-    <!-- Footer Note -->
-    <footer class="mt-20 pt-12 border-t border-stone-200/40">
-      <p class="text-sm text-stone-400 italic font-serif">
-        And many more minor experiments in Python, JS, and Dart.
-      </p>
-    </footer>
+    <!-- Timeline -->
+    <section>
+      <div class="flex items-center gap-4 mb-12">
+        <div class="w-8 md:w-12 h-px bg-accent-muted/30"></div>
+        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-accent/60 font-sans font-semibold">The Build Log —</span>
+      </div>
+
+      <div class="relative">
+        <!-- Spine -->
+        <div class="absolute left-2 md:left-3 top-2 bottom-2 w-px bg-border-dim"></div>
+
+        <div class="space-y-16 md:space-y-20">
+          {years.map(year => (
+            <div class="relative">
+              <!-- Year marker -->
+              <div class="flex items-center gap-4 mb-8 pl-10 md:pl-14">
+                <div class="absolute left-0 w-4 md:w-6 h-4 md:h-6 rounded-full bg-stone-50 border-2 border-accent flex items-center justify-center">
+                  <div class="w-1.5 h-1.5 rounded-full bg-accent"></div>
+                </div>
+                <h3 class="font-serif text-2xl md:text-3xl text-stone-900 tabular-nums">
+                  {year === 0 ? 'Earlier' : year}
+                </h3>
+              </div>
+
+              <!-- Projects in this year -->
+              <div class="space-y-6 md:space-y-8 pl-10 md:pl-14">
+                {byYear[year].map(project => (
+                  <article class="group/p relative">
+                    <!-- Branch dot -->
+                    <div class="absolute -left-10 md:-left-14 top-2 w-4 md:w-6 h-4 md:h-6 flex items-center justify-center">
+                      <div class="w-2 h-2 rounded-full bg-border-hover group-hover/p:bg-accent transition-colors"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-5 md:gap-6">
+                      <!-- Media / icon -->
+                      <div class="md:col-span-2 aspect-video rounded-xl bg-accent-soft border border-border-dim overflow-hidden flex items-center justify-center">
+                        <ProjectMedia project={project} variant="timeline" />
+                      </div>
+
+                      <!-- Text -->
+                      <div class="md:col-span-3 flex flex-col gap-3">
+                        <div class="flex items-baseline justify-between gap-3">
+                          <h4 class="font-serif text-xl md:text-2xl text-stone-900 leading-tight">
+                            {project.title}
+                          </h4>
+                          {project.duration && (
+                            <span class="text-[9px] uppercase tracking-widest font-sans font-bold text-stone-400 shrink-0">
+                              {project.duration}
+                            </span>
+                          )}
+                        </div>
+                        <div class="flex flex-wrap gap-1">
+                          {parseStack(project.stack).map(tech => (
+                            <span class="inline-flex items-center bg-orange-200/60 text-text-muted text-[10px] rounded-full px-2 py-0.5 font-sans font-semibold">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                        <p class="text-sm text-text-muted font-sans leading-relaxed">
+                          {project.description}
+                        </p>
+                        <div class="flex items-center gap-3 mt-1">
+                          {project.github && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer"
+                               class="text-stone-400 hover:text-accent transition-colors" title="Source">
+                              <Github class="w-4 h-4" />
+                            </a>
+                          )}
+                          {project.link && (
+                            <a href={project.link} target="_blank" rel="noopener noreferrer"
+                               class="text-stone-400 hover:text-accent transition-colors" title="Live">
+                              <ExternalLink class="w-4 h-4" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
   </main>
 </BaseLayout>
