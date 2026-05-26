@@ -59,6 +59,7 @@ export const projects: Project[] = [
     github: "https://github.com/hyoseo837/macro_dashboard",
     icon: LayoutDashboard,
     duration: "2026.04 - 2026.05",
+    media: { type: 'demo' },
   },
   {
     id: "empkl-project",
@@ -69,6 +70,7 @@ export const projects: Project[] = [
     github: "https://github.com/hyoseo837/empkl",
     icon: Languages,
     duration: "2026.03 - 2026.03",
+    media: { type: 'demo' },
   },
   {
     id: "personal-website-renewal",
@@ -80,6 +82,7 @@ export const projects: Project[] = [
     link: "https://hyoseo.dev",
     icon: PersonStanding,
     duration: "2026.03 - 2026.03",
+    media: { type: 'demo' },
   },
   {
     id: "project-dchup",
@@ -90,6 +93,7 @@ export const projects: Project[] = [
     icon: BookOpen,
     github: "https://github.com/hyoseo837/Dchup",
     duration: "2024.03 - 2024.07",
+    media: { type: 'demo' },
   },
   {
     id: "project-wildfire",

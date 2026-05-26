@@ -1,6 +1,10 @@
 ---
 import type { Project } from '../data/projects';
 import WwExtensionDemo from './demos/WwExtensionDemo.astro';
+import MacroDashboardDemo from './demos/MacroDashboardDemo.astro';
+import EmpklDemo from './demos/EmpklDemo.astro';
+import PersonalWebDemo from './demos/PersonalWebDemo.astro';
+import DchupDemo from './demos/DchupDemo.astro';
 
 interface Props {
   project: Project;
@@ -15,6 +19,10 @@ const Icon = project.icon;
 // To add a new demo: create src/components/demos/<Name>.astro, import above, add an entry here.
 const demoMap: Record<string, any> = {
   'ww-extension': WwExtensionDemo,
+  'macro-dashboard': MacroDashboardDemo,
+  'empkl-project': EmpklDemo,
+  'personal-website-renewal': PersonalWebDemo,
+  'project-dchup': DchupDemo,
 };
 
 const DemoComponent = media?.type === 'demo' ? demoMap[project.id] : null;

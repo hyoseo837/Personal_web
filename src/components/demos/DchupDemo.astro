@@ -1,0 +1,185 @@
+---
+// CSS-animated Quizlet-style flashcard demo.
+// Each card does a true 3D rotateY flip (0° → 180°). The back face is
+// pre-rotated 180° so it reads un-mirrored at the end of the flip.
+// Instead of relying on backface-visibility (which was unreliable), the
+// faces use opacity: front fades out as the card passes the edge-on point,
+// back fades in right after. Three cards cycle over 8s. Pure CSS, no JS.
+
+const cards = [
+  { term: 'Recursion', definition: 'A function that calls itself' },
+  { term: 'Big-O',     definition: 'Notation for algorithm complexity' },
+  { term: 'DFS',       definition: 'Depth-first traversal of a tree' },
+];
+---
+
+<div class="w-full h-full bg-stone-50 flex flex-col items-center justify-center gap-2.5 md:gap-3 p-3 md:p-4 font-sans demo-root">
+
+  <!-- ─── Card stack: 3 cards layered, only one visible per segment ─── -->
+  <div class="flashcard-deck relative w-full max-w-[170px] md:max-w-[190px] aspect-[4/3]">
+    {cards.map((c, i) => (
+      <div class={`flashcard card-${i + 1} absolute inset-0`}>
+        <div class={`face face-front front-${i + 1} absolute inset-0 bg-white border border-stone-200 rounded-xl shadow-md flex flex-col items-center justify-center p-3 gap-1`}>
+          <div class="text-[7px] uppercase tracking-widest text-stone-400 font-bold">term</div>
+          <div class="text-sm md:text-base font-bold text-stone-900 text-center leading-tight">{c.term}</div>
+        </div>
+        <div class={`face face-back back-${i + 1} absolute inset-0 bg-accent-soft border border-accent/30 rounded-xl shadow-md flex flex-col items-center justify-center p-3 gap-1`}>
+          <div class="text-[7px] uppercase tracking-widest text-accent font-bold">definition</div>
+          <div class="text-[10px] md:text-[11px] text-stone-700 font-serif text-center leading-snug">{c.definition}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- ─── Progress dots ─── -->
+  <div class="flex items-center gap-1.5">
+    <div class="dot dot-1 w-1.5 h-1.5 rounded-full"></div>
+    <div class="dot dot-2 w-1.5 h-1.5 rounded-full"></div>
+    <div class="dot dot-3 w-1.5 h-1.5 rounded-full"></div>
+  </div>
+</div>
+
+<style>
+  /* ─── 3D context ─── */
+
+  .flashcard-deck {
+    perspective: 1000px;
+  }
+
+  /* ─── Each card rotates rotateY(0° → 180°) during its segment. ─── */
+
+  .flashcard {
+    transform-style: preserve-3d;
+    opacity: 0;
+    transform: rotateY(0deg);
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+  .card-1 { animation-name: card-1; }
+  .card-2 { animation-name: card-2; }
+  .card-3 { animation-name: card-3; }
+
+  @keyframes card-1 {
+    0%        { opacity: 0; transform: rotateY(0deg); }
+    2%        { opacity: 1; transform: rotateY(0deg); }
+    14%       { opacity: 1; transform: rotateY(0deg); }
+    21%       { opacity: 1; transform: rotateY(180deg); }
+    32%       { opacity: 1; transform: rotateY(180deg); }
+    34%       { opacity: 0; transform: rotateY(180deg); }
+    100%      { opacity: 0; transform: rotateY(180deg); }
+  }
+  @keyframes card-2 {
+    0%, 32%   { opacity: 0; transform: rotateY(0deg); }
+    34%       { opacity: 1; transform: rotateY(0deg); }
+    47%       { opacity: 1; transform: rotateY(0deg); }
+    54%       { opacity: 1; transform: rotateY(180deg); }
+    65%       { opacity: 1; transform: rotateY(180deg); }
+    67%       { opacity: 0; transform: rotateY(180deg); }
+    100%      { opacity: 0; transform: rotateY(180deg); }
+  }
+  @keyframes card-3 {
+    0%, 65%   { opacity: 0; transform: rotateY(0deg); }
+    67%       { opacity: 1; transform: rotateY(0deg); }
+    80%       { opacity: 1; transform: rotateY(0deg); }
+    87%       { opacity: 1; transform: rotateY(180deg); }
+    98%       { opacity: 1; transform: rotateY(180deg); }
+    100%      { opacity: 0; transform: rotateY(180deg); }
+  }
+
+  /* ─── Faces ───
+     Back face is pre-rotated 180° so at card rotateY(180°) it reads forward.
+     Each face's OPACITY is controlled per-card so we never see the mirrored
+     "wrong side" of any face. The opacity flip is timed to the card's
+     90° edge-on midpoint, where the face content is masked by being edge-on. */
+
+  .face {
+    transform-origin: center center;
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+  .face-back {
+    transform: rotateY(180deg);
+  }
+
+  .front-1 { animation-name: front-1-show; }
+  .back-1  { animation-name: back-1-show; }
+  .front-2 { animation-name: front-2-show; }
+  .back-2  { animation-name: back-2-show; }
+  .front-3 { animation-name: front-3-show; }
+  .back-3  { animation-name: back-3-show; }
+
+  /* Card 1 flips 14% → 21% (edge-on at 17.5%) */
+  @keyframes front-1-show {
+    0%, 16%   { opacity: 1; }
+    17%, 100% { opacity: 0; }
+  }
+  @keyframes back-1-show {
+    0%, 17%   { opacity: 0; }
+    18%, 32% { opacity: 1; }
+    33%, 100% { opacity: 0; }
+  }
+
+  /* Card 2 flips 47% → 54% (edge-on at 50.5%) */
+  @keyframes front-2-show {
+    0%, 32%   { opacity: 0; }
+    33%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  @keyframes back-2-show {
+    0%, 50%   { opacity: 0; }
+    51%, 65% { opacity: 1; }
+    66%, 100% { opacity: 0; }
+  }
+
+  /* Card 3 flips 80% → 87% (edge-on at 83.5%) */
+  @keyframes front-3-show {
+    0%, 66%   { opacity: 0; }
+    67%, 82%   { opacity: 1; }
+    83%, 100% { opacity: 0; }
+  }
+  @keyframes back-3-show {
+    0%, 83%   { opacity: 0; }
+    84%, 100% { opacity: 1; }
+  }
+
+  /* ─── Progress dots: active dot is accent + slightly bigger ─── */
+
+  .dot {
+    background-color: rgb(214 211 209); /* stone-300 */
+    transform: scale(1);
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+  }
+  .dot-1 { animation-name: dot-1; }
+  .dot-2 { animation-name: dot-2; }
+  .dot-3 { animation-name: dot-3; }
+
+  @keyframes dot-1 {
+    0%, 32%   { background-color: var(--color-accent); transform: scale(1.3); }
+    34%, 100% { background-color: rgb(214 211 209); transform: scale(1); }
+  }
+  @keyframes dot-2 {
+    0%, 32%   { background-color: rgb(214 211 209); transform: scale(1); }
+    34%, 65%  { background-color: var(--color-accent); transform: scale(1.3); }
+    67%, 100% { background-color: rgb(214 211 209); transform: scale(1); }
+  }
+  @keyframes dot-3 {
+    0%, 65%   { background-color: rgb(214 211 209); transform: scale(1); }
+    67%, 100% { background-color: var(--color-accent); transform: scale(1.3); }
+  }
+
+  /* ─── Reduced motion: show first card, front side ─── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .flashcard { animation: none; transform: rotateY(0deg); }
+    .card-1    { opacity: 1; }
+    .face      { animation: none; }
+    .front-1   { opacity: 1; }
+    .back-1, .front-2, .back-2, .front-3, .back-3 { opacity: 0; }
+    .dot       { animation: none; }
+    .dot-1     { background-color: var(--color-accent); transform: scale(1.3); }
+  }
+</style>

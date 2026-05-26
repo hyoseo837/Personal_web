@@ -1,0 +1,211 @@
+---
+// CSS-animated mock of the EMPKL flow.
+// Same drop-zone box across both phases, contents transform:
+//   Phase 1 (0–2.5s): vocab.txt + grammar.md drag IN from opposite corners
+//                     and land on the drop zone (border pulses accent).
+//   Phase 2 (2.5–8s): drop zone "spits out" three generated files
+//                     (quiz.pdf, dialogue.md, flashcards.csv) — they burst
+//                     from center and fan outward to scattered positions.
+// Loops every 8s. Pure CSS, no JS.
+
+import { Upload, FileText, Sparkles } from 'lucide-astro';
+---
+
+<div class="w-full h-full relative bg-stone-50 font-sans overflow-hidden demo-root">
+  <div class="absolute inset-0 p-3 md:p-4">
+    <div class="drop-zone w-full h-full relative rounded-xl border-2 border-dashed flex items-center justify-center">
+
+      <!-- ─── PHASE 1: incoming materials ─── -->
+      <div class="phase phase-upload absolute inset-0 flex items-center justify-center">
+        <div class="drop-label flex flex-col items-center gap-2 text-stone-400">
+          <Upload class="w-7 h-7 md:w-9 md:h-9" />
+          <span class="text-[11px] md:text-xs uppercase tracking-widest font-bold">Drop teaching materials</span>
+        </div>
+
+        <div class="dragged-file file-vocab absolute flex items-center gap-2 bg-white border border-stone-200 rounded-lg px-3 py-2 shadow-xl">
+          <FileText class="w-4 h-4 text-accent" />
+          <span class="text-[11px] font-semibold text-stone-700">vocab.txt</span>
+        </div>
+
+        <div class="dragged-file file-grammar absolute flex items-center gap-2 bg-white border border-stone-200 rounded-lg px-3 py-2 shadow-xl">
+          <FileText class="w-4 h-4 text-accent" />
+          <span class="text-[11px] font-semibold text-stone-700">grammar.md</span>
+        </div>
+      </div>
+
+      <!-- ─── PHASE 2: outgoing generated files ─── -->
+      <div class="phase phase-outputs absolute inset-0">
+        <div class="output-chip absolute top-2 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white border border-stone-200 shadow-sm">
+          <Sparkles class="w-2.5 h-2.5 text-accent sparkle-pulse" />
+          <span class="text-[8px] uppercase tracking-widest text-stone-500 font-bold">generated</span>
+        </div>
+
+        <div class="output-file file-quiz absolute flex items-center gap-2 bg-white border border-stone-200 rounded-lg px-3 py-2 shadow-xl">
+          <FileText class="w-4 h-4 text-accent" />
+          <span class="text-[11px] font-semibold text-stone-700">quiz.pdf</span>
+        </div>
+
+        <div class="output-file file-dialogue absolute flex items-center gap-2 bg-white border border-stone-200 rounded-lg px-3 py-2 shadow-xl">
+          <FileText class="w-4 h-4 text-accent" />
+          <span class="text-[11px] font-semibold text-stone-700">dialogue.md</span>
+        </div>
+
+        <div class="output-file file-flashcards absolute flex items-center gap-2 bg-white border border-stone-200 rounded-lg px-3 py-2 shadow-xl">
+          <FileText class="w-4 h-4 text-accent" />
+          <span class="text-[11px] font-semibold text-stone-700">flashcards.csv</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* All animations share the same 8s loop. */
+
+  /* ─── Phase crossfade ───
+     Phase 1 visible 0–28%, fades by 32%.
+     Phase 2 fades in 28–34%, visible to 95%. */
+
+  .phase {
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    opacity: 0;
+  }
+  .phase-upload  { animation-name: phase-upload-show; }
+  .phase-outputs { animation-name: phase-outputs-show; }
+
+  @keyframes phase-upload-show {
+    0%, 28%   { opacity: 1; }
+    32%, 100% { opacity: 0; }
+  }
+  @keyframes phase-outputs-show {
+    0%, 28%   { opacity: 0; }
+    34%, 95%  { opacity: 1; }
+    100%      { opacity: 0; }
+  }
+
+  /* ─── Drop zone pulses twice: once when files land (phase 1),
+         once when files burst out (phase 2). ─── */
+
+  .drop-zone {
+    border-color: rgb(214 211 209); /* stone-300 */
+    animation: drop-zone-pulse 8s infinite;
+  }
+  @keyframes drop-zone-pulse {
+    0%, 18%   { border-color: rgb(214 211 209); background-color: transparent; }
+    20%, 25%  { border-color: var(--color-accent); background-color: rgba(148, 73, 44, 0.05); }
+    28%, 33%  { border-color: rgb(214 211 209); background-color: transparent; }
+    36%, 41%  { border-color: var(--color-accent); background-color: rgba(148, 73, 44, 0.05); }
+    44%, 100% { border-color: rgb(214 211 209); background-color: transparent; }
+  }
+
+  /* ─── Drop label dims as files approach ─── */
+
+  .drop-label {
+    animation: drop-label-dim 8s infinite;
+  }
+  @keyframes drop-label-dim {
+    0%, 10%  { opacity: 1; }
+    18%, 28% { opacity: 0.25; }
+  }
+
+  /* ─── PHASE 1 files: drag in from opposite corners, settle side-by-side ─── */
+
+  .dragged-file {
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    animation: 8s infinite ease-out;
+  }
+  .file-vocab   { animation-name: drag-vocab; }
+  .file-grammar { animation-name: drag-grammar; }
+
+  @keyframes drag-vocab {
+    0%        { opacity: 0; transform: translate(-50%, -50%) translate(-110px, -70px) rotate(-12deg); }
+    4%        { opacity: 1; transform: translate(-50%, -50%) translate(-110px, -70px) rotate(-12deg); }
+    18%       { opacity: 1; transform: translate(-50%, -50%) translate(-44px, 0) rotate(-3deg) scale(1); }
+    22%       { opacity: 0.6; transform: translate(-50%, -50%) translate(-44px, 0) rotate(-3deg) scale(0.9); }
+    28%, 100% { opacity: 0; transform: translate(-50%, -50%) translate(-44px, 0) rotate(-3deg) scale(0.5); }
+  }
+
+  @keyframes drag-grammar {
+    0%        { opacity: 0; transform: translate(-50%, -50%) translate(110px, -70px) rotate(12deg); }
+    4%        { opacity: 1; transform: translate(-50%, -50%) translate(110px, -70px) rotate(12deg); }
+    18%       { opacity: 1; transform: translate(-50%, -50%) translate(44px, 0) rotate(3deg) scale(1); }
+    22%       { opacity: 0.6; transform: translate(-50%, -50%) translate(44px, 0) rotate(3deg) scale(0.9); }
+    28%, 100% { opacity: 0; transform: translate(-50%, -50%) translate(44px, 0) rotate(3deg) scale(0.5); }
+  }
+
+  /* ─── PHASE 2 files: burst from center, fan out to scattered spots ─── */
+
+  .output-file {
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+  }
+  .file-quiz       { animation-name: burst-quiz; }
+  .file-dialogue   { animation-name: burst-dialogue; }
+  .file-flashcards { animation-name: burst-flashcards; }
+
+  @keyframes burst-quiz {
+    0%, 36%   { opacity: 0; transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(0.4); }
+    44%       { opacity: 1; transform: translate(-50%, -50%) translate(-70px, -18px) rotate(-8deg) scale(1); }
+    92%       { opacity: 1; transform: translate(-50%, -50%) translate(-70px, -18px) rotate(-8deg) scale(1); }
+    100%      { opacity: 0; transform: translate(-50%, -50%) translate(-70px, -18px) rotate(-8deg) scale(0.95); }
+  }
+
+  @keyframes burst-dialogue {
+    0%, 44%   { opacity: 0; transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(0.4); }
+    52%       { opacity: 1; transform: translate(-50%, -50%) translate(70px, -18px) rotate(8deg) scale(1); }
+    92%       { opacity: 1; transform: translate(-50%, -50%) translate(70px, -18px) rotate(8deg) scale(1); }
+    100%      { opacity: 0; transform: translate(-50%, -50%) translate(70px, -18px) rotate(8deg) scale(0.95); }
+  }
+
+  @keyframes burst-flashcards {
+    0%, 52%   { opacity: 0; transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(0.4); }
+    60%       { opacity: 1; transform: translate(-50%, -50%) translate(0, 40px) rotate(-3deg) scale(1); }
+    92%       { opacity: 1; transform: translate(-50%, -50%) translate(0, 40px) rotate(-3deg) scale(1); }
+    100%      { opacity: 0; transform: translate(-50%, -50%) translate(0, 40px) rotate(-3deg) scale(0.95); }
+  }
+
+  /* ─── "Generated" chip fades in after the first burst ─── */
+
+  .output-chip {
+    opacity: 0;
+    animation: chip-show 8s infinite;
+  }
+  @keyframes chip-show {
+    0%, 34%  { opacity: 0; }
+    40%, 92% { opacity: 1; }
+    96%, 100%{ opacity: 0; }
+  }
+
+  /* ─── Twinkle for the AI sparkle icon ─── */
+
+  .sparkle-pulse {
+    animation: sparkle-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes sparkle-pulse {
+    0%, 100% { opacity: 1;    transform: scale(1)    rotate(0deg); }
+    50%      { opacity: 0.45; transform: scale(0.85) rotate(8deg); }
+  }
+
+  /* ─── Reduced motion: skip animations, show final fanned-out state ─── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .phase-upload  { display: none; }
+    .phase-outputs { opacity: 1; animation: none; }
+    .output-chip   { opacity: 1; animation: none; }
+    .output-file   { opacity: 1; animation: none; }
+    .file-quiz       { transform: translate(-50%, -50%) translate(-70px, -18px) rotate(-8deg); }
+    .file-dialogue   { transform: translate(-50%, -50%) translate(70px, -18px) rotate(8deg); }
+    .file-flashcards { transform: translate(-50%, -50%) translate(0, 40px) rotate(-3deg); }
+    .sparkle-pulse   { animation: none; }
+  }
+</style>

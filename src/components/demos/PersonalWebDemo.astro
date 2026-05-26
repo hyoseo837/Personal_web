@@ -1,0 +1,154 @@
+---
+// CSS-animated browser tour of the site itself.
+// A miniature browser frame cycles through three pages:
+//   Home → Projects → Blog. URL bar text swaps in sync.
+// Loops every 8s. Pure CSS, no JS.
+
+import { Sparkles } from 'lucide-astro';
+---
+
+<div class="w-full h-full bg-stone-50 p-3 md:p-4 font-sans demo-root flex items-center justify-center">
+  <div class="w-full h-full rounded-lg border border-stone-200 bg-white shadow-sm overflow-hidden flex flex-col">
+
+    <!-- ─── Browser chrome strip ─── -->
+    <div class="flex items-center gap-2 px-2 md:px-2.5 py-1.5 border-b border-stone-100 bg-stone-50 shrink-0">
+      <div class="flex gap-1">
+        <div class="w-1.5 h-1.5 rounded-full bg-stone-300"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-stone-300"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-stone-300"></div>
+      </div>
+      <div class="flex-1 relative h-3.5 bg-white border border-stone-200 rounded-full overflow-hidden">
+        <span class="url url-home absolute inset-0 px-2 flex items-center text-[8px] md:text-[9px] text-stone-500 font-mono leading-none">hyoseo.dev/</span>
+        <span class="url url-projects absolute inset-0 px-2 flex items-center text-[8px] md:text-[9px] text-stone-500 font-mono leading-none">hyoseo.dev/projects</span>
+        <span class="url url-blog absolute inset-0 px-2 flex items-center text-[8px] md:text-[9px] text-stone-500 font-mono leading-none">hyoseo.dev/blog</span>
+      </div>
+    </div>
+
+    <!-- ─── Page viewport ─── -->
+    <div class="relative flex-1 bg-stone-50">
+
+      <!-- HOME -->
+      <div class="page page-home absolute inset-0 p-3 md:p-4 flex flex-col items-center justify-center gap-1">
+        <div class="text-[11px] md:text-sm font-serif text-stone-900">Hyoseo Lee</div>
+        <div class="w-6 h-px bg-stone-300 my-0.5"></div>
+        <div class="text-[8px] md:text-[9px] text-stone-500 font-serif italic">building things, writing about them</div>
+        <div class="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-white border border-stone-200">
+          <Sparkles class="w-2 h-2 text-accent" />
+          <span class="text-[7px] uppercase tracking-widest text-stone-500 font-bold">now: ww-extension</span>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="page page-projects absolute inset-0 p-3 md:p-4 flex flex-col gap-1.5">
+        <div class="text-[8px] uppercase tracking-widest text-stone-400 font-bold">Projects</div>
+        <div class="flex flex-col gap-1 flex-1 justify-center">
+          <div class="flex items-center justify-between gap-2 py-0.5 border-b border-stone-100">
+            <span class="text-[9px] md:text-[10px] text-stone-700 font-serif truncate">ww-extension</span>
+            <span class="text-[7px] text-stone-400 tabular-nums shrink-0">2026.05</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 py-0.5 border-b border-stone-100">
+            <span class="text-[9px] md:text-[10px] text-stone-700 font-serif truncate">macro-dashboard</span>
+            <span class="text-[7px] text-stone-400 tabular-nums shrink-0">2026.04</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 py-0.5 border-b border-stone-100">
+            <span class="text-[9px] md:text-[10px] text-stone-700 font-serif truncate">EMPKL</span>
+            <span class="text-[7px] text-stone-400 tabular-nums shrink-0">2026.03</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <div class="page page-blog absolute inset-0 p-3 md:p-4 flex flex-col gap-1.5">
+        <div class="text-[8px] uppercase tracking-widest text-stone-400 font-bold">Blog</div>
+        <div class="flex flex-col gap-1.5 flex-1 justify-center">
+          <div>
+            <div class="text-[6.5px] uppercase tracking-widest text-accent font-bold">2026.05 · TIL</div>
+            <div class="text-[9px] md:text-[10px] text-stone-700 font-serif leading-tight">Astro v6 scoped CSS gotchas</div>
+          </div>
+          <div>
+            <div class="text-[6.5px] uppercase tracking-widest text-accent font-bold">2026.04 · dev-log</div>
+            <div class="text-[9px] md:text-[10px] text-stone-700 font-serif leading-tight">Refactoring the projects page</div>
+          </div>
+          <div>
+            <div class="text-[6.5px] uppercase tracking-widest text-accent font-bold">2026.03 · brain dump</div>
+            <div class="text-[9px] md:text-[10px] text-stone-700 font-serif leading-tight">On side projects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* All animations share the same 8s loop. Three pages × ~2.5s each. */
+
+  /* ─── Page crossfade + slight slide-up entrance ─── */
+
+  .page {
+    opacity: 0;
+    transform: translateY(4px);
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+  }
+  .page-home     { animation-name: page-home-show; }
+  .page-projects { animation-name: page-projects-show; }
+  .page-blog     { animation-name: page-blog-show; }
+
+  @keyframes page-home-show {
+    0%, 30%   { opacity: 1; transform: translateY(0); }
+    34%, 96%  { opacity: 0; transform: translateY(4px); }
+    100%      { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes page-projects-show {
+    0%, 30%   { opacity: 0; transform: translateY(4px); }
+    34%, 60%  { opacity: 1; transform: translateY(0); }
+    64%, 100% { opacity: 0; transform: translateY(4px); }
+  }
+  @keyframes page-blog-show {
+    0%, 60%   { opacity: 0; transform: translateY(4px); }
+    64%, 92%  { opacity: 1; transform: translateY(0); }
+    96%, 100% { opacity: 0; transform: translateY(4px); }
+  }
+
+  /* ─── URL bar text swaps in sync with the page ─── */
+
+  .url {
+    opacity: 0;
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+  }
+  .url-home     { animation-name: url-home-show; }
+  .url-projects { animation-name: url-projects-show; }
+  .url-blog     { animation-name: url-blog-show; }
+
+  @keyframes url-home-show {
+    0%, 30%   { opacity: 1; }
+    34%, 96%  { opacity: 0; }
+    100%      { opacity: 1; }
+  }
+  @keyframes url-projects-show {
+    0%, 30%   { opacity: 0; }
+    34%, 60%  { opacity: 1; }
+    64%, 100% { opacity: 0; }
+  }
+  @keyframes url-blog-show {
+    0%, 60%   { opacity: 0; }
+    64%, 92%  { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+
+  /* ─── Reduced motion: stop on the home page ─── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .page          { animation: none; }
+    .page-home     { opacity: 1; transform: none; }
+    .page-projects { opacity: 0; }
+    .page-blog     { opacity: 0; }
+    .url           { animation: none; }
+    .url-home      { opacity: 1; }
+    .url-projects  { opacity: 0; }
+    .url-blog      { opacity: 0; }
+  }
+</style>

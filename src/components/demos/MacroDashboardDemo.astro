@@ -1,0 +1,148 @@
+---
+// CSS-animated mock of the Macro Dashboard: a customizable grid where
+// News spans the full left column (1x2) and BTC + S&P stack on the right.
+// Widgets slide in staggered (suggests configurable grid), then each
+// animates its own data (BTC price ticker, sparklines drawing).
+// Loops every 8s. Pure CSS, no JS.
+
+import { Newspaper, TrendingUp } from 'lucide-astro';
+
+const headlines = [
+  { time: '2m', text: 'Fed signals rate cut next quarter' },
+  { time: '8m', text: 'Tech stocks rally on AI earnings' },
+  { time: '1h', text: 'Oil prices steady as supply rises' },
+];
+---
+
+<div class="w-full h-full bg-stone-50 p-3 md:p-4 grid grid-cols-2 grid-rows-2 gap-2 md:gap-3 font-sans demo-root">
+
+  <!-- NEWS widget: spans full left column (col 1, rows 1-2) -->
+  <div class="widget widget-1 row-span-2 bg-white border border-stone-200 rounded-lg p-3 flex flex-col gap-2 shadow-sm">
+    <div class="flex items-center gap-1.5">
+      <Newspaper class="w-3 h-3 text-stone-400" />
+      <span class="text-[8px] uppercase tracking-widest text-stone-400 font-bold">news</span>
+    </div>
+    <ul class="flex flex-col gap-2 flex-1">
+      {headlines.map(h => (
+        <li class="flex items-start gap-2 text-[10px] md:text-[11px] leading-snug">
+          <span class="text-[8px] uppercase tracking-widest text-stone-400 font-bold tabular-nums shrink-0 pt-0.5">{h.time}</span>
+          <span class="text-stone-700 font-serif">{h.text}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- BTC widget (col 2, row 1) -->
+  <div class="widget widget-2 bg-white border border-stone-200 rounded-lg p-2.5 flex flex-col justify-between gap-1 shadow-sm">
+    <div class="flex items-center justify-between">
+      <span class="text-[10px] font-bold text-stone-700">₿ BTC/USD</span>
+      <span class="inline-flex items-center gap-0.5 text-[8px] font-bold text-emerald-600">
+        <TrendingUp class="w-2.5 h-2.5" />+1.2%
+      </span>
+    </div>
+    <div class="relative h-5">
+      <div class="ticker ticker-1 absolute text-sm md:text-base font-bold tabular-nums text-stone-900">$67,432.18</div>
+      <div class="ticker ticker-2 absolute text-sm md:text-base font-bold tabular-nums text-stone-900">$67,478.94</div>
+      <div class="ticker ticker-3 absolute text-sm md:text-base font-bold tabular-nums text-stone-900">$67,521.05</div>
+    </div>
+    <svg class="w-full h-4" viewBox="0 0 100 16" preserveAspectRatio="none">
+      <path d="M0,13 L10,11 L20,12 L30,7 L40,10 L50,5 L60,7 L70,3 L80,5 L90,2 L100,3"
+            fill="none" stroke="rgb(16 185 129)" stroke-width="1.5" class="sparkline" />
+    </svg>
+  </div>
+
+  <!-- S&P 500 widget (col 2, row 2) -->
+  <div class="widget widget-3 bg-white border border-stone-200 rounded-lg p-2.5 flex flex-col justify-between gap-1 shadow-sm">
+    <div class="flex items-center justify-between">
+      <span class="text-[10px] font-bold text-stone-700">S&amp;P 500</span>
+      <span class="inline-flex items-center gap-0.5 text-[8px] font-bold text-emerald-600">
+        <TrendingUp class="w-2.5 h-2.5" />+0.8%
+      </span>
+    </div>
+    <div class="text-sm md:text-base font-bold tabular-nums text-stone-900">5,463.21</div>
+    <svg class="w-full h-4" viewBox="0 0 100 16" preserveAspectRatio="none">
+      <path d="M0,12 L10,10 L20,11 L30,8 L40,10 L50,7 L60,5 L70,6 L80,4 L90,5 L100,3"
+            fill="none" stroke="rgb(16 185 129)" stroke-width="1.5" class="sparkline sparkline-2" />
+    </svg>
+  </div>
+</div>
+
+<style>
+  /* ─── 8s loop. Widgets slide in staggered, then their data animates. ─── */
+
+  .widget {
+    opacity: 0;
+    transform: translateY(6px);
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+  }
+  .widget-1 { animation-name: w-1; }
+  .widget-2 { animation-name: w-2; }
+  .widget-3 { animation-name: w-3; }
+
+  @keyframes w-1 {
+    0%        { opacity: 0; transform: translateY(6px); }
+    5%, 92%   { opacity: 1; transform: translateY(0); }
+    98%, 100% { opacity: 0; transform: translateY(6px); }
+  }
+  @keyframes w-2 {
+    0%, 3%    { opacity: 0; transform: translateY(6px); }
+    8%, 92%   { opacity: 1; transform: translateY(0); }
+    98%, 100% { opacity: 0; transform: translateY(6px); }
+  }
+  @keyframes w-3 {
+    0%, 6%    { opacity: 0; transform: translateY(6px); }
+    11%, 92%  { opacity: 1; transform: translateY(0); }
+    98%, 100% { opacity: 0; transform: translateY(6px); }
+  }
+
+  /* ─── BTC price ticker: 3 values cycle ─── */
+
+  .ticker {
+    opacity: 0;
+    animation: 8s infinite;
+  }
+  .ticker-1 { animation-name: t-1; }
+  .ticker-2 { animation-name: t-2; }
+  .ticker-3 { animation-name: t-3; }
+
+  @keyframes t-1 {
+    0%, 18%   { opacity: 1; }
+    22%, 100% { opacity: 0; }
+  }
+  @keyframes t-2 {
+    0%, 22%   { opacity: 0; }
+    26%, 50%  { opacity: 1; }
+    54%, 100% { opacity: 0; }
+  }
+  @keyframes t-3 {
+    0%, 54%   { opacity: 0; }
+    58%, 92%  { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+
+  /* ─── Sparklines draw via stroke-dashoffset ─── */
+
+  .sparkline {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: draw 8s infinite ease-out;
+  }
+  .sparkline-2 { animation-delay: 0.4s; }
+  @keyframes draw {
+    0%, 14% { stroke-dashoffset: 200; }
+    40%     { stroke-dashoffset: 0; }
+    90%     { stroke-dashoffset: 0; }
+    100%    { stroke-dashoffset: 200; }
+  }
+
+  /* ─── Reduced motion: show final state, no animation ─── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .widget    { opacity: 1; transform: none; animation: none; }
+    .ticker    { opacity: 0; animation: none; }
+    .ticker-3  { opacity: 1; }
+    .sparkline { stroke-dashoffset: 0; animation: none; }
+  }
+</style>
