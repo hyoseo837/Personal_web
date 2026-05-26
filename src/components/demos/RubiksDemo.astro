@@ -20,10 +20,10 @@ const faces = [
 ];
 ---
 
-<div class="demo-root w-full h-full bg-stone-900 relative overflow-hidden font-sans flex items-center justify-center">
+<div class="demo-root w-full h-full bg-stone-50 relative overflow-hidden font-sans flex items-center justify-center">
 
-  <!-- Subtle radial glow behind the cube -->
-  <div class="absolute inset-0 bg-glow"></div>
+  <!-- Subtle radial highlight behind the cube -->
+  <div class="absolute inset-0 bg-soft"></div>
 
   <!-- 3D scene -->
   <div class="scene">
@@ -38,7 +38,7 @@ const faces = [
 
   <!-- Move notation strip (bottom) -->
   <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 font-mono text-[11px]">
-    <span class="text-[7px] uppercase tracking-widest text-white/30 mr-1">solving</span>
+    <span class="text-[7px] uppercase tracking-widest text-stone-400 mr-1">solving</span>
     {moves.map((m, i) => (
       <span class={`move move-${i + 1} tabular-nums`}>{m}</span>
     ))}
@@ -49,8 +49,8 @@ const faces = [
   /* All animations: 8s loop. Cube spins continuously; moves pulse-highlight
      in sequence (~1s per move). */
 
-  .bg-glow {
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.06) 0%, transparent 60%);
+  .bg-soft {
+    background: radial-gradient(circle at center, #ffffff 0%, #f5f5f4 80%);
   }
 
   /* ─── 3D scene ─── */
@@ -102,10 +102,10 @@ const faces = [
   .face-top    .sticker { background: #f5f5f4; }
   .face-bottom .sticker { background: #fde047; }
 
-  /* ─── Move notation: each move highlights white in sequence,
-         then dims back to muted gray. 8 moves over 8s ≈ 1s/move. ─── */
+  /* ─── Move notation: each move darkens to stone-900 in sequence,
+         then dims back to muted stone-400. 8 moves over 8s ≈ 1s/move. ─── */
   .move {
-    color: rgba(255, 255, 255, 0.35);
+    color: #a8a29e; /* stone-400 */
     animation: 8s infinite ease-out;
   }
   .move-1 { animation-name: mv-1; }
@@ -117,18 +117,18 @@ const faces = [
   .move-7 { animation-name: mv-7; }
   .move-8 { animation-name: mv-8; }
 
-  @keyframes mv-1 { 0%, 5%  { color: rgba(255,255,255,0.35); } 8%, 14% { color: white; } 18%, 100% { color: rgba(255,255,255,0.35); } }
-  @keyframes mv-2 { 0%, 15% { color: rgba(255,255,255,0.35); } 18%, 24% { color: white; } 28%, 100% { color: rgba(255,255,255,0.35); } }
-  @keyframes mv-3 { 0%, 25% { color: rgba(255,255,255,0.35); } 28%, 34% { color: white; } 38%, 100% { color: rgba(255,255,255,0.35); } }
-  @keyframes mv-4 { 0%, 35% { color: rgba(255,255,255,0.35); } 38%, 44% { color: white; } 48%, 100% { color: rgba(255,255,255,0.35); } }
-  @keyframes mv-5 { 0%, 45% { color: rgba(255,255,255,0.35); } 48%, 54% { color: white; } 58%, 100% { color: rgba(255,255,255,0.35); } }
-  @keyframes mv-6 { 0%, 55% { color: rgba(255,255,255,0.35); } 58%, 64% { color: white; } 68%, 100% { color: rgba(255,255,255,0.35); } }
-  @keyframes mv-7 { 0%, 65% { color: rgba(255,255,255,0.35); } 68%, 74% { color: white; } 78%, 100% { color: rgba(255,255,255,0.35); } }
-  @keyframes mv-8 { 0%, 75% { color: rgba(255,255,255,0.35); } 78%, 84% { color: white; } 88%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-1 { 0%, 5%  { color: #a8a29e; } 8%, 14% { color: #1c1917; } 18%, 100% { color: #a8a29e; } }
+  @keyframes mv-2 { 0%, 15% { color: #a8a29e; } 18%, 24% { color: #1c1917; } 28%, 100% { color: #a8a29e; } }
+  @keyframes mv-3 { 0%, 25% { color: #a8a29e; } 28%, 34% { color: #1c1917; } 38%, 100% { color: #a8a29e; } }
+  @keyframes mv-4 { 0%, 35% { color: #a8a29e; } 38%, 44% { color: #1c1917; } 48%, 100% { color: #a8a29e; } }
+  @keyframes mv-5 { 0%, 45% { color: #a8a29e; } 48%, 54% { color: #1c1917; } 58%, 100% { color: #a8a29e; } }
+  @keyframes mv-6 { 0%, 55% { color: #a8a29e; } 58%, 64% { color: #1c1917; } 68%, 100% { color: #a8a29e; } }
+  @keyframes mv-7 { 0%, 65% { color: #a8a29e; } 68%, 74% { color: #1c1917; } 78%, 100% { color: #a8a29e; } }
+  @keyframes mv-8 { 0%, 75% { color: #a8a29e; } 78%, 84% { color: #1c1917; } 88%, 100% { color: #a8a29e; } }
 
   /* ─── Reduced motion: static cube at angle ─── */
   @media (prefers-reduced-motion: reduce) {
     .cube { animation: none; transform: rotateX(-25deg) rotateY(-30deg); }
-    .move { animation: none; color: rgba(255, 255, 255, 0.5); }
+    .move { animation: none; color: #57534e; }
   }
 </style>
