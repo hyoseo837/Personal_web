@@ -1,0 +1,258 @@
+---
+// CSS-animated SHENZHEN I/O solitaire demo.
+// Layout: 3 free cells (top-left), 3 colored foundations (top-right),
+// 5 tableau cascades (bottom) with mixed-color stacks. Over the 8s loop,
+// cards drain bottom-up in round-robin order across cascades; each lift
+// makes the card fly up + right toward the foundations cluster, and the
+// matching-colour foundation ticks up. Pure CSS, no JS.
+
+type Color = 'red' | 'green' | 'black';
+interface Card { c: Color; n: number; }
+
+// Five cascades, four cards each. Index 0 = top of the visible pile (back),
+// index 3 = bottom (the playable card, lifts first). Colour pattern is
+// deliberately mixed; round-robin across cascades + bottom-first gives the
+// per-card lift order index = (3 - j) * 5 + i, producing this colour sequence:
+//   R G B R G  B R G B R  G B R G B  R G B R G
+// Counts: red=7, green=7, black=6 — foundations end at 7, 7, 6.
+const cascades: Card[][] = [
+  [{ c: 'red',   n: 5 }, { c: 'green', n: 2 }, { c: 'black', n: 6 }, { c: 'red',   n: 7 }],
+  [{ c: 'green', n: 7 }, { c: 'black', n: 8 }, { c: 'red',   n: 9 }, { c: 'green', n: 8 }],
+  [{ c: 'black', n: 5 }, { c: 'red',   n: 4 }, { c: 'green', n: 5 }, { c: 'black', n: 4 }],
+  [{ c: 'red',   n: 2 }, { c: 'green', n: 6 }, { c: 'black', n: 3 }, { c: 'red',   n: 1 }],
+  [{ c: 'green', n: 4 }, { c: 'black', n: 1 }, { c: 'red',   n: 6 }, { c: 'green', n: 9 }],
+];
+
+// Per-cascade rightward drift toward the foundations cluster (top-right).
+// Cascade 1 is leftmost and needs the most drift; cascade 5 the least.
+const flyX = [110, 80, 55, 30, 10];
+
+const stripe: Record<Color, string> = {
+  red:   'bg-red-600',
+  green: 'bg-emerald-600',
+  black: 'bg-stone-800',
+};
+const text: Record<Color, string> = {
+  red:   'text-red-700',
+  green: 'text-emerald-700',
+  black: 'text-stone-800',
+};
+
+const foundations: { c: Color; tickClass: string }[] = [
+  { c: 'red',   tickClass: 'fnum-r' },
+  { c: 'green', tickClass: 'fnum-g' },
+  { c: 'black', tickClass: 'fnum-b' },
+];
+---
+
+<div class="w-full h-full bg-stone-100 font-sans overflow-hidden demo-root p-2 md:p-2.5">
+ <div class="mat w-full h-full rounded-lg flex flex-col p-3 md:p-3.5 gap-2">
+
+  <!-- ─── Top bar: free cells (left) + foundations (right) ─── -->
+  <div class="flex items-start justify-between">
+    <div class="flex gap-1">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+    <div class="flex gap-1">
+      {foundations.map(({ c, tickClass }) => (
+        <div class="foundation">
+          <div class={`stripe ${stripe[c]}`}></div>
+          <span class={`fnum ${tickClass} ${text[c]}`}></span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ─── Tableau: 5 cascades, mixed colours, anchored to the bottom ─── -->
+  <div class="flex justify-center items-end gap-1.5 md:gap-2 flex-1 pb-1">
+    {cascades.map((pile, i) => (
+      <div class="cascade" style={`height: 78px; --fly-x: ${flyX[i]}px;`}>
+        {pile.map((card, j) => {
+          // Lift order: bottom (j=3) first, then j=2, j=1, j=0.
+          // Within each row, left-to-right across cascades. 1..20.
+          const order = (3 - j) * 5 + i + 1;
+          // Higher rows (smaller j) sit closer to the foundation, so they
+          // need less vertical travel; bottom rows need more.
+          const flyY = -90 - j * 14;
+          return (
+            <div class={`card lift-${order}`} style={`top: ${j * 14}px; --fly-y: ${flyY}px;`}>
+              <div class={`stripe ${stripe[card.c]}`}></div>
+              <span class={`text-[12px] leading-none font-bold ${text[card.c]} mt-[6px]`}>{card.n}</span>
+            </div>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+ </div>
+</div>
+
+<style>
+  /* All animations share an 8s loop. */
+
+  /* ─── Felt mat ─── */
+  .mat {
+    background: #274F35;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ─── Free cells (top-left) ─── */
+  .cell {
+    width: 22px;
+    height: 28px;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* ─── Foundations (top-right) ─── */
+  .foundation {
+    position: relative;
+    width: 22px;
+    height: 28px;
+    border-radius: 4px;
+    background: white;
+    border: 1px solid rgb(214 211 209);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .fnum {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Foundation counters tick as same-colour cards arrive (synced to lift start). */
+  .fnum-r::before { content: '—'; animation: tick-r 8s infinite steps(1); }
+  .fnum-g::before { content: '—'; animation: tick-g 8s infinite steps(1); }
+  .fnum-b::before { content: '—'; animation: tick-b 8s infinite steps(1); }
+
+  /* Red lifts at orders 1, 4, 7, 10, 13, 16, 19 → t% = 10, 22, 34, 46, 58, 70, 82 */
+  @keyframes tick-r {
+    0%   { content: '—'; }
+    10%  { content: '1'; }
+    22%  { content: '2'; }
+    34%  { content: '3'; }
+    46%  { content: '4'; }
+    58%  { content: '5'; }
+    70%  { content: '6'; }
+    82%  { content: '7'; }
+    96%  { content: '—'; }
+  }
+  /* Green lifts at orders 2, 5, 8, 11, 14, 17, 20 → t% = 14, 26, 38, 50, 62, 74, 86 */
+  @keyframes tick-g {
+    0%   { content: '—'; }
+    14%  { content: '1'; }
+    26%  { content: '2'; }
+    38%  { content: '3'; }
+    50%  { content: '4'; }
+    62%  { content: '5'; }
+    74%  { content: '6'; }
+    86%  { content: '7'; }
+    96%  { content: '—'; }
+  }
+  /* Black lifts at orders 3, 6, 9, 12, 15, 18 → t% = 18, 30, 42, 54, 66, 78 */
+  @keyframes tick-b {
+    0%   { content: '—'; }
+    18%  { content: '1'; }
+    30%  { content: '2'; }
+    42%  { content: '3'; }
+    54%  { content: '4'; }
+    66%  { content: '5'; }
+    78%  { content: '6'; }
+    96%  { content: '—'; }
+  }
+
+  /* ─── Cascade columns ─── */
+  .cascade {
+    position: relative;
+    width: 28px;
+    flex-shrink: 0;
+  }
+
+  /* ─── Cards ─── */
+  .card {
+    position: absolute;
+    left: 0;
+    width: 28px;
+    height: 34px;
+    background: white;
+    border: 1px solid rgb(214 211 209);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    opacity: 1;
+    transform: translate(0, 0);
+    animation: 8s infinite ease-out;
+    z-index: 1;
+  }
+
+  /* Lift-order → keyframe map (1..20). Lift t% = 10 + (N-1)*4. */
+  .lift-1  { animation-name: lift-1;  z-index: 20; }
+  .lift-2  { animation-name: lift-2;  z-index: 19; }
+  .lift-3  { animation-name: lift-3;  z-index: 18; }
+  .lift-4  { animation-name: lift-4;  z-index: 17; }
+  .lift-5  { animation-name: lift-5;  z-index: 16; }
+  .lift-6  { animation-name: lift-6;  z-index: 15; }
+  .lift-7  { animation-name: lift-7;  z-index: 14; }
+  .lift-8  { animation-name: lift-8;  z-index: 13; }
+  .lift-9  { animation-name: lift-9;  z-index: 12; }
+  .lift-10 { animation-name: lift-10; z-index: 11; }
+  .lift-11 { animation-name: lift-11; z-index: 10; }
+  .lift-12 { animation-name: lift-12; z-index: 9;  }
+  .lift-13 { animation-name: lift-13; z-index: 8;  }
+  .lift-14 { animation-name: lift-14; z-index: 7;  }
+  .lift-15 { animation-name: lift-15; z-index: 6;  }
+  .lift-16 { animation-name: lift-16; z-index: 5;  }
+  .lift-17 { animation-name: lift-17; z-index: 4;  }
+  .lift-18 { animation-name: lift-18; z-index: 3;  }
+  .lift-19 { animation-name: lift-19; z-index: 2;  }
+  .lift-20 { animation-name: lift-20; z-index: 1;  }
+
+  /* Each keyframe: rest in place until lift t%, then fly to (--fly-x, --fly-y)
+     over ~5% (≈0.4s), shrink + fade en route, then stay hidden until the
+     96% loop-reset snaps everything back to the dealt state. */
+  @keyframes lift-1  { 0%, 10% { opacity: 1; transform: translate(0,0); } 15% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-2  { 0%, 14% { opacity: 1; transform: translate(0,0); } 19% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-3  { 0%, 18% { opacity: 1; transform: translate(0,0); } 23% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-4  { 0%, 22% { opacity: 1; transform: translate(0,0); } 27% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-5  { 0%, 26% { opacity: 1; transform: translate(0,0); } 31% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-6  { 0%, 30% { opacity: 1; transform: translate(0,0); } 35% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-7  { 0%, 34% { opacity: 1; transform: translate(0,0); } 39% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-8  { 0%, 38% { opacity: 1; transform: translate(0,0); } 43% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-9  { 0%, 42% { opacity: 1; transform: translate(0,0); } 47% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-10 { 0%, 46% { opacity: 1; transform: translate(0,0); } 51% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-11 { 0%, 50% { opacity: 1; transform: translate(0,0); } 55% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-12 { 0%, 54% { opacity: 1; transform: translate(0,0); } 59% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-13 { 0%, 58% { opacity: 1; transform: translate(0,0); } 63% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-14 { 0%, 62% { opacity: 1; transform: translate(0,0); } 67% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-15 { 0%, 66% { opacity: 1; transform: translate(0,0); } 71% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-16 { 0%, 70% { opacity: 1; transform: translate(0,0); } 75% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-17 { 0%, 74% { opacity: 1; transform: translate(0,0); } 79% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-18 { 0%, 78% { opacity: 1; transform: translate(0,0); } 83% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-19 { 0%, 82% { opacity: 1; transform: translate(0,0); } 87% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+  @keyframes lift-20 { 0%, 86% { opacity: 1; transform: translate(0,0); } 91% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } 96%, 100% { opacity: 0; transform: translate(var(--fly-x), var(--fly-y)) scale(0.7); } }
+
+  /* ─── Reduced motion: show end state (foundations partly filled, board drained) ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .card           { opacity: 0; animation: none; }
+    .fnum-r::before { content: '7'; animation: none; }
+    .fnum-g::before { content: '7'; animation: none; }
+    .fnum-b::before { content: '6'; animation: none; }
+  }
+</style>

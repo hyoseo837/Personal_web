@@ -7,7 +7,6 @@ import {
   Layers,
   Box,
   Bot,
-  Coins,
   PersonStanding,
   Languages,
   LayoutDashboard,
@@ -104,6 +103,7 @@ export const projects: Project[] = [
     icon: ChartScatter,
     github: "https://github.com/hyowon2jjang/CxC-hackathon",
     duration: "2024.02 - 2024.03",
+    media: { type: 'demo' },
   },
   {
     id: "project-orbt",
@@ -135,6 +135,7 @@ export const projects: Project[] = [
     github: "https://github.com/hyoseo837/ddanzt",
     link: "https://hyoseo837.github.io/ddanzt/",
     duration: "2023.10 - 2024.01",
+    media: { type: 'demo' },
   },
   {
     id: "project-fractal",
@@ -159,36 +160,6 @@ export const projects: Project[] = [
     duration: "high school - 2023.05",
   },
   {
-    id: "project-bico",
-    title: "Bico Game",
-    stack: "Python · Pygame",
-    description:
-      "A trading simulation game where players earn money based on randomly fluctuating cryptocurrency prices.",
-    icon: Coins,
-    github: "https://github.com/hyoseo837/bico",
-    duration: "high school - 2023.05",
-  },
-  {
-    id: "project-minilol",
-    title: "Mini LoL",
-    stack: "Python · Pygame",
-    description:
-      "A pygame-based mini-game featuring champions and mechanics inspired by League of Legends.",
-    icon: Gamepad2,
-    github: "https://github.com/hyoseo837/minilol",
-    duration: "high school - 2023.05",
-  },
-  {
-    id: "project-dicobot",
-    title: "Discord Bot",
-    stack: "Python · Discord API · Heroku",
-    description:
-      "An automated response bot for Discord servers. Managed deployment and API integration on Heroku.",
-    icon: Bot,
-    github: "https://github.com/hyoseo837/dicobot",
-    duration: "high school - 2023.05",
-  },
-  {
     id: "project-infection",
     title: "Infection Simulation",
     stack: "Python · Pygame",
@@ -196,16 +167,6 @@ export const projects: Project[] = [
       "MYP Personal Project. A simulator that visualizes disease spread based on simple contact rules.",
     icon: Activity,
     github: "https://github.com/hyoseo837/infection_simulation",
-    duration: "high school - 2023.05",
-  },
-  {
-    id: "project-casino",
-    title: "Casino Project",
-    stack: "Python",
-    description:
-      "A console-based casino program featuring a lobby and various mini-games, built in collaboration with a peer.",
-    icon: Coins,
-    github: "https://github.com/hyoseo837/casino_project/tree/master",
     duration: "high school - 2023.05",
   },
 ];

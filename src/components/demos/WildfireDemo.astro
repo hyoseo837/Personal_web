@@ -1,0 +1,220 @@
+---
+// CSS-animated demo of the CxC hackathon wildfire ML pipeline.
+//   Phase 1 (0–3s):  training cost function descends — two curves (training
+//                    + cross-validation) drawn via stroke-dashoffset, echoing
+//                    the from-scratch logistic regression in the real repo.
+//   Phase 2 (3–8s):  trained model classifies wildfires across Alberta into
+//                    5 size classes A→E. Dots reveal in waves grouped by
+//                    class, using the project's actual color gradient
+//                    (lightyellow → darkred).
+// 8s loop. Pure CSS + inline SVG, no JS.
+
+// 18 fire scatter points across stylized Alberta. Class drives both color
+// and which reveal wave the dot belongs to (A first → E last).
+const fires = [
+  { l: '22%', t: '40%', c: 'A' },
+  { l: '30%', t: '62%', c: 'B' },
+  { l: '40%', t: '28%', c: 'C' },
+  { l: '52%', t: '52%', c: 'D' },
+  { l: '60%', t: '72%', c: 'E' },
+  { l: '70%', t: '34%', c: 'B' },
+  { l: '78%', t: '56%', c: 'C' },
+  { l: '28%', t: '78%', c: 'A' },
+  { l: '46%', t: '38%', c: 'C' },
+  { l: '62%', t: '44%', c: 'D' },
+  { l: '74%', t: '70%', c: 'A' },
+  { l: '36%', t: '48%', c: 'B' },
+  { l: '54%', t: '80%', c: 'E' },
+  { l: '24%', t: '54%', c: 'B' },
+  { l: '82%', t: '42%', c: 'C' },
+  { l: '66%', t: '24%', c: 'A' },
+  { l: '44%', t: '66%', c: 'D' },
+  { l: '72%', t: '82%', c: 'B' },
+];
+
+const dotClass: Record<string, string> = {
+  A: 'bg-yellow-300 border-yellow-400',
+  B: 'bg-amber-500 border-amber-600',
+  C: 'bg-orange-500 border-orange-600',
+  D: 'bg-red-600 border-red-700',
+  E: 'bg-red-900 border-red-950',
+};
+
+const legend: Array<{ c: string; sw: string }> = [
+  { c: 'A', sw: 'bg-yellow-300' },
+  { c: 'B', sw: 'bg-amber-500' },
+  { c: 'C', sw: 'bg-orange-500' },
+  { c: 'D', sw: 'bg-red-600' },
+  { c: 'E', sw: 'bg-red-900' },
+];
+---
+
+<div class="w-full h-full relative bg-stone-50 font-sans overflow-hidden demo-root">
+
+  <!-- ─── PHASE 1: Cost function descends ─── -->
+  <div class="phase phase-train absolute inset-0 p-4 md:p-5 flex flex-col items-center justify-center gap-2">
+    <div class="w-full max-w-[230px] flex items-center justify-between">
+      <span class="text-[8px] uppercase tracking-widest text-stone-500 font-bold">cost function</span>
+      <span class="iter text-[8px] uppercase tracking-widest text-stone-500 font-bold tabular-nums"></span>
+    </div>
+
+    <div class="w-full max-w-[230px] h-16 md:h-20 relative">
+      <svg viewBox="0 0 100 60" preserveAspectRatio="none" class="w-full h-full overflow-visible">
+        <!-- axes -->
+        <line x1="2" y1="58" x2="100" y2="58" stroke="rgb(214 211 209)" stroke-width="0.6" />
+        <line x1="2" y1="2"  x2="2"   y2="58" stroke="rgb(214 211 209)" stroke-width="0.6" />
+        <!-- cross-validation curve (blue, thinner) -->
+        <path d="M 2 6 L 12 22 L 24 34 L 40 44 L 60 49 L 80 50 L 98 50"
+              fill="none" stroke="#2563eb" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
+              vector-effect="non-scaling-stroke"
+              class="curve-cv" />
+        <!-- training curve (red, thicker) -->
+        <path d="M 2 10 L 12 26 L 24 38 L 40 46 L 60 50 L 80 51 L 98 52"
+              fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+              vector-effect="non-scaling-stroke"
+              class="curve-train" />
+      </svg>
+    </div>
+
+    <div class="w-full max-w-[230px] flex items-center gap-3">
+      <div class="flex items-center gap-1"><span class="block w-2.5 h-px bg-red-600"></span><span class="text-[7px] uppercase tracking-widest text-stone-500 font-bold">training</span></div>
+      <div class="flex items-center gap-1"><span class="block w-2.5 h-px bg-blue-600"></span><span class="text-[7px] uppercase tracking-widest text-stone-500 font-bold">cv</span></div>
+    </div>
+  </div>
+
+  <!-- ─── PHASE 2: Classified Alberta scatter ─── -->
+  <div class="phase phase-scatter absolute inset-0 p-3 md:p-4 flex flex-col">
+    <div class="flex items-center justify-between mb-1.5">
+      <span class="text-[8px] uppercase tracking-widest text-stone-500 font-bold">predicted · alberta</span>
+      <div class="flex items-center gap-1.5">
+        {legend.map(({ c, sw }) => (
+          <div class="flex items-center gap-0.5">
+            <div class={`w-1.5 h-1.5 rounded-full ${sw}`}></div>
+            <span class="text-[7px] uppercase text-stone-500 font-bold">{c}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="flex-1 relative rounded-md bg-orange-50/50 border border-orange-200/50 overflow-hidden">
+      <div class="absolute inset-0 grid-bg"></div>
+      {fires.map((f) => (
+        <div
+          class={`scatter-dot wave-${f.c} absolute w-2 h-2 rounded-full border ${dotClass[f.c]} shadow-sm`}
+          style={`left: ${f.l}; top: ${f.t};`}
+        ></div>
+      ))}
+      <div class="absolute bottom-1.5 right-2 text-[7px] uppercase tracking-widest text-stone-400 font-bold tabular-nums">n = 22,000</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* All animations share an 8s loop. */
+
+  /* ─── Phase crossfade ─── */
+  .phase {
+    animation: 8s infinite linear;
+    opacity: 0;
+  }
+  .phase-train   { animation-name: phase-train-show; }
+  .phase-scatter { animation-name: phase-scatter-show; }
+
+  @keyframes phase-train-show {
+    0%, 34%   { opacity: 1; }
+    38%, 100% { opacity: 0; }
+  }
+  @keyframes phase-scatter-show {
+    0%, 34%   { opacity: 0; }
+    40%, 95%  { opacity: 1; }
+    100%      { opacity: 0; }
+  }
+
+  /* ─── Cost curves: stroke-dashoffset reveal ─── */
+  .curve-train, .curve-cv {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 160;
+    animation: 8s infinite ease-out;
+  }
+  .curve-train { animation-name: draw-train; }
+  .curve-cv    { animation-name: draw-cv; }
+
+  @keyframes draw-train {
+    0%, 2%    { stroke-dashoffset: 160; }
+    30%       { stroke-dashoffset: 0; }
+    38%, 100% { stroke-dashoffset: 0; }
+  }
+  @keyframes draw-cv {
+    0%, 5%    { stroke-dashoffset: 160; }
+    32%       { stroke-dashoffset: 0; }
+    38%, 100% { stroke-dashoffset: 0; }
+  }
+
+  /* ─── Iteration counter ticks alongside the curves ─── */
+  .iter::before {
+    content: '0 iter';
+    animation: iter-tick 8s infinite steps(1);
+  }
+  @keyframes iter-tick {
+    0%        { content: '0 iter'; }
+    8%        { content: '600 iter'; }
+    16%       { content: '1,200 iter'; }
+    24%       { content: '2,100 iter'; }
+    30%, 38%  { content: '3,000 iter'; }
+    40%, 100% { content: '3,000 iter'; }
+  }
+
+  /* ─── Faint Alberta-territory grid ─── */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(180, 83, 9, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(180, 83, 9, 0.07) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+
+  /* ─── Scatter dots: reveal in waves grouped by class (A first → E last) ─── */
+  .scatter-dot {
+    opacity: 0;
+    transform: scale(0.4);
+    animation: 8s infinite ease-out;
+  }
+  .wave-A { animation-name: dot-A; }
+  .wave-B { animation-name: dot-B; }
+  .wave-C { animation-name: dot-C; }
+  .wave-D { animation-name: dot-D; }
+  .wave-E { animation-name: dot-E; }
+
+  @keyframes dot-A {
+    0%, 42%   { opacity: 0; transform: scale(0.4); }
+    48%, 92%  { opacity: 1; transform: scale(1); }
+    96%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes dot-B {
+    0%, 50%   { opacity: 0; transform: scale(0.4); }
+    56%, 92%  { opacity: 1; transform: scale(1); }
+    96%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes dot-C {
+    0%, 58%   { opacity: 0; transform: scale(0.4); }
+    64%, 92%  { opacity: 1; transform: scale(1); }
+    96%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes dot-D {
+    0%, 66%   { opacity: 0; transform: scale(0.4); }
+    72%, 92%  { opacity: 1; transform: scale(1); }
+    96%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes dot-E {
+    0%, 74%   { opacity: 0; transform: scale(0.4); }
+    80%, 92%  { opacity: 1; transform: scale(1.15); }
+    96%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+
+  /* ─── Reduced motion: show fully-classified scatter ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .phase-train   { display: none; }
+    .phase-scatter { opacity: 1; animation: none; }
+    .scatter-dot   { opacity: 1; animation: none; transform: scale(1); }
+    .iter::before  { content: '3,000 iter'; animation: none; }
+  }
+</style>

@@ -5,6 +5,8 @@ import MacroDashboardDemo from './demos/MacroDashboardDemo.astro';
 import EmpklDemo from './demos/EmpklDemo.astro';
 import PersonalWebDemo from './demos/PersonalWebDemo.astro';
 import DchupDemo from './demos/DchupDemo.astro';
+import WildfireDemo from './demos/WildfireDemo.astro';
+import SolitaireDemo from './demos/SolitaireDemo.astro';
 
 interface Props {
   project: Project;
@@ -23,6 +25,8 @@ const demoMap: Record<string, any> = {
   'empkl-project': EmpklDemo,
   'personal-website-renewal': PersonalWebDemo,
   'project-dchup': DchupDemo,
+  'project-wildfire': WildfireDemo,
+  'project-solitaire': SolitaireDemo,
 };
 
 const DemoComponent = media?.type === 'demo' ? demoMap[project.id] : null;
