@@ -1,0 +1,207 @@
+---
+// CSS-animated demo of Orbt!, a minimalist Chrome-extension mini-game.
+// A green planet orbits a central purple sun on a pulsing radius (mimicking
+// the hold-to-fly-out / release-to-fall-in mechanic). Red obstacles spawn
+// at the outer edge and fly inward toward the sun; a gold item drifts in
+// mid-loop. Score counter ticks up at the top; a white progress gauge
+// expands from the centre at the bottom. Black space backdrop with a
+// radial vignette, matching the actual game's visuals.
+// 8s loop. Pure CSS, no JS.
+
+// Pre-computed outer start positions for inward-flying entities:
+// each angle θ projects to (sin θ * R, -cos θ * R) at R = 130.
+const obstacles = [
+  { x:  75,  y: -107 }, // θ ≈  35°
+  { x: 100,  y:   83 }, // θ ≈ 130°
+  { x: -83,  y:  100 }, // θ ≈ 220°
+  { x: -107, y:  -75 }, // θ ≈ 305°
+];
+
+const items = [
+  { x: 122, y: -45 },  // θ ≈ 70°
+];
+---
+
+<div class="w-full h-full relative overflow-hidden font-sans demo-root" style="background: black;">
+
+  <!-- Space backdrop: subtle gray-to-black radial vignette -->
+  <div class="absolute inset-0 bg-space"></div>
+
+  <!-- Score (top) -->
+  <div class="absolute top-2 left-1/2 -translate-x-1/2 text-white font-bold text-[15px] tabular-nums tracking-wide">
+    <span class="score-counter"></span>
+  </div>
+
+  <!-- Subtle orbit path (dashed) -->
+  <div class="orbit-path"></div>
+
+  <!-- Sun (centre) -->
+  <div class="sun"></div>
+
+  <!-- Earth: orbit wrapper rotates; earth offset pulses for radius hold/release -->
+  <div class="orbit-wrapper">
+    <div class="earth"></div>
+  </div>
+
+  <!-- Red obstacles flying inward -->
+  {obstacles.map((o, i) => (
+    <div class={`obstacle obs-${i + 1}`} style={`--sx: ${o.x}px; --sy: ${o.y}px;`}></div>
+  ))}
+
+  <!-- Gold item flying inward -->
+  {items.map((it, i) => (
+    <div class={`item item-${i + 1}`} style={`--sx: ${it.x}px; --sy: ${it.y}px;`}></div>
+  ))}
+
+  <!-- Score gauge (bottom) — grows from centre outward then resets -->
+  <div class="gauge-track">
+    <div class="gauge-fill"></div>
+  </div>
+</div>
+
+<style>
+  /* All shared animations: 8s loop (obstacles, score, gauge) overlaid on
+     continuous orbital motion (earth rotation 2.5s, radius pulse 3.2s). */
+
+  .bg-space {
+    background: radial-gradient(circle at center, #2a2a2a 0%, #000000 75%);
+  }
+
+  /* ─── Sun ─── */
+  .sun {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 30px; height: 30px;
+    margin: -15px 0 0 -15px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #111 40%, #bf40bf 100%);
+    box-shadow: 0 0 22px rgba(191, 64, 191, 0.45);
+  }
+
+  /* ─── Subtle dashed orbit path (visual guide) ─── */
+  .orbit-path {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 150px; height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* ─── Orbit wrapper (rotates) + Earth (radius pulses) ─── */
+  .orbit-wrapper {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    animation: spin 2.5s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .earth {
+    position: absolute;
+    top: -6px; left: -6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #86efac; /* lightgreen */
+    box-shadow: 0 0 8px rgba(134, 239, 172, 0.6);
+    animation: pulse-rad 3.2s ease-in-out infinite;
+  }
+  @keyframes pulse-rad {
+    0%, 100% { transform: translateY(-58px); } /* tight orbit (just released) */
+    50%      { transform: translateY(-95px); } /* outer orbit (held) */
+  }
+
+  /* ─── Obstacles (red, fly inward) ─── */
+  .obstacle {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 9px; height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    border-radius: 50%;
+    background: #dc2626;
+    box-shadow: 0 0 4px rgba(220, 38, 38, 0.6);
+    opacity: 0;
+    animation: fly-in 8s infinite ease-in;
+  }
+  .obs-1 { animation-delay: 0s; }
+  .obs-2 { animation-delay: 2s; }
+  .obs-3 { animation-delay: 4s; }
+  .obs-4 { animation-delay: 6s; }
+
+  /* ─── Item (gold, fly inward) ─── */
+  .item {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 8px; height: 8px;
+    margin: -4px 0 0 -4px;
+    border-radius: 50%;
+    background: #ffd700;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
+    opacity: 0;
+    animation: fly-in 8s infinite ease-in;
+  }
+  .item-1 { animation-delay: 5.5s; }
+
+  /* Fly inward from (--sx, --sy) toward (0, 0), fading on arrival.
+     Shared between obstacles and items; each instance offsets its trigger
+     via animation-delay so a continuous stream is produced. */
+  @keyframes fly-in {
+    0%, 3%   { opacity: 0; transform: translate(var(--sx), var(--sy)); }
+    7%       { opacity: 1; transform: translate(var(--sx), var(--sy)); }
+    22%      { opacity: 1; transform: translate(calc(var(--sx) * 0.15), calc(var(--sy) * 0.15)); }
+    25%      { opacity: 0; transform: translate(0, 0) scale(0.6); }
+    100%     { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  }
+
+  /* ─── Score counter ─── */
+  .score-counter::before {
+    content: '0';
+    animation: score-tick 8s infinite steps(1);
+  }
+  @keyframes score-tick {
+    0%   { content: '0';  }
+    12%  { content: '5';  }
+    24%  { content: '12'; }
+    36%  { content: '19'; }
+    48%  { content: '26'; }
+    60%  { content: '33'; }
+    72%  { content: '40'; }
+    84%  { content: '47'; }
+    96%  { content: '0';  }
+  }
+
+  /* ─── Gauge (bottom) — fills outward from centre, resets every 1.6s ─── */
+  .gauge-track {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    overflow: hidden;
+  }
+  .gauge-fill {
+    width: 100%;
+    height: 100%;
+    background: white;
+    transform-origin: center;
+    transform: scaleX(0);
+    animation: gauge-fill 1.6s linear infinite;
+  }
+  @keyframes gauge-fill {
+    0%   { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+  }
+
+  /* ─── Reduced motion: static orbit snapshot ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-wrapper       { animation: none; }
+    .earth               { animation: none; transform: translateY(-78px); }
+    .obstacle, .item     { animation: none; opacity: 1; transform: translate(var(--sx), var(--sy)); }
+    .gauge-fill          { animation: none; transform: scaleX(0.6); }
+    .score-counter::before { content: '47'; animation: none; }
+  }
+</style>

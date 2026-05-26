@@ -1,0 +1,134 @@
+---
+// CSS-animated 3D Rubik's cube demo.
+// A fully-built cube rotates continuously in 3D space (one Y-axis revolution
+// per 8s, plus a constant -25° X tilt for depth). A move-notation strip
+// underneath highlights each move in sequence — echoing the solver output
+// from the original IB CS IA Pygame project. Pure CSS 3D transforms,
+// 8s loop, no JS.
+
+const moves = ["R", "U", "R'", "U'", "F", "R'", "F'", "R"];
+
+// Speedcubing-standard face colours. Each face is a 3×3 grid of stickers,
+// all the same colour on a solved cube.
+const faces = [
+  { cls: 'face-front',  color: '#22c55e' }, // green
+  { cls: 'face-back',   color: '#3b82f6' }, // blue
+  { cls: 'face-right',  color: '#ef4444' }, // red
+  { cls: 'face-left',   color: '#f97316' }, // orange
+  { cls: 'face-top',    color: '#f5f5f4' }, // white
+  { cls: 'face-bottom', color: '#fde047' }, // yellow
+];
+---
+
+<div class="demo-root w-full h-full bg-stone-900 relative overflow-hidden font-sans flex items-center justify-center">
+
+  <!-- Subtle radial glow behind the cube -->
+  <div class="absolute inset-0 bg-glow"></div>
+
+  <!-- 3D scene -->
+  <div class="scene">
+    <div class="cube">
+      {faces.map(({ cls }) => (
+        <div class={`face ${cls}`}>
+          {Array(9).fill(0).map(() => <div class="sticker"></div>)}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Move notation strip (bottom) -->
+  <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 font-mono text-[11px]">
+    <span class="text-[7px] uppercase tracking-widest text-white/30 mr-1">solving</span>
+    {moves.map((m, i) => (
+      <span class={`move move-${i + 1} tabular-nums`}>{m}</span>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* All animations: 8s loop. Cube spins continuously; moves pulse-highlight
+     in sequence (~1s per move). */
+
+  .bg-glow {
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.06) 0%, transparent 60%);
+  }
+
+  /* ─── 3D scene ─── */
+  .scene {
+    perspective: 600px;
+  }
+  .cube {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    transform-style: preserve-3d;
+    animation: cube-spin 8s linear infinite;
+  }
+  @keyframes cube-spin {
+    from { transform: rotateX(-25deg) rotateY(-30deg);  }
+    to   { transform: rotateX(-25deg) rotateY(330deg); }
+  }
+
+  /* ─── Faces (90×90 each, positioned with 3D transforms) ─── */
+  .face {
+    position: absolute;
+    inset: 0;
+    background: #0a0a0a;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    padding: 2px;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+
+  .face-front  { transform:                  translateZ(45px); }
+  .face-back   { transform: rotateY(180deg)  translateZ(45px); }
+  .face-right  { transform: rotateY( 90deg)  translateZ(45px); }
+  .face-left   { transform: rotateY(-90deg)  translateZ(45px); }
+  .face-top    { transform: rotateX( 90deg)  translateZ(45px); }
+  .face-bottom { transform: rotateX(-90deg)  translateZ(45px); }
+
+  /* ─── Stickers ─── */
+  .sticker {
+    border-radius: 2px;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+  }
+  .face-front  .sticker { background: #22c55e; }
+  .face-back   .sticker { background: #3b82f6; }
+  .face-right  .sticker { background: #ef4444; }
+  .face-left   .sticker { background: #f97316; }
+  .face-top    .sticker { background: #f5f5f4; }
+  .face-bottom .sticker { background: #fde047; }
+
+  /* ─── Move notation: each move highlights white in sequence,
+         then dims back to muted gray. 8 moves over 8s ≈ 1s/move. ─── */
+  .move {
+    color: rgba(255, 255, 255, 0.35);
+    animation: 8s infinite ease-out;
+  }
+  .move-1 { animation-name: mv-1; }
+  .move-2 { animation-name: mv-2; }
+  .move-3 { animation-name: mv-3; }
+  .move-4 { animation-name: mv-4; }
+  .move-5 { animation-name: mv-5; }
+  .move-6 { animation-name: mv-6; }
+  .move-7 { animation-name: mv-7; }
+  .move-8 { animation-name: mv-8; }
+
+  @keyframes mv-1 { 0%, 5%  { color: rgba(255,255,255,0.35); } 8%, 14% { color: white; } 18%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-2 { 0%, 15% { color: rgba(255,255,255,0.35); } 18%, 24% { color: white; } 28%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-3 { 0%, 25% { color: rgba(255,255,255,0.35); } 28%, 34% { color: white; } 38%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-4 { 0%, 35% { color: rgba(255,255,255,0.35); } 38%, 44% { color: white; } 48%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-5 { 0%, 45% { color: rgba(255,255,255,0.35); } 48%, 54% { color: white; } 58%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-6 { 0%, 55% { color: rgba(255,255,255,0.35); } 58%, 64% { color: white; } 68%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-7 { 0%, 65% { color: rgba(255,255,255,0.35); } 68%, 74% { color: white; } 78%, 100% { color: rgba(255,255,255,0.35); } }
+  @keyframes mv-8 { 0%, 75% { color: rgba(255,255,255,0.35); } 78%, 84% { color: white; } 88%, 100% { color: rgba(255,255,255,0.35); } }
+
+  /* ─── Reduced motion: static cube at angle ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .cube { animation: none; transform: rotateX(-25deg) rotateY(-30deg); }
+    .move { animation: none; color: rgba(255, 255, 255, 0.5); }
+  }
+</style>

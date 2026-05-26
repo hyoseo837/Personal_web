@@ -114,6 +114,7 @@ export const projects: Project[] = [
     icon: Gamepad2,
     link: "https://chrome.google.com/webstore/detail/keep-orbt/fnojejaphahikdnanchmnccmilgnffmf?hl=en",
     duration: "2022.02 - 2023.05",
+    media: { type: 'demo' },
   },
   {
     id: "project-rubiks",
@@ -124,6 +125,7 @@ export const projects: Project[] = [
     icon: Box,
     github: "https://github.com/hyoseo837/Rubik-Cube-Helper",
     duration: "2022.07 - 2023.05",
+    media: { type: 'demo' },
   },
   {
     id: "project-solitaire",
@@ -147,6 +149,7 @@ export const projects: Project[] = [
     github:
       "https://github.com/hyoseo837/Learning-Cpp/blob/master/Gravitation/NewtonFractal.cpp",
     duration: "high school - 2023.05",
+    media: { type: 'demo' },
   },
   {
     id: "project-gravitation",
@@ -158,6 +161,7 @@ export const projects: Project[] = [
     github:
       "https://github.com/hyoseo837/Learning-Cpp/blob/master/Gravitation/Gravitation.cpp",
     duration: "high school - 2023.05",
+    media: { type: 'demo' },
   },
   {
     id: "project-infection",
@@ -168,5 +172,6 @@ export const projects: Project[] = [
     icon: Activity,
     github: "https://github.com/hyoseo837/infection_simulation",
     duration: "high school - 2023.05",
+    media: { type: 'demo' },
   },
 ];

@@ -1,0 +1,110 @@
+---
+// CSS-animated demo of the Earth-Moon gravitational simulator.
+// Blue Earth (SFML colour 66,164,245) sits stationary at centre; gray
+// moon (190,199,207, ratio ≈ 27% of Earth) orbits along a faint dashed
+// path, completing one revolution per 8s loop — roughly one lunar period.
+// A day counter ticks 0 → 28 days, matching the t/86400 output in main().
+// 8s loop. Pure CSS, no JS.
+---
+
+<div class="demo-root w-full h-full bg-stone-50 relative overflow-hidden font-sans flex items-center justify-center">
+
+  <!-- Subtle radial highlight (bright centre fades to stone-100 edges) -->
+  <div class="absolute inset-0 bg-soft"></div>
+
+  <!-- Gravitational law (top-left, in a white pill) -->
+  <div class="absolute top-2.5 left-2.5 bg-white border border-stone-200 rounded-full px-2 py-0.5 shadow-sm">
+    <span class="text-[9px] font-mono text-stone-700">F = G m₁m₂ / r²</span>
+  </div>
+
+  <!-- Day counter (top-right, in a white pill) -->
+  <div class="absolute top-2.5 right-2.5 bg-white border border-stone-200 rounded-full px-2 py-0.5 shadow-sm">
+    <span class="day-counter text-[9px] font-mono text-stone-700 tabular-nums"></span>
+  </div>
+
+  <!-- Dashed orbit path -->
+  <div class="orbit-path"></div>
+
+  <!-- Earth (centred) -->
+  <div class="earth"></div>
+
+  <!-- Moon orbit -->
+  <div class="orbit-wrapper">
+    <div class="moon"></div>
+  </div>
+
+</div>
+
+<style>
+  /* All animations: 8s loop. */
+
+  .bg-soft {
+    background: radial-gradient(circle at center, #ffffff 0%, #f5f5f4 80%);
+  }
+
+  /* ─── Earth (blue, centred) ─── */
+  .earth {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 44px; height: 44px;
+    margin: -22px 0 0 -22px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #7cc0ff 0%, #42a4f5 55%, #1e6db8 100%);
+    box-shadow: 0 0 16px rgba(66, 164, 245, 0.35);
+  }
+
+  /* ─── Dashed orbit path (faint dark line on the light mat) ─── */
+  .orbit-path {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 160px; height: 160px;
+    margin: -80px 0 0 -80px;
+    border: 1px dashed rgba(60, 60, 60, 0.18);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* ─── Orbit wrapper rotates the moon around Earth's centre ─── */
+  .orbit-wrapper {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    animation: orbit-spin 8s linear infinite;
+  }
+  @keyframes orbit-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ─── Moon (gray) ─── */
+  .moon {
+    position: absolute;
+    top: -6px; left: -6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c4cbd1 0%, #8a939b 60%, #5a636b 100%);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transform: translateY(-80px);
+  }
+
+  /* ─── Day counter ticks 0 → 28 over the 8s loop (~27.3 day lunar period) ─── */
+  .day-counter::before {
+    content: '0 d';
+    animation: day-tick 8s infinite steps(1);
+  }
+  @keyframes day-tick {
+    0%   { content: '0 d';  }
+    14%  { content: '4 d';  }
+    28%  { content: '8 d';  }
+    42%  { content: '12 d'; }
+    56%  { content: '16 d'; }
+    70%  { content: '20 d'; }
+    84%  { content: '24 d'; }
+    96%  { content: '28 d'; }
+  }
+
+  /* ─── Reduced motion: static snapshot mid-orbit ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-wrapper       { animation: none; transform: rotate(120deg); }
+    .day-counter::before { content: '27 d'; animation: none; }
+  }
+</style>

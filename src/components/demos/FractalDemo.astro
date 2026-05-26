@@ -1,0 +1,66 @@
+---
+// CSS-animated Newton fractal demo.
+// A real Newton/Julia fractal image (cube-roots-of-unity basins) is
+// "printed" top-to-bottom inside a centred frame, with a thin scan line
+// trailing the reveal — evoking the line-by-line render loop in the C++
+// source. The equation z³ - 1 = 0 sits in a white pill above the image
+// for legibility against the bright stone-50 mat. 8s loop. Pure CSS, no JS.
+---
+
+<div class="demo-root w-full h-full bg-stone-50 relative overflow-hidden font-sans flex flex-col items-center justify-center gap-2 p-3 md:p-4">
+
+  <!-- Equation pill -->
+  <div class="bg-white border border-stone-200 rounded-full px-2.5 py-0.5 shadow-sm">
+    <span class="text-[10px] font-mono text-stone-700 tabular-nums">z³ − 1 = 0</span>
+  </div>
+
+  <!-- Fractal frame -->
+  <div class="fractal-frame relative w-40 h-28 md:w-48 md:h-36 rounded-md overflow-hidden border border-stone-200 shadow-sm bg-white">
+    <img
+      src="/projects/newton-fractal.png"
+      alt="Newton fractal for z³ - 1"
+      class="fractal-img absolute inset-0 w-full h-full object-cover"
+      loading="lazy"
+    />
+    <!-- Scan line: glides from top to bottom inside the frame -->
+    <div class="scan-line absolute left-0 right-0"></div>
+  </div>
+</div>
+
+<style>
+  /* All animations: 8s loop. */
+
+  /* ─── Top-down printer reveal ─── */
+  .fractal-img {
+    clip-path: inset(0 0 100% 0);
+    animation: print-reveal 8s linear infinite;
+  }
+  @keyframes print-reveal {
+    0%, 3%    { clip-path: inset(0 0 100% 0); }
+    85%       { clip-path: inset(0 0   0% 0); }
+    96%       { clip-path: inset(0 0   0% 0); }
+    100%      { clip-path: inset(0 0 100% 0); }
+  }
+
+  /* ─── Scan line: dark hairline tracking the current "printed" edge ─── */
+  .scan-line {
+    top: 0;
+    height: 1px;
+    background: rgba(40, 40, 40, 0.55);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    animation: print-scan 8s linear infinite;
+  }
+  @keyframes print-scan {
+    0%, 3%    { top: 0;    opacity: 0; }
+    5%        { opacity: 1; }
+    85%       { top: 100%; opacity: 1; }
+    87%, 100% { opacity: 0; }
+  }
+
+  /* ─── Reduced motion: show the finished fractal ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .fractal-img { animation: none; clip-path: none; }
+    .scan-line   { display: none; }
+  }
+</style>

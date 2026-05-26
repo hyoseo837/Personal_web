@@ -7,6 +7,11 @@ import PersonalWebDemo from './demos/PersonalWebDemo.astro';
 import DchupDemo from './demos/DchupDemo.astro';
 import WildfireDemo from './demos/WildfireDemo.astro';
 import SolitaireDemo from './demos/SolitaireDemo.astro';
+import OrbtDemo from './demos/OrbtDemo.astro';
+import RubiksDemo from './demos/RubiksDemo.astro';
+import FractalDemo from './demos/FractalDemo.astro';
+import GravitationDemo from './demos/GravitationDemo.astro';
+import InfectionDemo from './demos/InfectionDemo.astro';
 
 interface Props {
   project: Project;
@@ -27,6 +32,11 @@ const demoMap: Record<string, any> = {
   'project-dchup': DchupDemo,
   'project-wildfire': WildfireDemo,
   'project-solitaire': SolitaireDemo,
+  'project-orbt': OrbtDemo,
+  'project-rubiks': RubiksDemo,
+  'project-fractal': FractalDemo,
+  'project-gravitation': GravitationDemo,
+  'project-infection': InfectionDemo,
 };
 
 const DemoComponent = media?.type === 'demo' ? demoMap[project.id] : null;

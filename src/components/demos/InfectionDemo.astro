@@ -1,0 +1,171 @@
+---
+// CSS-animated infection simulation demo.
+// 17×17 grid of citizens cycles healthy (green) → infected (red) → cured
+// (blue) → healthy. Each cell's animation-delay is set from its Manhattan
+// distance to an off-centre index case (upper-left quadrant), producing a
+// visible spreading wave that fans diagonally across the grid. ~3% of
+// cells die (stay dark for the rest of their cycle, then respawn at loop
+// reset). Stats chips above the grid track the four populations as the
+// outbreak progresses, echoing finalSimulator.py status counts.
+// 8s loop. Pure CSS, no JS.
+
+const SIZE = 17;
+// Off-centre index case (column 3, row 4 — upper-left-ish).
+const ORIGIN_X = 3;
+const ORIGIN_Y = 4;
+
+const cells: { dist: number; dies: boolean }[] = [];
+for (let i = 0; i < SIZE; i++) {
+  for (let j = 0; j < SIZE; j++) {
+    const dist = Math.abs(i - ORIGIN_X) + Math.abs(j - ORIGIN_Y);
+    // Deterministic ~3% "dies" mask so the visual is stable across renders.
+    const dies = (i * 7 + j * 13 + 1) % 31 === 0;
+    cells.push({ dist, dies });
+  }
+}
+---
+
+<div class="demo-root w-full h-full bg-stone-50 relative overflow-hidden font-sans flex flex-col items-center justify-center gap-2 p-3 md:p-4">
+
+  <!-- Stats row -->
+  <div class="flex items-center gap-1.5">
+    <div class="stat-chip"><span class="dot dot-h"></span><span class="stat-h text-stone-700 tabular-nums"></span></div>
+    <div class="stat-chip"><span class="dot dot-i"></span><span class="stat-i text-stone-700 tabular-nums"></span></div>
+    <div class="stat-chip"><span class="dot dot-c"></span><span class="stat-c text-stone-700 tabular-nums"></span></div>
+    <div class="stat-chip"><span class="dot dot-d"></span><span class="stat-d text-stone-700 tabular-nums"></span></div>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid-wrapper">
+    {cells.map(({ dist, dies }) => (
+      <div
+        class={`cell ${dies ? 'dies' : ''}`}
+        style={`animation-delay: ${dist * 120}ms;`}
+      ></div>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* All animations: 8s loop. Each cell's animation-delay = dist × 120ms,
+     so the infection wave spreads outward from the centre cell. */
+
+  /* ─── Stats chips ─── */
+  .stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: white;
+    border: 1px solid #e7e5e4; /* stone-200 */
+    border-radius: 9999px;
+    padding: 1px 6px;
+    font-size: 9px;
+    font-family: ui-monospace, monospace;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+  .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+  .dot-h { background: #22c55e; }
+  .dot-i { background: #ef4444; }
+  .dot-c { background: #3b82f6; }
+  .dot-d { background: #1c1917; }
+
+  /* ─── Grid ─── */
+  .grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(17, 7px);
+    grid-template-rows: repeat(17, 7px);
+    gap: 1px;
+  }
+
+  /* ─── Cells ─── */
+  .cell {
+    width: 7px;
+    height: 7px;
+    border-radius: 1px;
+    background: #22c55e; /* healthy */
+    animation: cell-cycle 8s ease-out infinite;
+  }
+  @keyframes cell-cycle {
+    0%   { background: #22c55e; } /* healthy */
+    5%   { background: #ef4444; } /* infected */
+    35%  { background: #ef4444; }
+    40%  { background: #3b82f6; } /* cured */
+    70%  { background: #3b82f6; }
+    80%  { background: #22c55e; } /* healthy again */
+    100% { background: #22c55e; }
+  }
+
+  .cell.dies {
+    animation-name: cell-dies;
+  }
+  @keyframes cell-dies {
+    0%   { background: #22c55e; }
+    5%   { background: #ef4444; }
+    30%  { background: #ef4444; }
+    35%  { background: #1c1917; } /* dies */
+    95%  { background: #1c1917; }
+    100% { background: #22c55e; } /* respawn at loop reset */
+  }
+
+  /* ─── Stats counters (animated content) ─── */
+  .stat-h::before { content: '288'; animation: tick-h 8s infinite steps(1); }
+  .stat-i::before { content: '1';   animation: tick-i 8s infinite steps(1); }
+  .stat-c::before { content: '0';   animation: tick-c 8s infinite steps(1); }
+  .stat-d::before { content: '0';   animation: tick-d 8s infinite steps(1); }
+
+  /* Approximate epidemic curve: healthy dips then recovers, infected
+     rises and falls (the classic SIR peak), cured rises then dips back as
+     immunity wanes, died grows monotonically until reset. */
+  @keyframes tick-h {
+    0%   { content: '288'; }
+    15%  { content: '220'; }
+    30%  { content: '110'; }
+    45%  { content: '40';  }
+    60%  { content: '10';  }
+    75%  { content: '60';  }
+    85%  { content: '160'; }
+    96%  { content: '288'; }
+  }
+  @keyframes tick-i {
+    0%   { content: '1';   }
+    15%  { content: '65';  }
+    30%  { content: '160'; }
+    45%  { content: '215'; }
+    60%  { content: '180'; }
+    75%  { content: '95';  }
+    85%  { content: '30';  }
+    96%  { content: '1';   }
+  }
+  @keyframes tick-c {
+    0%   { content: '0';   }
+    15%  { content: '2';   }
+    30%  { content: '15';  }
+    45%  { content: '30';  }
+    60%  { content: '85';  }
+    75%  { content: '125'; }
+    85%  { content: '90';  }
+    96%  { content: '0';   }
+  }
+  @keyframes tick-d {
+    0%   { content: '0';   }
+    30%  { content: '2';   }
+    50%  { content: '6';   }
+    70%  { content: '9';   }
+    85%  { content: '9';   }
+    96%  { content: '0';   }
+  }
+
+  /* ─── Reduced motion: mid-outbreak snapshot ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .cell           { animation: none; background: #ef4444; }
+    .cell.dies      { background: #1c1917; }
+    .stat-h::before { content: '40';  animation: none; }
+    .stat-i::before { content: '215'; animation: none; }
+    .stat-c::before { content: '30';  animation: none; }
+    .stat-d::before { content: '4';   animation: none; }
+  }
+</style>
