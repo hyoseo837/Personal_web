@@ -1,5 +1,5 @@
 ---
-title: "production ready for WW-extension"
+title: "lesson from WW-extension implementation"
 date: 2026-06-06
 category: "dev-log"
 topic: ""
