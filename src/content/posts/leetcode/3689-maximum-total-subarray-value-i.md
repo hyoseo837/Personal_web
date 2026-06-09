@@ -4,7 +4,7 @@ date: 2026-06-09
 category: "leetcode"
 topic: "Medium"
 area: "Algorithms"
-tags: ["Medium"]
+tags: ["Medium", "Array", "Greedy", "Weekly-Contest-468"]
 summary: ""
 ---
 
@@ -13,7 +13,7 @@ summary: ""
 [View on LeetCode →](https://leetcode.com/problems/maximum-total-subarray-value-i/)
 
 > **Difficulty:** Medium  
-> **Tags:** Senior Array Greedy Weekly-Contest-468
+> **Tags:** Array, Greedy, Weekly-Contest-468
 
 ## Intuition
 
