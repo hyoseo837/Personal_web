@@ -6,9 +6,9 @@ const category = 'leetcode';
 const sortedPosts = await getPostsByCategory(category);
 
 const difficultyClass: Record<string, string> = {
-  Easy: 'label-xs text-green-600',
-  Medium: 'label-xs text-yellow-600',
-  Hard: 'label-xs text-red-600',
+  Easy: 'text-green-600 bg-green-50 ring-green-600/15',
+  Medium: 'text-yellow-700 bg-yellow-50 ring-yellow-600/15',
+  Hard: 'text-red-600 bg-red-50 ring-red-600/15',
 };
 ---
 
@@ -31,53 +31,37 @@ const difficultyClass: Record<string, string> = {
 			</p>
 		</header>
 
-		<div class="grid grid-cols-1 gap-8">
-			{sortedPosts.length > 0 ? sortedPosts.map((post) => (
-				<article class="soft-block group">
-					<div class="flex flex-col md:flex-row md:items-start gap-8">
-						<div class="flex-grow">
-							<div class="flex items-center gap-4 mb-6">
-								<time class="label-xs text-stone-400 tabular-nums">
-									{formatDate(post.data.date)}
-								</time>
-								{post.data.tags && post.data.tags[0] && (
-									<span class={difficultyClass[post.data.tags[0]] ?? 'label-xs'}>
-										{post.data.tags[0]}
-									</span>
-								)}
-							</div>
-
-							<h2 class="text-3xl font-serif font-bold text-stone-900 mb-4 group-hover:text-orange-900 transition-colors leading-tight">
-								<a href={`/blog/${getSlugFromId(post.id)}`}>
-									{post.data.title}
-								</a>
-							</h2>
-
-							<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-sm">
-								<div class="flex items-center gap-2">
-									<span class="label-xs !text-stone-300">Topic</span>
-									<span class="font-serif italic text-stone-600">{post.data.topic}</span>
-								</div>
-								<div class="flex items-center gap-2">
-									<span class="label-xs !text-stone-300">Area</span>
-									<span class="font-serif italic text-stone-600">{post.data.area}</span>
-								</div>
-							</div>
-
-							{post.data.summary && (
-								<p class="text-stone-500 leading-relaxed font-serif text-lg max-w-2xl">
-									{post.data.summary}
-								</p>
+		{sortedPosts.length > 0 ? (
+			<ul class="border-t border-border-dim">
+				{sortedPosts.map((post) => (
+					<li class="border-b border-border-dim">
+						<a
+							href={`/blog/${getSlugFromId(post.id)}`}
+							class="group flex items-baseline gap-4 py-4 transition-colors hover:bg-surface/40 -mx-4 px-4 rounded-lg"
+						>
+							{post.data.tags && post.data.tags[0] && (
+								<span class={`shrink-0 w-16 text-center label-xs !tracking-wide rounded-full px-2 py-1 ring-1 ring-inset ${difficultyClass[post.data.tags[0]] ?? 'text-stone-500 bg-stone-100 ring-stone-200'}`}>
+									{post.data.tags[0]}
+								</span>
 							)}
-						</div>
-					</div>
-				</article>
-			)) : (
-				<div class="py-20 text-center soft-block">
-					<p class="text-stone-400 font-serif italic text-xl">No posts found in this category yet.</p>
-					<p class="mt-2 text-stone-300 label-xs">Stay tuned for future updates.</p>
-				</div>
-			)}
-		</div>
+							<span class="flex-grow font-serif text-lg text-stone-800 group-hover:text-orange-900 transition-colors leading-snug truncate">
+								{post.data.title}
+							</span>
+							<span class="shrink-0 hidden sm:inline font-serif italic text-sm text-stone-400">
+								{post.data.topic}
+							</span>
+							<time class="shrink-0 label-xs text-stone-400 tabular-nums">
+								{formatDate(post.data.date)}
+							</time>
+						</a>
+					</li>
+				))}
+			</ul>
+		) : (
+			<div class="py-20 text-center soft-block">
+				<p class="text-stone-400 font-serif italic text-xl">No posts found in this category yet.</p>
+				<p class="mt-2 text-stone-300 label-xs">Stay tuned for future updates.</p>
+			</div>
+		)}
 	</div>
 </BaseLayout>
