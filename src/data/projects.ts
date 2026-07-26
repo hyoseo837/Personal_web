@@ -20,6 +20,8 @@ export interface Project {
   icon: any;
   github?: string;
   link?: string;
+  video?: string;
+  status?: "archived";
   duration?: string;
   media?:
     | { type: 'video'; src: string; poster?: string }
@@ -35,18 +37,22 @@ export const projects: Project[] = [
   //   description: "Project description goes here.",
   //   github: "github link",
   //   link: "optional project link",
+  //   video: "optional walkthrough video link",
+  //   status: "archived",  // omit while the project is still standing
   //   icon: IconComponent,
   //   duration: "optional project duration",
   // },
   {
     id: "ww-extension",
     title: "WW Extension",
-    stack: "JavaScript · Chrome Extension · Gemini API",
+    stack: "Chrome MV3 · FastAPI · Supabase · React · Stripe · Gemini API",
     description:
-      "An AI-powered Chrome extension that scores WaterlooWorks co-op postings against your CV using Google Gemini — giving each job a score, verdict, and reason so you can triage hundreds of applications in seconds.",
+      "An AI job scorer for WaterlooWorks, UWaterloo's co-op board. Gemini rated each posting 1–20 against your profile and the scores landed as badges in the job table, so you could triage hundreds without opening one. Passed Chrome Web Store review, ran in production for two months, scored 1,749 real postings — then wound down with the co-op term it was built for.",
     github: "https://github.com/hyoseo837/ww-extension",
+    video: "https://www.youtube.com/watch?v=oh_4EEv-ILs",
+    status: "archived",
     icon: Bot,
-    duration: "2026.05 - present",
+    duration: "2026.05 - 2026.07",
     media: { type: 'demo' },
   },
   {
