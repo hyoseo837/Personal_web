@@ -1,43 +1,91 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Dark mode is driven by a data attribute on <html>, set before paint by the
+   inline script in BaseLayout. The `dark:` variant follows that attribute
+   rather than the media query so the toggle can override the OS. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
-  --font-serif: "Newsreader", serif;
-  --font-sans: "Plus Jakarta Sans", sans-serif;
+  /* IBM Plex — one superfamily across three roles. Serif carries long-form
+     reading, sans carries UI and headings, mono carries data and labels. */
+  --font-serif: "IBM Plex Serif", Georgia, serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  /* Stone palette — Lived-In Minimalism */
-  --color-stone-50: #fbf9f1;
-  --color-stone-100: #f5f4ec;
-  --color-stone-200: #e4e3db;
-  --color-stone-300: #dac1b9;
-  --color-stone-400: #87736c;
-  --color-stone-500: #54433d;
-  --color-stone-600: #4a3930;
-  --color-stone-700: #3d2d25;
-  --color-stone-800: #2a1e18;
-  --color-stone-900: #1b1c17;
+  /* Blueprint scale — cool grey-blue. Light values are grounds and rules,
+     dark values are text. The whole scale is redefined for dark mode below,
+     which is what lets `text-stone-900` work in both themes untouched. */
+  --color-stone-50: #f3f6f8;
+  --color-stone-100: #eaeff3;
+  --color-stone-200: #d9e1e7;
+  --color-stone-300: #c2ccd4;
+  --color-stone-400: #7d8a95;
+  --color-stone-500: #5c6874;
+  --color-stone-600: #4d5a66;
+  --color-stone-700: #3a4652;
+  --color-stone-800: #232e38;
+  --color-stone-900: #101820;
 
-  /* Orange palette — terracotta */
-  --color-orange-900: #94492c;
-  --color-orange-800: #b05c38;
-  --color-orange-200: #fbdbac;
-  --color-orange-100: #fdefd8;
+  --color-accent: #0d6c88;
+  --color-accent-hover: #0a5871;
+  --color-accent-soft: rgba(13, 108, 136, 0.07);
+  --color-accent-muted: rgba(13, 108, 136, 0.4);
+  --color-accent-bright: rgba(13, 108, 136, 0.8);
 
-  /* Semantic Colors */
-  --color-accent: #94492c;
-  --color-accent-hover: #b05c38;
-  --color-accent-soft: rgba(148, 73, 44, 0.06);
-  --color-accent-muted: rgba(148, 73, 44, 0.4);
-  --color-accent-bright: rgba(148, 73, 44, 0.8);
+  --color-surface: #eaeff3;
+  --color-surface-hover: #e1e9ee;
+  --color-border-dim: rgba(120, 145, 165, 0.22);
+  --color-border-hover: rgba(120, 145, 165, 0.5);
 
-  --color-surface: #f5f4ec;
-  --color-surface-hover: #f0eee6;
-  --color-border-dim: rgba(218, 193, 185, 0.25);
-  --color-border-hover: rgba(218, 193, 185, 0.55);
+  --color-text-main: #101820;
+  --color-text-muted: #47535e;
+  --color-text-dim: #7d8a95;
 
-  --color-text-main: #1b1c17;
-  --color-text-muted: #54433d;
-  --color-text-dim: #87736c;
+  /* Chips and selection. Previously the terracotta orange-200. */
+  --color-chip: #dbe7ee;
+  --color-chip-ink: #35505f;
+
+  /* Code blocks stay dark in both themes — night-owl is a dark Shiki theme,
+     so this must not follow the inverted stone scale. */
+  --color-code-bg: #0b1119;
+  --color-code-line: rgba(255, 255, 255, 0.07);
+}
+
+/* ---------- dark theme ---------- */
+/* Only tokens are redefined; no component styles live in here. */
+:root[data-theme="dark"] {
+  --color-stone-50: #0d1218;
+  --color-stone-100: #131b23;
+  --color-stone-200: #1d2831;
+  --color-stone-300: #2b3742;
+  --color-stone-400: #66757f;
+  --color-stone-500: #8d9daa;
+  --color-stone-600: #a3b1bc;
+  --color-stone-700: #c3ced7;
+  --color-stone-800: #d8e1e8;
+  --color-stone-900: #e4ecf2;
+
+  --color-accent: #45b9da;
+  --color-accent-hover: #6ecbe5;
+  --color-accent-soft: rgba(69, 185, 218, 0.1);
+  --color-accent-muted: rgba(69, 185, 218, 0.4);
+  --color-accent-bright: rgba(69, 185, 218, 0.85);
+
+  --color-surface: #131b23;
+  --color-surface-hover: #18222c;
+  --color-border-dim: rgba(140, 170, 195, 0.16);
+  --color-border-hover: rgba(140, 170, 195, 0.34);
+
+  --color-text-main: #e4ecf2;
+  --color-text-muted: #a3b1bc;
+  --color-text-dim: #66757f;
+
+  --color-chip: #17222b;
+  --color-chip-ink: #9fb6c4;
+
+  --color-code-bg: #080d14;
+  --color-code-line: rgba(255, 255, 255, 0.06);
 }
 
 /* Native cross-document view transitions — no ClientRouter, no JS.
@@ -73,11 +121,19 @@
 
 @layer base {
   body {
-    @apply selection:bg-orange-200/50 transition-colors duration-500 text-text-main font-sans;
+    @apply transition-colors duration-500 text-text-main font-sans;
+    background-color: var(--color-stone-50);
     position: relative;
   }
 
-  /* Subtle Noise/Grain Overlay */
+  ::selection {
+    background-color: var(--color-accent-muted);
+    color: #fff;
+  }
+
+  /* Paper grain. Tuned down from 0.04 — the old value was set against a warm
+     cream ground and reads as dirt on a cool one. Off entirely in dark, where
+     it turns to visible noise in the flat areas. */
   body::after {
     content: "";
     position: fixed;
@@ -86,38 +142,49 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    opacity: 0.04;
+    opacity: 0.022;
     z-index: 9999;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  :root[data-theme="dark"] body::after {
+    opacity: 0;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 }
 
 @layer utilities {
   .soft-block {
-    @apply bg-surface/40 rounded-2xl p-8 md:p-12 border border-border-dim shadow-sm transition-all duration-700;
+    @apply bg-surface/40 rounded-xl p-8 md:p-12 border border-border-dim shadow-sm transition-all duration-700;
   }
 
   .soft-block:hover {
     background-color: var(--color-surface-hover);
-    border-color: rgba(218, 193, 185, 0.55);
+    border-color: var(--color-border-hover);
   }
 
   .icon-box {
-    @apply p-3 bg-accent-soft rounded-xl inline-block text-accent/60 transition-colors duration-300;
+    @apply p-3 bg-accent-soft rounded-lg inline-block text-accent/70 transition-colors duration-300;
   }
 
+  /* Blueprint signature: labels and data are mono, not sans. */
   .label-xs {
-    @apply text-[10px] uppercase tracking-widest font-sans font-bold text-accent/50 transition-colors duration-500;
+    @apply text-[10px] uppercase tracking-widest font-mono font-semibold text-accent/60 transition-colors duration-500;
   }
 
   .heading-serif {
-    @apply font-serif text-stone-900;
+    @apply font-sans font-semibold text-stone-900;
   }
 
-  /* Every page-level H1. Pages previously split between md:text-6xl and
-     md:text-7xl; this is the single place that scale is decided. */
+  /* Every page-level H1. Sans with tight tracking — the tonal shift away from
+     the old Newsreader display is carried here more than anywhere else. */
   .heading-hero {
-    @apply text-4xl sm:text-5xl md:text-6xl font-serif leading-[1.1] tracking-tight;
+    @apply text-4xl sm:text-5xl md:text-6xl font-sans font-semibold leading-[1.1] tracking-[-0.025em];
   }
 
   /* Wiki-links. Resolved ones get a dotted underline to read as garden-internal
@@ -135,6 +202,34 @@
   }
 
   .chip {
-    @apply inline-flex items-center bg-orange-200 text-text-muted px-3 py-1 rounded-full text-[11px] font-sans font-semibold tracking-wide;
+    @apply inline-flex items-center bg-chip text-chip-ink px-3 py-1 rounded-full text-[11px] font-mono font-semibold tracking-wide;
   }
 }
+
+/* @tailwindcss/typography bakes its palette in as literal oklch() values, so
+   it does NOT follow the --color-stone-* overrides above. Without this, every
+   prose element PostLayout doesn't explicitly override — list items, captions,
+   hr, blockquote text — stays dark grey and goes unreadable in dark mode.
+   Deliberately unlayered so it wins over the plugin's own .prose rules. */
+.prose {
+  --tw-prose-body: var(--color-stone-700);
+  --tw-prose-headings: var(--color-stone-900);
+  --tw-prose-lead: var(--color-stone-600);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-stone-900);
+  --tw-prose-counters: var(--color-stone-400);
+  --tw-prose-bullets: var(--color-stone-300);
+  --tw-prose-hr: var(--color-border-dim);
+  --tw-prose-quotes: var(--color-stone-800);
+  --tw-prose-quote-borders: var(--color-accent-muted);
+  --tw-prose-captions: var(--color-stone-400);
+  --tw-prose-code: var(--color-stone-900);
+  --tw-prose-pre-code: #d6e4ee;
+  --tw-prose-pre-bg: var(--color-code-bg);
+  --tw-prose-th-borders: var(--color-stone-300);
+  --tw-prose-td-borders: var(--color-stone-200);
+}
+
+/* KaTeX renders with its own inherited colour; keep it on the text token so
+   maths doesn't stay black in dark mode. */
+.katex { color: var(--color-text-main); }

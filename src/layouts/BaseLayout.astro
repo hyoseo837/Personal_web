@@ -59,7 +59,23 @@ const siteTitle = `${title} - Hyoseo`;
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#94492c" />
+    <meta name="theme-color" content="#f3f6f8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d1218" media="(prefers-color-scheme: dark)" />
+
+    <!-- Resolve the theme before first paint, or the page flashes light. -->
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var dark = saved
+            ? saved === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
 
     <!-- Schema.org (JSON-LD) -->
     <script is:inline type="application/ld+json">
@@ -83,12 +99,12 @@ const siteTitle = `${title} - Hyoseo`;
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- KaTeX (used by blog posts with math) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
   </head>
-  <body class="bg-stone-50 text-stone-800 font-serif antialiased min-h-screen">
+  <body class="text-text-main font-sans antialiased min-h-screen">
     <Header />
     <slot />
     <Footer />
