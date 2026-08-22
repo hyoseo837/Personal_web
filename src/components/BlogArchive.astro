@@ -78,7 +78,7 @@ const sheetFields = [
         data-blurb-text={c.blurb}
         aria-current={c.slug === initial ? 'page' : undefined}
         class:list={[
-          'rounded-full px-4 py-2 text-sm font-sans font-semibold transition-colors inline-flex items-center gap-2',
+          'px-4 py-2 text-xs font-mono font-medium uppercase tracking-[0.12em] border border-border-dim transition-colors inline-flex items-center gap-2',
           c.slug === initial
             ? 'bg-accent text-white'
             : 'bg-surface text-text-muted hover:bg-stone-200',

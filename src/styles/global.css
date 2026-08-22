@@ -50,6 +50,21 @@
      so this must not follow the inverted stone scale. */
   --color-code-bg: #0b1119;
   --color-code-line: rgba(255, 255, 255, 0.07);
+
+  /* Graph-paper ground. Two scales: a 16px minor grid and a 96px major one. */
+  --color-grid-minor: rgba(13, 108, 136, 0.055);
+  --color-grid-major: rgba(13, 108, 136, 0.11);
+
+  /* A drawing sheet has no rounded corners. Squaring the radius scale at the
+     token level squares every card, image and code block at once. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
 }
 
 /* ---------- dark theme ---------- */
@@ -86,6 +101,9 @@
 
   --color-code-bg: #080d14;
   --color-code-line: rgba(255, 255, 255, 0.06);
+
+  --color-grid-minor: rgba(69, 185, 218, 0.045);
+  --color-grid-major: rgba(69, 185, 218, 0.09);
 }
 
 /* Native cross-document view transitions — no ClientRouter, no JS.
@@ -120,9 +138,21 @@
 }
 
 @layer base {
+  /* Graph paper. Minor grid at 16px, major at 96px, drawn from the accent so
+     it shifts with the theme instead of being a fixed grey. */
   body {
     @apply transition-colors duration-500 text-text-main font-sans;
     background-color: var(--color-stone-50);
+    background-image:
+      linear-gradient(var(--color-grid-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid-major) 1px, transparent 1px),
+      linear-gradient(var(--color-grid-minor) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid-minor) 1px, transparent 1px);
+    background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
+    background-position: -1px -1px;
+    /* Deliberately not background-attachment: fixed — it is a long-standing
+       repaint and rendering problem on iOS Safari. The grid scrolls with the
+       page, which reads as paper rather than as a backdrop anyway. */
     position: relative;
   }
 
@@ -159,13 +189,47 @@
 }
 
 @layer utilities {
+  /* Blocks read as drawn regions: hairline rule, no radius, no shadow, and a
+     registration tick at each corner the way a detail is called out on a sheet. */
   .soft-block {
-    @apply bg-surface/40 rounded-xl p-8 md:p-12 border border-border-dim shadow-sm transition-all duration-700;
+    @apply bg-surface/40 p-8 md:p-12 border border-border-dim transition-all duration-500;
+    position: relative;
+  }
+
+  .soft-block::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    --tick: var(--color-accent-muted);
+    background-image:
+      linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+      linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+      linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+      linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick));
+    background-repeat: no-repeat;
+    background-size: 9px 1px, 1px 9px, 9px 1px, 1px 9px, 9px 1px, 1px 9px, 9px 1px, 1px 9px;
+    background-position:
+      top left, top left,
+      top right, top right,
+      bottom left, bottom left,
+      bottom right, bottom right;
+    opacity: 0.55;
+    transition: opacity 0.5s;
   }
 
   .soft-block:hover {
     background-color: var(--color-surface-hover);
     border-color: var(--color-border-hover);
+  }
+
+  .soft-block:hover::before {
+    opacity: 1;
+  }
+
+  /* Drafting has no pills — tags are boxed and monospaced. */
+  .chip {
+    @apply inline-flex items-center bg-chip text-chip-ink px-2.5 py-0.5 text-[10px] font-mono font-medium tracking-[0.08em] uppercase border border-border-dim;
   }
 
   .icon-box {
@@ -199,10 +263,6 @@
 
   .prose a.internal.new {
     @apply text-stone-400 border-stone-300 cursor-help;
-  }
-
-  .chip {
-    @apply inline-flex items-center bg-chip text-chip-ink px-3 py-1 rounded-full text-[11px] font-mono font-semibold tracking-wide;
   }
 }
 

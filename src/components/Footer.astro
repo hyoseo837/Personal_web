@@ -1,6 +1,20 @@
 ---
 import { Github, Mail, Linkedin, Instagram, MapPin, SquarePen, Coffee, Hammer, Archive, FileText } from 'lucide-astro';
 import { now, currentProject, latestProject } from '../data/now';
+
+// Sheet identity for the bottom title strip. The path names the sheet the way
+// a drawing number would; "revised" is the build date, which is honest for a
+// static site — it is exactly when this sheet was last issued.
+const path = new URL(Astro.request.url).pathname;
+const sheet =
+  path === '/'
+    ? 'Index'
+    : path
+        .replace(/^\/|\/$/g, '')
+        .split('/')
+        .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+        .join(' / ');
+const revised = new Date().toLocaleDateString('en-CA', { timeZone: 'UTC' });
 ---
 <footer class="max-w-3xl mx-auto px-6 md:px-8 py-20 md:py-24 border-t border-stone-200/40">
   <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
@@ -45,8 +59,25 @@ import { now, currentProject, latestProject } from '../data/now';
     </div>
   </div>
 
-  <div class="mt-20 pt-8 border-t border-stone-100 flex justify-between items-center text-[9px] uppercase tracking-[0.3em] text-stone-300 font-sans font-bold">
-    <span>&copy; 2026 Hyoseo Lee</span>
-    <span class="hidden md:inline">Be happy • Be unique • Be useful</span>
-  </div>
+  <!-- The sheet's bottom title strip: real fields, in drawing order. -->
+  <dl class="mt-20 border-t border-border-dim grid grid-cols-2 sm:grid-cols-4">
+    {[
+      { label: 'Drawn by', value: 'Hyoseo Lee' },
+      { label: 'Sheet', value: sheet },
+      { label: 'Scale', value: '1:1' },
+      { label: 'Revised', value: revised },
+    ].map((field, i) => (
+      <div
+        class:list={[
+          'flex flex-col gap-1 px-4 py-3 border-border-dim',
+          i > 0 && 'sm:border-l',
+          i > 1 && 'border-t sm:border-t-0',
+          i % 2 === 1 && 'border-l sm:border-l',
+        ]}
+      >
+        <dt class="font-mono text-[9px] uppercase tracking-[0.18em] text-text-dim">{field.label}</dt>
+        <dd class="font-mono text-[11px] text-stone-600 tabular-nums truncate">{field.value}</dd>
+      </div>
+    ))}
+  </dl>
 </footer>

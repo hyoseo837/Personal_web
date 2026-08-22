@@ -39,7 +39,7 @@ const difficultyClass: Record<string, string> = {
           type="button"
           data-difficulty="all"
           aria-pressed="true"
-          class="rounded-full px-4 py-2 text-sm font-sans font-semibold transition-colors bg-accent text-white"
+          class="px-4 py-2 text-xs font-mono font-medium uppercase tracking-[0.12em] border border-border-dim transition-colors bg-accent text-white"
         >
           All <span class="tabular-nums font-normal opacity-70">{solutions.length}</span>
         </button>
@@ -48,7 +48,7 @@ const difficultyClass: Record<string, string> = {
             type="button"
             data-difficulty={d}
             aria-pressed="false"
-            class="rounded-full px-4 py-2 text-sm font-sans font-semibold transition-colors bg-surface text-text-muted hover:bg-stone-200"
+            class="px-4 py-2 text-xs font-mono font-medium uppercase tracking-[0.12em] border border-border-dim transition-colors bg-surface text-text-muted hover:bg-stone-200"
           >
             {d} <span class="tabular-nums font-normal opacity-60">{countFor(d)}</span>
           </button>
@@ -65,7 +65,7 @@ const difficultyClass: Record<string, string> = {
           >
             {post.data.tags?.[0] && (
               <span
-                class={`shrink-0 w-16 text-center label-xs !tracking-wide rounded-full px-2 py-1 ring-1 ring-inset ${difficultyClass[post.data.tags[0]] ?? 'text-stone-500 bg-stone-100 ring-stone-200'}`}
+                class={`shrink-0 w-16 text-center label-xs !tracking-wide px-2 py-1 ring-1 ring-inset ${difficultyClass[post.data.tags[0]] ?? 'text-stone-500 bg-stone-100 ring-stone-200'}`}
               >
                 {post.data.tags[0]}
               </span>

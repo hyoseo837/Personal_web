@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SheetFrame from '../components/SheetFrame.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -105,8 +106,12 @@ const siteTitle = `${title} - Hyoseo`;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
   </head>
   <body class="text-text-main font-sans antialiased min-h-screen">
-    <Header />
-    <slot />
-    <Footer />
+    <SheetFrame>
+      <Header />
+      <div class="flex-1">
+        <slot />
+      </div>
+      <Footer />
+    </SheetFrame>
   </body>
 </html>
