@@ -1,6 +1,6 @@
 ---
 import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
-import SheetHeader from './SheetHeader.astro';
+import Sheet from './Sheet.astro';
 
 interface Props {
   // Which pill is active on first paint. 'writing' = every category.
@@ -64,10 +64,8 @@ const sheetFields = [
 ];
 ---
 
-<main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24" data-archive data-initial={initial}>
-
-  <SheetHeader section="Writing" summary={activeBlurb} fields={sheetFields} />
-
+<Sheet section="Writing" summary={activeBlurb} fields={sheetFields}>
+  <div data-archive data-initial={initial}>
 
   <!-- Category pills: real links, intercepted by JS to filter without navigating -->
   <div class="flex flex-wrap gap-2 mb-8" data-pills>
@@ -132,7 +130,8 @@ const sheetFields = [
     </div>
   )}
 
-</main>
+  </div>
+</Sheet>
 
 <script>
   const root = document.querySelector<HTMLElement>('[data-archive]');

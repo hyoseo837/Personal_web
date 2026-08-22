@@ -4,7 +4,7 @@ import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
 import { projects } from '../data/projects';
 import { now } from '../data/now';
 import { timeline } from '../data/timeline';
-import SheetHeader from '../components/SheetHeader.astro';
+import Sheet from '../components/Sheet.astro';
 
 const allPosts = await getAllPosts();
 const writingPosts = allPosts.filter(p => p.data.category !== 'leetcode');
@@ -28,13 +28,11 @@ function parseStack(stack: string): string[] {
   title="Home"
   description="Hyoseo Lee — computer science at Waterloo, on co-op at Statistics Canada. Small tools, dev logs, and a garden of notes on philosophy and logic."
 >
-  <main class="max-w-4xl mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-24">
-
-    <SheetHeader
-      section="Index"
-      summary="I'm Hyoseo — computer science at Waterloo, currently on co-op at Statistics Canada in Ottawa. I build small tools to solve my own problems, and write down what I work out on the way."
-      fields={fields}
-    />
+  <Sheet
+    section="Index"
+    summary="I'm Hyoseo — computer science at Waterloo, currently on co-op at Statistics Canada in Ottawa. I build small tools to solve my own problems, and write down what I work out on the way."
+    fields={fields}
+  >
 
     <!-- Notes band. The motto is set as a ruled band rather than a display
          headline — the one large typographic moment on the page, but not a hero. -->
@@ -149,5 +147,5 @@ function parseStack(stack: string): string[] {
       </div>
     </section>
 
-  </main>
+  </Sheet>
 </BaseLayout>

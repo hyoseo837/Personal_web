@@ -4,26 +4,24 @@ import TasteMap from '../components/TasteMap.astro';
 import { User, Monitor, Cpu, Lightbulb, FileText, Award } from 'lucide-astro';
 import { stack } from '../data/stack';
 import { now } from '../data/now';
-import SheetHeader from '../components/SheetHeader.astro';
+import Sheet from '../components/Sheet.astro';
 ---
 
 <BaseLayout 
   title="About" 
   description="About Hyoseo Lee — computer science at Waterloo, on co-op at Statistics Canada in Ottawa. What I work with, how I work, and what I read and play."
 >
-  <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
+  <Sheet
+    section="About"
+    summary="Computer Science at the University of Waterloo. Interested in most of it — low-level systems, logic, language — and in how those keep turning out to be the same problem."
+    fields={[
+      { label: 'Program', value: 'CS · Waterloo' },
+      { label: 'Location', value: now.location.replace(', Canada', '') },
+      { label: 'Term', value: 'Co-op · StatCan' },
+      { label: 'Skills', value: String(stack.skills.hard.length) },
+    ]}
+  >
     
-    <SheetHeader
-      section="About"
-      summary="Computer Science at the University of Waterloo. Interested in most of it — low-level systems, logic, language — and in how those keep turning out to be the same problem."
-      fields={[
-        { label: 'Program', value: 'CS · Waterloo' },
-        { label: 'Location', value: now.location.replace(', Canada', '') },
-        { label: 'Term', value: 'Co-op · StatCan' },
-        { label: 'Skills', value: String(stack.skills.hard.length) },
-      ]}
-    />
-
     <div class="mb-16 md:mb-20">
       <a
         href="/Hyoseo_Lee_CV.pdf"
@@ -191,5 +189,5 @@ import SheetHeader from '../components/SheetHeader.astro';
       </section>
     </div>
 
-  </main>
+  </Sheet>
 </BaseLayout>

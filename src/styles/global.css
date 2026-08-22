@@ -51,9 +51,10 @@
   --color-code-bg: #0b1119;
   --color-code-line: rgba(255, 255, 255, 0.07);
 
-  /* Graph-paper ground. Two scales: a 16px minor grid and a 96px major one. */
-  --color-grid-minor: rgba(13, 108, 136, 0.055);
-  --color-grid-major: rgba(13, 108, 136, 0.11);
+  /* Graph-paper ground, showing through the whole sheet. Blocks that carry
+     text sit on an opaque panel over it rather than the grid being dimmed. */
+  --color-grid-minor: rgba(13, 108, 136, 0.06);
+  --color-grid-major: rgba(13, 108, 136, 0.12);
 
   /* A drawing sheet has no rounded corners. Squaring the radius scale at the
      token level squares every card, image and code block at once. */
@@ -102,8 +103,8 @@
   --color-code-bg: #080d14;
   --color-code-line: rgba(255, 255, 255, 0.06);
 
-  --color-grid-minor: rgba(69, 185, 218, 0.045);
-  --color-grid-major: rgba(69, 185, 218, 0.09);
+  --color-grid-minor: rgba(69, 185, 218, 0.05);
+  --color-grid-major: rgba(69, 185, 218, 0.1);
 }
 
 /* Native cross-document view transitions — no ClientRouter, no JS.
@@ -192,7 +193,7 @@
   /* Blocks read as drawn regions: hairline rule, no radius, no shadow, and a
      registration tick at each corner the way a detail is called out on a sheet. */
   .soft-block {
-    @apply bg-surface/40 p-8 md:p-12 border border-border-dim transition-all duration-500;
+    @apply bg-surface p-8 md:p-12 border border-border-dim transition-all duration-500;
     position: relative;
   }
 

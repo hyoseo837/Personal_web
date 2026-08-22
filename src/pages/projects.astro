@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { Archive, ExternalLink, Github, PlayCircle, Sparkles } from 'lucide-astro';
 import { projects, type Project } from '../data/projects';
 import ProjectMedia from '../components/ProjectMedia.astro';
-import SheetHeader from '../components/SheetHeader.astro';
+import Sheet from '../components/Sheet.astro';
 
 // Feature whatever is in flight; when nothing is, fall back to the newest entry
 // (the data file is kept newest-first) so the page never opens on an empty slot.
@@ -41,18 +41,16 @@ function parseStack(stack: string): string[] {
   title="Projects"
   description="Software is not just logic; it's a medium for expressing care. A collection of tools built at the quiet intersection of utility and beauty."
 >
-  <main class="max-w-5xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
-
-    <SheetHeader
-      section="Philosophy of Code"
-      summary="Software is not just logic; it's a medium for expressing care. I build tools that aim for the quiet intersection of utility and beauty."
-      fields={[
-        { label: 'Projects', value: String(projects.length) },
-        { label: 'Archived', value: String(projects.filter((p) => p.status === 'archived').length) },
-        { label: 'In flight', value: currentProject ? currentProject.title : 'None' },
-        { label: 'Latest', value: featured?.duration?.split(' - ').pop() ?? '—' },
-      ]}
-    />
+  <Sheet
+    section="Philosophy of Code"
+    summary="Software is not just logic; it's a medium for expressing care. I build tools that aim for the quiet intersection of utility and beauty."
+    fields={[
+      { label: 'Projects', value: String(projects.length) },
+      { label: 'Archived', value: String(projects.filter((p) => p.status === 'archived').length) },
+      { label: 'In flight', value: currentProject ? currentProject.title : 'None' },
+      { label: 'Latest', value: featured?.duration?.split(' - ').pop() ?? '—' },
+    ]}
+  >
 
     <!-- Featured: Now Building / Most Recent -->
     {featured && (
@@ -212,5 +210,5 @@ function parseStack(stack: string): string[] {
       </div>
     </section>
 
-  </main>
+  </Sheet>
 </BaseLayout>
