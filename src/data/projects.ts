@@ -47,7 +47,7 @@ export const projects: Project[] = [
     title: "WW Extension",
     stack: "Chrome MV3 · FastAPI · Supabase · React · Stripe · Gemini API",
     description:
-      "An AI job scorer for WaterlooWorks, UWaterloo's co-op board. Gemini rated each posting 1–20 against your profile and the scores landed as badges in the job table, so you could triage hundreds without opening one. Passed Chrome Web Store review, ran in production for two months, scored 1,749 real postings — then wound down with the co-op term it was built for.",
+      "An AI job scorer for WaterlooWorks, UWaterloo's co-op board. Gemini rated each posting 1–20 against your profile and the scores landed as badges in the job table, so you could triage hundreds without opening one. Passed Chrome Web Store review, ran in production for two months, scored 1,749 real postings — then wound down with the co-op term it was built for. The backend has since been shut down, so the extension no longer runs; the source and the walkthrough are what's left of it.",
     github: "https://github.com/hyoseo837/ww-extension",
     video: "https://www.youtube.com/watch?v=oh_4EEv-ILs",
     status: "archived",
