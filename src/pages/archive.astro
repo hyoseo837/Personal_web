@@ -92,28 +92,34 @@ const difficultyClass: Record<string, string> = {
   </Sheet>
 
   <script>
-    const filter = document.getElementById('difficulty-filter');
-    const rows = document.querySelectorAll<HTMLElement>('li[data-difficulty]');
+    // Rebound on every navigation, because ClientRouter swaps the DOM.
+    function initDifficulty() {
+      const filter = document.getElementById('difficulty-filter');
+      if (!filter) return;
+      const rows = document.querySelectorAll<HTMLElement>('li[data-difficulty]');
 
-    filter?.addEventListener('click', (event) => {
-      const button = (event.target as HTMLElement).closest<HTMLElement>('button[data-difficulty]');
-      if (!button) return;
+      filter.addEventListener('click', (event) => {
+        const button = (event.target as HTMLElement).closest<HTMLElement>('button[data-difficulty]');
+        if (!button) return;
 
-      const selected = button.dataset.difficulty;
+        const selected = button.dataset.difficulty;
 
-      filter.querySelectorAll<HTMLElement>('button[data-difficulty]').forEach((pill) => {
-        const active = pill === button;
-        pill.setAttribute('aria-pressed', String(active));
-        pill.classList.toggle('bg-accent', active);
-        pill.classList.toggle('text-white', active);
-        pill.classList.toggle('bg-surface', !active);
-        pill.classList.toggle('text-text-muted', !active);
-        pill.classList.toggle('hover:bg-stone-200', !active);
+        filter.querySelectorAll<HTMLElement>('button[data-difficulty]').forEach((pill) => {
+          const active = pill === button;
+          pill.setAttribute('aria-pressed', String(active));
+          pill.classList.toggle('bg-accent', active);
+          pill.classList.toggle('text-white', active);
+          pill.classList.toggle('bg-surface', !active);
+          pill.classList.toggle('text-text-muted', !active);
+          pill.classList.toggle('hover:bg-stone-200', !active);
+        });
+
+        rows.forEach((row) => {
+          row.hidden = selected !== 'all' && row.dataset.difficulty !== selected;
+        });
       });
+    }
 
-      rows.forEach((row) => {
-        row.hidden = selected !== 'all' && row.dataset.difficulty !== selected;
-      });
-    });
+    document.addEventListener('astro:page-load', initDifficulty);
   </script>
 </BaseLayout>

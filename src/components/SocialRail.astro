@@ -1,0 +1,46 @@
+---
+import { Github, Mail, Linkedin, Instagram, SquarePen, Coffee, FileText } from 'lucide-astro';
+import { socialLinks } from '../data/links';
+
+const icons = {
+  github: Github,
+  blog: SquarePen,
+  instagram: Instagram,
+  linkedin: Linkedin,
+  mail: Mail,
+  cv: FileText,
+  kofi: Coffee,
+};
+---
+
+{/* Fixed to the right margin so the links stay reachable while the sheet
+    scrolls. Only from lg up, where the sheet frame leaves margin to hold it;
+    below that the footer carries the same links. */}
+<nav
+  class="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 z-40 flex-col border-y border-l border-border-dim bg-surface"
+  aria-label="Elsewhere"
+>
+  {socialLinks.map((link, i) => {
+    const Icon = icons[link.icon];
+    return (
+      <a
+        href={link.href}
+        target={link.external ? '_blank' : undefined}
+        rel={link.external ? 'noopener noreferrer' : undefined}
+        aria-label={link.label}
+        title={link.label}
+        class:list={[
+          'group relative p-2.5 text-stone-400 hover:text-accent hover:bg-surface-hover transition-colors duration-300',
+          i > 0 && 'border-t border-border-dim',
+        ]}
+      >
+        <Icon class="w-4 h-4" />
+        <span
+          class="pointer-events-none absolute right-full top-1/2 -translate-y-1/2 mr-2 whitespace-nowrap border border-border-dim bg-surface px-2 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-text-muted opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200"
+        >
+          {link.label}
+        </span>
+      </a>
+    );
+  })}
+</nav>

@@ -94,56 +94,60 @@ const navItems = [
 </header>
 
 <script>
-  // Theme. The initial value is already resolved by the inline script in
-  // BaseLayout head; this only handles switching and icon state.
-  const applyIcons = (dark: boolean) => {
-    ['sun-icon', 'sun-icon-mobile'].forEach((id) =>
-      document.getElementById(id)?.classList.toggle('hidden', dark)
-    );
-    ['moon-icon', 'moon-icon-mobile'].forEach((id) =>
-      document.getElementById(id)?.classList.toggle('hidden', !dark)
-    );
-  };
+  // ClientRouter swaps the DOM, so these must rebind on every page load.
+  // astro:page-load fires on first load and after each navigation.
+  function initHeader() {
+    const applyIcons = (dark: boolean) => {
+      ['sun-icon', 'sun-icon-mobile'].forEach((id) =>
+        document.getElementById(id)?.classList.toggle('hidden', dark)
+      );
+      ['moon-icon', 'moon-icon-mobile'].forEach((id) =>
+        document.getElementById(id)?.classList.toggle('hidden', !dark)
+      );
+    };
 
-  applyIcons(document.documentElement.dataset.theme === 'dark');
+    applyIcons(document.documentElement.dataset.theme === 'dark');
 
-  ['theme-toggle', 'theme-toggle-mobile'].forEach((id) => {
-    document.getElementById(id)?.addEventListener('click', () => {
-      const dark = document.documentElement.dataset.theme !== 'dark';
-      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-      try {
-        localStorage.setItem('theme', dark ? 'dark' : 'light');
-      } catch (e) {
-        /* private mode — the choice just won't persist */
-      }
-      applyIcons(dark);
+    ['theme-toggle', 'theme-toggle-mobile'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('click', () => {
+        const dark = document.documentElement.dataset.theme !== 'dark';
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        try {
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+        } catch (e) {
+          /* private mode — the choice just won't persist */
+        }
+        applyIcons(dark);
+      });
     });
-  });
 
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
 
-  if (menuToggle && mobileMenu && menuIcon && closeIcon) {
-    menuToggle.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.contains('opacity-100');
+    if (menuToggle && mobileMenu && menuIcon && closeIcon) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = mobileMenu.classList.contains('opacity-100');
 
-      if (isOpen) {
-        mobileMenu.classList.replace('opacity-100', 'opacity-0');
-        mobileMenu.classList.add('pointer-events-none');
-        menuIcon.classList.remove('hidden');
-        closeIcon.classList.add('hidden');
-        document.body.style.overflow = '';
-      } else {
-        mobileMenu.classList.replace('opacity-0', 'opacity-100');
-        mobileMenu.classList.remove('pointer-events-none');
-        menuIcon.classList.add('hidden');
-        closeIcon.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      }
+        if (isOpen) {
+          mobileMenu.classList.replace('opacity-100', 'opacity-0');
+          mobileMenu.classList.add('pointer-events-none');
+          menuIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+          document.body.style.overflow = '';
+        } else {
+          mobileMenu.classList.replace('opacity-0', 'opacity-100');
+          mobileMenu.classList.remove('pointer-events-none');
+          menuIcon.classList.add('hidden');
+          closeIcon.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
 
-      menuToggle.setAttribute('aria-expanded', String(!isOpen));
-    });
+        menuToggle.setAttribute('aria-expanded', String(!isOpen));
+      });
+    }
   }
+
+  document.addEventListener('astro:page-load', initHeader);
 </script>

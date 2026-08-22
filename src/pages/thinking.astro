@@ -105,28 +105,34 @@ const showStageFilter = presentStages.length > 1;
   </Sheet>
 
   <script>
-    const filter = document.getElementById('stage-filter');
-    const notes = document.querySelectorAll<HTMLElement>('[data-note]');
+    // Rebound on every navigation, because ClientRouter swaps the DOM.
+    function initStages() {
+      const filter = document.getElementById('stage-filter');
+      if (!filter) return;
+      const notes = document.querySelectorAll<HTMLElement>('[data-note]');
 
-    filter?.addEventListener('click', (event) => {
-      const button = (event.target as HTMLElement).closest<HTMLElement>('button[data-stage]');
-      if (!button) return;
+      filter.addEventListener('click', (event) => {
+        const button = (event.target as HTMLElement).closest<HTMLElement>('button[data-stage]');
+        if (!button) return;
 
-      const selected = button.dataset.stage;
+        const selected = button.dataset.stage;
 
-      filter.querySelectorAll<HTMLElement>('button[data-stage]').forEach((pill) => {
-        const active = pill === button;
-        pill.setAttribute('aria-pressed', String(active));
-        pill.classList.toggle('bg-accent', active);
-        pill.classList.toggle('text-white', active);
-        pill.classList.toggle('bg-surface', !active);
-        pill.classList.toggle('text-text-muted', !active);
-        pill.classList.toggle('hover:bg-stone-200', !active);
+        filter.querySelectorAll<HTMLElement>('button[data-stage]').forEach((pill) => {
+          const active = pill === button;
+          pill.setAttribute('aria-pressed', String(active));
+          pill.classList.toggle('bg-accent', active);
+          pill.classList.toggle('text-white', active);
+          pill.classList.toggle('bg-surface', !active);
+          pill.classList.toggle('text-text-muted', !active);
+          pill.classList.toggle('hover:bg-stone-200', !active);
+        });
+
+        notes.forEach((note) => {
+          note.hidden = selected !== 'all' && note.dataset.stage !== selected;
+        });
       });
+    }
 
-      notes.forEach((note) => {
-        note.hidden = selected !== 'all' && note.dataset.stage !== selected;
-      });
-    });
+    document.addEventListener('astro:page-load', initStages);
   </script>
 </BaseLayout>

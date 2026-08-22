@@ -134,8 +134,17 @@ const sheetFields = [
 </Sheet>
 
 <script>
-  const root = document.querySelector<HTMLElement>('[data-archive]');
-  if (root) {
+  // Rebound on every navigation, because ClientRouter swaps the DOM.
+  let popstateBound = false;
+  let selectCurrent: ((c: string, push: boolean) => void) | null = null;
+
+  function initArchive() {
+    const root = document.querySelector<HTMLElement>('[data-archive]');
+    if (!root) {
+      selectCurrent = null;
+      return;
+    }
+
     const pills = root.querySelector<HTMLElement>('[data-pills]')!;
     const blurb = root.querySelector<HTMLElement>('[data-blurb]')!;
     const empty = root.querySelector<HTMLElement>('[data-empty]')!;
@@ -170,6 +179,8 @@ const sheetFields = [
       }
     };
 
+    selectCurrent = select;
+
     pills.addEventListener('click', (event) => {
       const link = (event.target as HTMLElement).closest<HTMLElement>('[data-category]');
       if (!link) return;
@@ -180,10 +191,17 @@ const sheetFields = [
       select(link.dataset.category!, true);
     });
 
-    // Keep the back button meaningful now that pills rewrite the URL.
-    window.addEventListener('popstate', (event) => {
-      const state = event.state as { category?: string } | null;
-      select(state?.category ?? root.dataset.initial ?? 'writing', false);
-    });
+    // Bound once on window, or it would stack up with every navigation.
+    if (!popstateBound) {
+      popstateBound = true;
+      window.addEventListener('popstate', (event) => {
+        const state = event.state as { category?: string } | null;
+        const el = document.querySelector<HTMLElement>('[data-archive]');
+        if (!el || !selectCurrent) return;
+        selectCurrent(state?.category ?? el.dataset.initial ?? 'writing', false);
+      });
+    }
   }
+
+  document.addEventListener('astro:page-load', initArchive);
 </script>

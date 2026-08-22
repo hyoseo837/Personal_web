@@ -107,17 +107,11 @@
   --color-grid-major: rgba(69, 185, 218, 0.1);
 }
 
-/* Native cross-document view transitions — no ClientRouter, no JS.
-   Chrome/Edge 126+ and Safari 18.2+; Firefox ignores the rule and navigates normally. */
-@view-transition {
-  navigation: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  @view-transition {
-    navigation: none;
-  }
-}
+/* Transitions are driven by Astro's ClientRouter, not the native
+   @view-transition rule: cross-document transitions are still unsupported in
+   Firefox, and the router's fallback="animate" covers it. The rules below
+   apply either way — ClientRouter uses the same View Transition API where it
+   exists, and honours prefers-reduced-motion on its own. */
 
 @layer base {
   /* Naming these holds the chrome still while only the page body crossfades. */

@@ -2,6 +2,8 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SheetFrame from '../components/SheetFrame.astro';
+import SocialRail from '../components/SocialRail.astro';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -76,6 +78,20 @@ const siteTitle = `${title} - Hyoseo`;
           document.documentElement.dataset.theme = 'light';
         }
       })();
+
+      // ClientRouter replaces <html>'s attributes on navigation, so re-apply
+      // the theme before the swapped document paints.
+      document.addEventListener('astro:after-swap', function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var dark = saved
+            ? saved === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      });
     </script>
 
     <!-- Schema.org (JSON-LD) -->
@@ -104,8 +120,10 @@ const siteTitle = `${title} - Hyoseo`;
 
     <!-- KaTeX (used by blog posts with math) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+    <ClientRouter fallback="animate" />
   </head>
   <body class="text-text-main font-sans antialiased min-h-screen">
+    <SocialRail />
     <SheetFrame>
       <Header />
       <div class="flex-1">
