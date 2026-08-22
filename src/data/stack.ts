@@ -12,7 +12,7 @@ export const stack = {
     { name: "Python", detail: "General Purpose" },
     { name: "Obsidian", detail: "Knowledge Management" },
     { name: "Claude Code", detail: "AI Assistant" },
-    { name: "Chrome", detail: "Browser" },
+    { name: "Firefox", detail: "Browser" },
   ],
   skills: {
     hard: [
