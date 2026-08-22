@@ -23,6 +23,7 @@
     "remark-collapse": "^0.1.2",
     "remark-math": "^6.0.0",
     "remark-toc": "^9.0.0",
+    "remark-wiki-link": "^2.0.1",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {

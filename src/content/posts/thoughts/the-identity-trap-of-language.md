@@ -9,4 +9,4 @@ summary: "Naming yourself as a category commits your brain to it structurally."
 stage: "seedling"
 ---
 
-Language is the interface of thought. Defining yourself as a static category (e.g., 'I am an introvert') locks your brain into a structural commitment. To remain free, treat identity as a variable, not an axiom.
+Language is the interface of thought. Defining yourself as a static category (e.g., 'I am an introvert') locks your brain into a structural commitment. To remain free, treat identity as a variable, not an [[attack-the-axiom|axiom]].

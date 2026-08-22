@@ -9,4 +9,4 @@ summary: "If nothing is inherently meaningful, nothing is inherently binding eit
 stage: "seedling"
 ---
 
-If the universe has no inherent meaning, we are not trapped by destiny. This 'Zero Meaning' is the ultimate freedom—a blank canvas where we are free to define our own values and dream as big as we dare, because 'why not?'
+If the universe has no inherent meaning, we are not trapped by destiny. This 'Zero Meaning' is the ultimate freedom—a [[both-infinity-are-connected|blank canvas]] where we are free to define our own values and dream as big as we dare, because 'why not?'

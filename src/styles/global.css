@@ -113,6 +113,20 @@
     @apply font-serif text-stone-900;
   }
 
+  /* Wiki-links. Resolved ones get a dotted underline to read as garden-internal
+     rather than outbound; unresolved ones (.new) are muted and non-committal. */
+  .prose a.internal {
+    @apply text-accent no-underline border-b border-dotted border-accent-muted;
+  }
+
+  .prose a.internal:hover {
+    @apply border-solid border-accent;
+  }
+
+  .prose a.internal.new {
+    @apply text-stone-400 border-stone-300 cursor-help;
+  }
+
   .chip {
     @apply inline-flex items-center bg-orange-200 text-text-muted px-3 py-1 rounded-full text-[11px] font-sans font-semibold tracking-wide;
   }

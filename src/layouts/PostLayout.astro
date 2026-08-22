@@ -1,14 +1,15 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { ArrowLeft, Tag, BookOpen, Hash } from 'lucide-astro';
-import { formatDate } from '../utils/posts';
+import { ArrowLeft, Tag, BookOpen, Hash, Link2 } from 'lucide-astro';
+import { formatDate, getSlugFromId } from '../utils/posts';
 
 interface Props {
 	post?: any;
 	frontmatter?: any;
+	backlinks?: any[];
 }
 
-const { post, frontmatter: manualFrontmatter } = Astro.props;
+const { post, frontmatter: manualFrontmatter, backlinks = [] } = Astro.props;
 const frontmatter = post ? post.data : manualFrontmatter;
 
 if (!frontmatter) {
@@ -121,6 +122,32 @@ const { title, date, category, topic, area, tags = [], summary } = frontmatter;
 		</div>
 
 		<footer class="mt-24 pt-16 border-t border-stone-200/60">
+			{backlinks.length > 0 && (
+				<div class="mb-16">
+					<div class="flex items-center gap-2 mb-6">
+						<Link2 class="w-4 h-4 text-accent/40" />
+						<h3 class="label-xs text-stone-900">Also mentions this</h3>
+					</div>
+					<ul class="space-y-3">
+						{backlinks.map((link: any) => (
+							<li>
+								<a
+									href={`/blog/${getSlugFromId(link.id)}`}
+									class="group flex items-baseline gap-3 font-serif text-stone-700 hover:text-accent transition-colors"
+								>
+									<span class="label-xs text-stone-300 shrink-0 tabular-nums">
+										{formatDate(link.data.date)}
+									</span>
+									<span class="group-hover:translate-x-1 transition-transform duration-300">
+										{link.data.title}
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+
 			<div class="mb-16">
 				<div class="flex items-center gap-2 mb-6">
 					<Hash class="w-4 h-4 text-orange-900/40" />

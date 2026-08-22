@@ -43,6 +43,30 @@ export function sortPostsByDate(posts: CollectionEntry<'posts'>[]): CollectionEn
   return posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
+/** Matches [[target]] and [[target|alias]] in raw markdown. */
+const WIKI_LINK = /\[\[([^\]|]+)(?:\|[^\]]*)?\]\]/g;
+
+/**
+ * Posts whose body links to the given slug via [[wiki-link]].
+ * Resolution mirrors pageResolver in astro.config.mjs: spaces to hyphens,
+ * compared case-insensitively.
+ */
+export async function getBacklinks(slug: string): Promise<CollectionEntry<'posts'>[]> {
+  const target = slug.toLowerCase();
+  const posts = await getCollection('posts');
+
+  const linking = posts.filter((post) => {
+    if (getSlugFromId(post.id).toLowerCase() === target) return false; // never self-link
+    const body = post.body ?? '';
+    for (const match of body.matchAll(WIKI_LINK)) {
+      if (match[1].trim().replace(/\s+/g, '-').toLowerCase() === target) return true;
+    }
+    return false;
+  });
+
+  return sortPostsByDate(linking);
+}
+
 /**
  * Format a date consistently across the blog.
  */
