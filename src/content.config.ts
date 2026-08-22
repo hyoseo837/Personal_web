@@ -11,6 +11,10 @@ const posts = defineCollection({
     area: z.string(),
     tags: z.array(z.string()),
     summary: z.string().optional(),
+    // Garden metadata. Both are optional so every pre-existing post still validates:
+    // stage is how mature a note is, updated is when it was last tended.
+    stage: z.enum(['seedling', 'growing', 'evergreen']).default('seedling'),
+    updated: z.coerce.date().optional(),
   }),
 });
 

@@ -26,8 +26,9 @@ function checkIntegrity() {
     }
   };
 
+  // thoughts.ts is gone — those entries are markdown notes under content/posts/thoughts/
+  // and are validated by the content collection schema instead.
   checkUniqueness(extractIds(readFile('projects.ts')), 'projects');
-  checkUniqueness(extractIds(readFile('thoughts.ts')), 'thoughts');
   checkUniqueness(extractIds(readFile('tastes.ts')), 'tastes');
   checkUniqueness(extractIds(readFile('timeline.ts')), 'timeline');
 

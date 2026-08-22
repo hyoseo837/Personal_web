@@ -1,25 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { thoughts } from '../data/thoughts';
+import { getPostsByCategory, getSlugFromId, formatDate } from '../utils/posts';
+
+const thoughts = await getPostsByCategory('thoughts');
+
+// Seedling → growing → evergreen. Shown instead of the old per-thought icon.
+const stageLabel: Record<string, string> = {
+  seedling: 'Seedling',
+  growing: 'Growing',
+  evergreen: 'Evergreen',
+};
+
+const stageClass: Record<string, string> = {
+  seedling: 'text-stone-400 bg-stone-100 ring-stone-200',
+  growing: 'text-accent bg-accent-soft ring-accent-muted/30',
+  evergreen: 'text-green-700 bg-green-50 ring-green-600/15',
+};
 ---
-<BaseLayout 
-  title="Thinking" 
+<BaseLayout
+  title="Thinking"
   description="A digital garden of abstract thoughts, philosophical inquiries, and notes on patterns I've observed."
 >
   <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
-    
+
     <!-- Hero -->
     <header class="mb-20 md:mb-24">
       <div class="flex items-center gap-4 mb-6 md:mb-8">
-        <div class="w-8 md:w-12 h-px bg-orange-900/30"></div>
-        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-orange-900/60 font-sans font-semibold">Fragments of thought —</span>
+        <div class="w-8 md:w-12 h-px bg-accent-muted/30"></div>
+        <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] text-accent/60 font-sans font-semibold">Fragments of thought —</span>
       </div>
       <h1 class="text-4xl sm:text-5xl md:text-7xl text-stone-900 font-serif leading-[1.1] tracking-tight mb-8 md:mb-10">
         Thinking <br />
-        <span class="text-orange-900/80 italic font-light">Explorations of the abstract.</span>
+        <span class="text-accent/80 italic font-light">Explorations of the abstract.</span>
       </h1>
       <p class="text-stone-500 max-w-lg leading-relaxed font-sans text-base">
-        Notes on philosophy, logic, and the structures underneath. 
+        Notes on philosophy, logic, and the structures underneath.
         A digital garden for ideas that aren't code, but define it.
       </p>
     </header>
@@ -29,19 +44,29 @@ import { thoughts } from '../data/thoughts';
       {thoughts.map((thought) => (
         <article class="soft-block group/article">
           <div class="flex flex-col md:flex-row gap-6 md:gap-8">
-            <div class="w-auto md:w-24 shrink-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-2">
-              <span class="text-[9px] md:text-[10px] tracking-widest text-orange-900/40 font-sans font-bold group-hover/article:text-orange-900/80 transition-colors duration-500 whitespace-nowrap">{thought.date}</span>
-              <div class="flex items-center gap-2 text-[9px] uppercase tracking-widest text-stone-400 font-sans font-bold">
-                <thought.icon class="w-3 h-3" />
-                {thought.category}
-              </div>
+            <div class="w-auto md:w-28 shrink-0 flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-3">
+              <span class="text-[9px] md:text-[10px] tracking-widest text-accent/40 font-sans font-bold group-hover/article:text-accent/80 transition-colors duration-500 whitespace-nowrap tabular-nums">
+                {formatDate(thought.data.date)}
+              </span>
+              <span class="text-[9px] uppercase tracking-widest text-stone-400 font-sans font-bold">
+                {thought.data.area}
+              </span>
+              <span class={`text-[9px] uppercase tracking-widest font-sans font-bold rounded-full px-2 py-1 ring-1 ring-inset ${stageClass[thought.data.stage] ?? stageClass.seedling}`}>
+                {stageLabel[thought.data.stage] ?? thought.data.stage}
+              </span>
             </div>
-            
+
             <div class="flex-1">
-              <h2 class="text-2xl text-stone-900 font-serif group-hover/article:translate-x-1 transition-transform duration-500 mb-4">{thought.title}</h2>
-              <p class="text-stone-600 leading-relaxed max-w-xl italic font-serif text-lg opacity-80">
-                "{thought.description}"
-              </p>
+              <h2 class="text-2xl text-stone-900 font-serif group-hover/article:translate-x-1 transition-transform duration-500 mb-4">
+                <a href={`/blog/${getSlugFromId(thought.id)}`} class="hover:text-accent transition-colors">
+                  {thought.data.title}
+                </a>
+              </h2>
+              {thought.data.summary && (
+                <p class="text-stone-600 leading-relaxed max-w-xl italic font-serif text-lg opacity-80">
+                  "{thought.data.summary}"
+                </p>
+              )}
             </div>
           </div>
         </article>
