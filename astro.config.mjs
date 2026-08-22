@@ -35,6 +35,10 @@ const resolveWikiLink = (name) => {
 export default defineConfig({
   site: 'https://hyoseo.dev',
   integrations: [sitemap()],
+  // LeetCode solutions moved out of the blog to /archive; keep the old URL alive.
+  redirects: {
+    '/blog/leetcode': '/archive',
+  },
   markdown: {
     remarkPlugins: [
       remarkMath,
