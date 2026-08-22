@@ -44,7 +44,7 @@ function parseStack(stack: string): string[] {
 
     <!-- Hero -->
     <header class="mb-16 md:mb-20 max-w-2xl">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl text-accent font-serif leading-[1.1] tracking-tight mb-6">
+      <h1 class="heading-hero text-accent mb-6">
         Philosophy of Code
       </h1>
       <p class="text-text-muted font-sans text-base leading-relaxed">
@@ -85,19 +85,19 @@ function parseStack(stack: string): string[] {
           <div class="flex items-center flex-wrap gap-4 mt-2">
             {featured.github && (
               <a href={featured.github} target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-orange-800 transition-colors">
+                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-accent-hover transition-colors">
                 <Github class="w-4 h-4" /> Source
               </a>
             )}
             {featured.video && (
               <a href={featured.video} target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-orange-800 transition-colors">
+                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-accent-hover transition-colors">
                 <PlayCircle class="w-4 h-4" /> Walkthrough
               </a>
             )}
             {featured.link && (
               <a href={featured.link} target="_blank" rel="noopener noreferrer"
-                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-orange-800 transition-colors">
+                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-accent-hover transition-colors">
                 <ExternalLink class="w-4 h-4" /> Live
               </a>
             )}

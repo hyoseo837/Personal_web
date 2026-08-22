@@ -7,14 +7,14 @@ import { now, currentProject, latestProject } from '../data/now';
 
     <div class="space-y-4">
       <div class="flex items-center gap-3 text-stone-400 group">
-        <MapPin class="w-3.5 h-3.5 group-hover:text-orange-900 transition-colors" />
+        <MapPin class="w-3.5 h-3.5 group-hover:text-accent transition-colors" />
         <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">Now at · {now.location}</span>
       </div>
       {latestProject && (
         <div class="flex items-center gap-3 text-stone-400 group">
           {currentProject
-            ? <Hammer class="w-3.5 h-3.5 group-hover:text-orange-900 transition-colors" />
-            : <Archive class="w-3.5 h-3.5 group-hover:text-orange-900 transition-colors" />}
+            ? <Hammer class="w-3.5 h-3.5 group-hover:text-accent transition-colors" />
+            : <Archive class="w-3.5 h-3.5 group-hover:text-accent transition-colors" />}
           <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">
             {currentProject ? 'Now building' : 'Last shipped'} · {latestProject.title}
           </span>
@@ -36,7 +36,7 @@ import { now, currentProject, latestProject } from '../data/now';
           href={item.href}
           target="_blank"
           rel="noopener noreferrer"
-          class="p-3 bg-stone-100/60 rounded-xl border border-stone-200/20 text-stone-400 hover:text-orange-900 hover:bg-white hover:border-stone-200/50 hover:shadow-sm transition-all duration-300 group"
+          class="p-3 bg-stone-100/60 rounded-xl border border-stone-200/20 text-stone-400 hover:text-accent hover:bg-white hover:border-stone-200/50 hover:shadow-sm transition-all duration-300 group"
           aria-label={item.label}
         >
           <item.icon class="w-4 h-4 group-hover:scale-110 transition-transform" />

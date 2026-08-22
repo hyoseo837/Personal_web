@@ -25,6 +25,7 @@
 
   /* Semantic Colors */
   --color-accent: #94492c;
+  --color-accent-hover: #b05c38;
   --color-accent-soft: rgba(148, 73, 44, 0.06);
   --color-accent-muted: rgba(148, 73, 44, 0.4);
   --color-accent-bright: rgba(148, 73, 44, 0.8);
@@ -111,6 +112,12 @@
 
   .heading-serif {
     @apply font-serif text-stone-900;
+  }
+
+  /* Every page-level H1. Pages previously split between md:text-6xl and
+     md:text-7xl; this is the single place that scale is decided. */
+  .heading-hero {
+    @apply text-4xl sm:text-5xl md:text-6xl font-serif leading-[1.1] tracking-tight;
   }
 
   /* Wiki-links. Resolved ones get a dotted underline to read as garden-internal
