@@ -1,84 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllPosts, getPostsByCategory, getSlugFromId, formatDate } from '../../utils/posts';
-
-const categoryMeta = [
-  { slug: 'dev-log',     label: 'Dev Log' },
-  { slug: 'brain-dumps', label: 'Brain Dumps' },
-  { slug: 'leetcode',    label: 'LeetCode' },
-  { slug: 'TIL',         label: 'TIL' },
-  { slug: 'tech-news',   label: 'Tech News' },
-];
-
-const categoriesWithCounts = await Promise.all(
-  categoryMeta.map(async (c) => {
-    const posts = await getPostsByCategory(c.slug);
-    return { ...c, count: posts.length };
-  })
-);
-
-const visibleCategories = categoriesWithCounts.filter((c) => c.count > 0);
-
-const allPosts = await getAllPosts();
-const displayPosts = allPosts
-  .filter(p => p.data.category !== 'leetcode')
-  .slice(0, 20);
+import BlogArchive from '../../components/BlogArchive.astro';
 ---
 
 <BaseLayout
   title="Writing & Thinking"
   description="A collection of thoughts on software engineering, design patterns, and continuous learning."
 >
-  <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
-
-    <header class="mb-12 md:mb-16">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-stone-900 leading-[1.1] tracking-tight mb-4">
-        Writing & Thinking
-      </h1>
-      <p class="text-text-muted font-serif text-lg leading-relaxed max-w-xl">
-        A collection of thoughts on software engineering, design patterns, and continuous learning.
-      </p>
-    </header>
-
-    <!-- Category pills -->
-    <div class="flex flex-wrap gap-2 mb-12">
-      <span class="bg-accent text-white rounded-full px-4 py-2 text-sm font-sans font-semibold cursor-default">
-        All Posts
-      </span>
-      {visibleCategories.map((c) => (
-        <a
-          href={`/blog/${c.slug}`}
-          class="bg-surface text-text-muted rounded-full px-4 py-2 text-sm font-sans font-semibold hover:bg-stone-200 transition-colors"
-        >
-          {c.label}
-        </a>
-      ))}
-    </div>
-
-    <!-- Editorial post list -->
-    <div>
-      {displayPosts.map((post) => (
-        <article class="py-8 border-b border-stone-300/40">
-          <div class="flex items-center gap-3 mb-3">
-            <time class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
-              {formatDate(post.data.date)}
-            </time>
-            <span class="text-stone-300 text-xs">•</span>
-            <span class="chip">{post.data.category}</span>
-          </div>
-          <h2 class="text-2xl md:text-3xl font-serif text-stone-900 leading-snug mb-3">
-            <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-accent transition-colors">
-              {post.data.title}
-            </a>
-          </h2>
-          {post.data.summary && (
-            <p class="text-text-muted font-serif text-base leading-relaxed">
-              {post.data.summary}
-            </p>
-          )}
-        </article>
-      ))}
-    </div>
-
-  </main>
+  <BlogArchive initial="writing" />
 </BaseLayout>

@@ -1,0 +1,295 @@
+---
+import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
+
+interface Props {
+  // Which pill is active on first paint. 'writing' = everything except leetcode.
+  initial?: string;
+}
+
+const { initial = 'writing' } = Astro.props;
+
+const categoryMeta = [
+  {
+    slug: 'writing',
+    label: 'Writing',
+    blurb: 'Thoughts on software engineering, design patterns, and continuous learning.',
+  },
+  {
+    slug: 'dev-log',
+    label: 'Dev Log',
+    blurb: 'Chronological updates and behind-the-scenes of current development projects.',
+  },
+  {
+    slug: 'brain-dumps',
+    label: 'Brain Dumps',
+    blurb: 'Raw, unpolished thoughts and explorations on various subjects.',
+  },
+  { slug: 'TIL', label: 'TIL', blurb: 'Bite-sized technical insights and patterns discovered daily.' },
+  {
+    slug: 'tech-news',
+    label: 'Tech News',
+    blurb: 'Curation and analysis of the latest happenings in the tech industry.',
+  },
+  {
+    slug: 'leetcode',
+    label: 'LeetCode',
+    blurb: 'Problem solutions — approach, intuition, and complexity.',
+  },
+];
+
+const allPosts = await getAllPosts();
+const writingPosts = allPosts.filter((p) => p.data.category !== 'leetcode');
+
+const countFor = (slug: string) =>
+  slug === 'writing' ? writingPosts.length : allPosts.filter((p) => p.data.category === slug).length;
+
+// Drop empty categories, but never drop the one we were asked to open on.
+const visibleCategories = categoryMeta.filter((c) => countFor(c.slug) > 0 || c.slug === initial);
+
+const leetcodePosts = allPosts.filter((p) => p.data.category === 'leetcode');
+const difficulties = ['Easy', 'Medium', 'Hard'].filter((d) =>
+  leetcodePosts.some((p) => p.data.tags?.[0] === d)
+);
+const difficultyCountFor = (d: string) => leetcodePosts.filter((p) => p.data.tags?.[0] === d).length;
+
+const difficultyClass: Record<string, string> = {
+  Easy: 'text-green-600 bg-green-50 ring-green-600/15',
+  Medium: 'text-yellow-700 bg-yellow-50 ring-yellow-600/15',
+  Hard: 'text-red-600 bg-red-50 ring-red-600/15',
+};
+
+const isVisible = (category: string) =>
+  initial === 'writing' ? category !== 'leetcode' : category === initial;
+
+// The empty state has to be right before JS runs, or an empty category renders a blank page.
+const initialCount = countFor(initial);
+
+const activeBlurb = categoryMeta.find((c) => c.slug === initial)?.blurb ?? categoryMeta[0].blurb;
+---
+
+<main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24" data-archive data-initial={initial}>
+
+  <header class="mb-12 md:mb-16">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif text-stone-900 leading-[1.1] tracking-tight mb-4">
+      Writing &amp; Thinking
+    </h1>
+    <p class="text-text-muted font-serif text-lg leading-relaxed max-w-xl" data-blurb>
+      {activeBlurb}
+    </p>
+  </header>
+
+  <!-- Category pills: real links, intercepted by JS to filter without navigating -->
+  <div class="flex flex-wrap gap-2 mb-8" data-pills>
+    {visibleCategories.map((c) => (
+      <a
+        href={c.slug === 'writing' ? '/blog' : `/blog/${c.slug}`}
+        data-category={c.slug}
+        data-blurb-text={c.blurb}
+        aria-current={c.slug === initial ? 'page' : undefined}
+        class:list={[
+          'rounded-full px-4 py-2 text-sm font-sans font-semibold transition-colors inline-flex items-center gap-2',
+          c.slug === initial
+            ? 'bg-accent text-white'
+            : 'bg-surface text-text-muted hover:bg-stone-200',
+        ]}
+      >
+        {c.label}
+        <span class="tabular-nums font-normal opacity-60">{countFor(c.slug)}</span>
+      </a>
+    ))}
+  </div>
+
+  <!-- Difficulty sub-filter, only meaningful while LeetCode is active -->
+  <div
+    class="flex flex-wrap items-center gap-2 mb-8"
+    data-difficulty-filter
+    hidden={initial !== 'leetcode'}
+  >
+    <button
+      type="button"
+      data-difficulty="all"
+      aria-pressed="true"
+      class="rounded-full px-3 py-1.5 text-xs font-sans font-semibold transition-colors bg-accent text-white"
+    >
+      All <span class="tabular-nums font-normal opacity-70">{leetcodePosts.length}</span>
+    </button>
+    {difficulties.map((d) => (
+      <button
+        type="button"
+        data-difficulty={d}
+        aria-pressed="false"
+        class="rounded-full px-3 py-1.5 text-xs font-sans font-semibold transition-colors bg-surface text-text-muted hover:bg-stone-200"
+      >
+        {d} <span class="tabular-nums font-normal opacity-60">{difficultyCountFor(d)}</span>
+      </button>
+    ))}
+  </div>
+
+  <!-- Editorial list: everything that isn't a leetcode solution -->
+  <div data-list="writing" hidden={initial === 'leetcode'}>
+    {writingPosts.map((post) => (
+      <article
+        class="py-8 border-b border-stone-300/40"
+        data-post
+        data-category={post.data.category}
+        hidden={!isVisible(post.data.category)}
+      >
+        <div class="flex items-center gap-3 mb-3">
+          <time class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
+            {formatDate(post.data.date)}
+          </time>
+          <span class="text-stone-300 text-xs">•</span>
+          <span class="chip">{post.data.category}</span>
+        </div>
+        <h2 class="text-2xl md:text-3xl font-serif text-stone-900 leading-snug mb-3">
+          <a href={`/blog/${getSlugFromId(post.id)}`} class="hover:text-accent transition-colors">
+            {post.data.title}
+          </a>
+        </h2>
+        {post.data.summary && (
+          <p class="text-text-muted font-serif text-base leading-relaxed">
+            {post.data.summary}
+          </p>
+        )}
+      </article>
+    ))}
+  </div>
+
+  <!-- Compact rows: 90 leetcode solutions read better as a dense index -->
+  <ul class="border-t border-border-dim" data-list="leetcode" hidden={initial !== 'leetcode'}>
+    {leetcodePosts.map((post) => (
+      <li class="border-b border-border-dim" data-post data-difficulty={post.data.tags?.[0] ?? ''}>
+        <a
+          href={`/blog/${getSlugFromId(post.id)}`}
+          class="group flex items-baseline gap-4 py-4 transition-colors hover:bg-surface/40 -mx-4 px-4 rounded-lg"
+        >
+          {post.data.tags?.[0] && (
+            <span
+              class={`shrink-0 w-16 text-center label-xs !tracking-wide rounded-full px-2 py-1 ring-1 ring-inset ${difficultyClass[post.data.tags[0]] ?? 'text-stone-500 bg-stone-100 ring-stone-200'}`}
+            >
+              {post.data.tags[0]}
+            </span>
+          )}
+          <span class="flex-grow font-serif text-lg text-stone-800 group-hover:text-accent transition-colors leading-snug truncate">
+            {post.data.title}
+          </span>
+          <span class="shrink-0 hidden sm:inline font-serif italic text-sm text-stone-400">
+            {post.data.topic}
+          </span>
+          <time class="shrink-0 label-xs text-stone-400 tabular-nums">
+            {formatDate(post.data.date)}
+          </time>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <div class="py-20 text-center soft-block" data-empty hidden={initialCount > 0}>
+    <p class="text-stone-400 font-serif italic text-xl">No posts found in this category yet.</p>
+    <p class="mt-2 text-stone-300 label-xs">Stay tuned for future updates.</p>
+  </div>
+
+</main>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-archive]');
+  if (root) {
+    const pills = root.querySelector<HTMLElement>('[data-pills]')!;
+    const blurb = root.querySelector<HTMLElement>('[data-blurb]')!;
+    const difficultyFilter = root.querySelector<HTMLElement>('[data-difficulty-filter]')!;
+    const writingList = root.querySelector<HTMLElement>('[data-list="writing"]')!;
+    const leetcodeList = root.querySelector<HTMLElement>('[data-list="leetcode"]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const writingPosts = writingList.querySelectorAll<HTMLElement>('[data-post]');
+    const leetcodeRows = leetcodeList.querySelectorAll<HTMLElement>('[data-post]');
+
+    const setPillState = (container: HTMLElement, attr: string, value: string, active: string[], idle: string[]) => {
+      container.querySelectorAll<HTMLElement>(`[${attr}]`).forEach((pill) => {
+        const on = pill.getAttribute(attr) === value;
+        pill.classList.toggle(active[0], on);
+        pill.classList.toggle(active[1], on);
+        idle.forEach((cls) => pill.classList.toggle(cls, !on));
+      });
+    };
+
+    let difficulty = 'all';
+
+    const applyDifficulty = () => {
+      leetcodeRows.forEach((row) => {
+        row.hidden = difficulty !== 'all' && row.dataset.difficulty !== difficulty;
+      });
+    };
+
+    const select = (category: string, push: boolean) => {
+      const isLeetcode = category === 'leetcode';
+
+      setPillState(pills, 'data-category', category, ['bg-accent', 'text-white'], [
+        'bg-surface',
+        'text-text-muted',
+        'hover:bg-stone-200',
+      ]);
+
+      pills.querySelectorAll<HTMLElement>('[data-category]').forEach((pill) => {
+        if (pill.dataset.category === category) {
+          pill.setAttribute('aria-current', 'page');
+          if (pill.dataset.blurbText) blurb.textContent = pill.dataset.blurbText;
+        } else {
+          pill.removeAttribute('aria-current');
+        }
+      });
+
+      writingList.hidden = isLeetcode;
+      leetcodeList.hidden = !isLeetcode;
+      difficultyFilter.hidden = !isLeetcode;
+
+      let shown = 0;
+      if (isLeetcode) {
+        applyDifficulty();
+        shown = leetcodeRows.length;
+      } else {
+        writingPosts.forEach((post) => {
+          const show = category === 'writing' || post.dataset.category === category;
+          post.hidden = !show;
+          if (show) shown++;
+        });
+      }
+      empty.hidden = shown > 0;
+
+      if (push) {
+        const url = category === 'writing' ? '/blog' : `/blog/${category}`;
+        history.pushState({ category }, '', url);
+      }
+    };
+
+    pills.addEventListener('click', (event) => {
+      const link = (event.target as HTMLElement).closest<HTMLElement>('[data-category]');
+      if (!link) return;
+      // Let modified clicks (new tab, download) behave natively.
+      const e = event as MouseEvent;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      event.preventDefault();
+      select(link.dataset.category!, true);
+    });
+
+    difficultyFilter.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLElement>('[data-difficulty]');
+      if (!button) return;
+      difficulty = button.dataset.difficulty!;
+      setPillState(difficultyFilter, 'data-difficulty', difficulty, ['bg-accent', 'text-white'], [
+        'bg-surface',
+        'text-text-muted',
+        'hover:bg-stone-200',
+      ]);
+      difficultyFilter.querySelectorAll<HTMLElement>('[data-difficulty]').forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.difficulty === difficulty));
+      });
+      applyDifficulty();
+    });
+
+    // Keep the back button meaningful now that pills rewrite the URL.
+    window.addEventListener('popstate', (event) => {
+      const state = event.state as { category?: string } | null;
+      select(state?.category ?? root.dataset.initial ?? 'writing', false);
+    });
+  }
+</script>

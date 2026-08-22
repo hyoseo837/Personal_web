@@ -29,6 +29,7 @@ function checkIntegrity() {
   checkUniqueness(extractIds(readFile('projects.ts')), 'projects');
   checkUniqueness(extractIds(readFile('thoughts.ts')), 'thoughts');
   checkUniqueness(extractIds(readFile('tastes.ts')), 'tastes');
+  checkUniqueness(extractIds(readFile('timeline.ts')), 'timeline');
 
   if (errors === 0) {
     console.log('✅ Data integrity check passed!');

@@ -1,11 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
+import { projects } from '../data/projects';
+import { now } from '../data/now';
+import { timeline } from '../data/timeline';
 
 const allPosts = await getAllPosts();
 const recentPosts = allPosts
   .filter(p => p.data.category !== 'leetcode')
   .slice(0, 2);
+
+// Mirror the projects page: feature what's in flight, else the newest entry.
+const selectedProjects = projects.slice(0, 3);
+
+function parseStack(stack: string): string[] {
+  return stack.split(/[·•,]/).map(s => s.trim()).filter(Boolean);
+}
 ---
 <BaseLayout
   title="Home"
@@ -65,6 +75,76 @@ const recentPosts = allPosts
               {formatDate(post.data.date)}
             </time>
           </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Selected Work Section -->
+    <section class="mb-20 md:mb-24">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-xl font-serif text-stone-900 font-semibold">Selected Work</h2>
+        <a href="/projects" class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400 hover:text-accent transition-colors">
+          View all →
+        </a>
+      </div>
+      <div class="space-y-4">
+        {selectedProjects.map((project) => (
+          <a
+            href="/projects"
+            class="soft-block !p-6 md:!p-8 flex flex-col sm:flex-row sm:items-start gap-5 group"
+          >
+            <div class="icon-box shrink-0">
+              <project.icon class="w-5 h-5" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-baseline flex-wrap gap-x-3 gap-y-1 mb-3">
+                <h3 class="font-serif text-stone-900 text-xl leading-snug group-hover:text-accent transition-colors">
+                  {project.title}
+                </h3>
+                {project.status === 'archived' && (
+                  <span class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
+                    Archived
+                  </span>
+                )}
+              </div>
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                {parseStack(project.stack).slice(0, 4).map(tech => (
+                  <span class="chip">{tech}</span>
+                ))}
+              </div>
+              <p class="text-text-muted font-serif text-sm leading-relaxed line-clamp-2">
+                {project.description}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Where I've Been -->
+    <section>
+      <div class="flex items-center justify-between mb-10 md:mb-12">
+        <h2 class="text-xl font-serif text-stone-900 font-semibold">Where I've been</h2>
+        <span class="text-[10px] uppercase tracking-widest font-sans font-bold text-stone-400">
+          {now.location}
+        </span>
+      </div>
+      <div class="relative space-y-8 before:absolute before:left-[11px] md:before:left-[159px] before:top-2 before:bottom-2 before:w-px before:bg-stone-200/60">
+        {timeline.map((item) => (
+          <div class="flex flex-col md:flex-row gap-2 md:gap-12 group relative pl-8 md:pl-0">
+            <span class="text-[9px] md:text-[10px] tracking-widest text-accent/40 pt-1.5 w-auto md:w-36 shrink-0 font-sans font-bold group-hover:text-accent/80 transition-colors duration-500">
+              {item.period}
+            </span>
+            <div class="relative pl-0">
+              <div class="absolute -left-[21px] md:-left-[37px] top-[4px] md:top-[11px] w-2 h-2 rounded-full bg-stone-200 group-hover:bg-accent-muted transition-all duration-500 ring-4 ring-transparent group-hover:ring-accent-soft z-10"></div>
+              <h3 class="text-stone-900 font-serif text-base group-hover:translate-x-1 transition-transform duration-500">
+                {item.place}
+              </h3>
+              <p class="text-text-muted font-serif text-sm leading-relaxed">
+                {item.detail}
+              </p>
+            </div>
+          </div>
         ))}
       </div>
     </section>

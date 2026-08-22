@@ -39,6 +39,37 @@
   --color-text-dim: #87736c;
 }
 
+/* Native cross-document view transitions — no ClientRouter, no JS.
+   Chrome/Edge 126+ and Safari 18.2+; Firefox ignores the rule and navigates normally. */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+@layer base {
+  /* Naming these holds the chrome still while only the page body crossfades. */
+  header {
+    view-transition-name: site-header;
+  }
+
+  footer {
+    view-transition-name: site-footer;
+  }
+}
+
+/* Not every page wraps content in <main> (the blog category pages use divs),
+   so tune the root crossfade rather than naming a content element unevenly. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+  animation-timing-function: ease;
+}
+
 @layer base {
   body {
     @apply selection:bg-orange-200/50 transition-colors duration-500 text-text-main font-sans;
