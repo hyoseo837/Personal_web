@@ -1,0 +1,63 @@
+---
+/**
+ * A drawing-sheet title block, used in place of the hero + lede pattern.
+ *
+ * The fields are not decoration: each page passes real counts from its own
+ * data, so the block says something true about the sheet you're looking at.
+ */
+export interface SheetField {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  section: string;
+  summary?: string;
+  fields?: SheetField[];
+}
+
+const { section, summary, fields = [] } = Astro.props;
+---
+
+<header class="border border-border-dim bg-surface/30 mb-14 md:mb-20">
+  <div class="grid grid-cols-1 md:grid-cols-[1fr_auto]">
+
+    <div class="p-5 md:p-7 flex flex-col gap-3">
+      <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-accent/60">
+        Hyoseo Lee
+      </span>
+      <h1 class="font-sans font-semibold text-2xl md:text-3xl tracking-[-0.025em] text-stone-900 leading-none">
+        {section}
+      </h1>
+      {summary && (
+        <p
+          class="font-serif text-text-muted text-sm md:text-base leading-relaxed max-w-[46ch]"
+          data-blurb
+        >
+          {summary}
+        </p>
+      )}
+    </div>
+
+    {fields.length > 0 && (
+      <dl class="border-t md:border-t-0 md:border-l border-border-dim md:min-w-[14rem] flex flex-col">
+        {fields.map((field, i) => (
+          <div
+            class:list={[
+              'flex items-baseline justify-between gap-6 px-5 md:px-6 py-2.5',
+              // Hairlines between fields only — the container carries the outer edge.
+              i > 0 && 'border-t border-border-dim',
+            ]}
+          >
+            <dt class="font-mono text-[9px] uppercase tracking-[0.18em] text-text-dim">
+              {field.label}
+            </dt>
+            <dd class="font-mono text-[11px] text-stone-700 tabular-nums text-right">
+              {field.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    )}
+  </div>
+</header>

@@ -4,14 +4,21 @@ import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
 import { projects } from '../data/projects';
 import { now } from '../data/now';
 import { timeline } from '../data/timeline';
+import SheetHeader from '../components/SheetHeader.astro';
 
 const allPosts = await getAllPosts();
-const recentPosts = allPosts
-  .filter(p => p.data.category !== 'leetcode')
-  .slice(0, 2);
+const writingPosts = allPosts.filter(p => p.data.category !== 'leetcode');
+const recentPosts = writingPosts.slice(0, 2);
 
 // Mirror the projects page: feature what's in flight, else the newest entry.
 const selectedProjects = projects.slice(0, 3);
+
+const fields = [
+  { label: 'Location', value: now.location.replace(', Canada', '') },
+  { label: 'Term', value: 'Co-op · StatCan' },
+  { label: 'Writing', value: String(writingPosts.length) },
+  { label: 'Projects', value: String(projects.length) },
+];
 
 function parseStack(stack: string): string[] {
   return stack.split(/[·•,]/).map(s => s.trim()).filter(Boolean);
@@ -23,29 +30,22 @@ function parseStack(stack: string): string[] {
 >
   <main class="max-w-4xl mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-24">
 
-    <!-- Hero Section -->
-    <section class="mb-20 md:mb-28">
-      <h1 class="heading-hero text-accent mb-8">
-        Be happy • Be unique • Be useful.
-      </h1>
-      <p class="text-text-muted font-serif text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
-        I'm Hyoseo — computer science at Waterloo, currently on co-op at Statistics Canada in Ottawa. I build small tools to solve my own problems, and write down what I work out on the way.
+    <SheetHeader
+      section="Index"
+      summary="I'm Hyoseo — computer science at Waterloo, currently on co-op at Statistics Canada in Ottawa. I build small tools to solve my own problems, and write down what I work out on the way."
+      fields={fields}
+    />
+
+    <!-- Notes band. The motto is set as a ruled band rather than a display
+         headline — the one large typographic moment on the page, but not a hero. -->
+    <div class="border-y border-border-dim py-4 mb-16 md:mb-20 flex items-center justify-between gap-6 flex-wrap">
+      <p class="font-mono text-[11px] md:text-xs uppercase tracking-[0.28em] text-accent">
+        Be happy · Be unique · Be useful
       </p>
-      <div class="flex flex-wrap gap-4">
-        <a
-          href="/blog"
-          class="bg-accent text-white px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-accent-hover transition-colors"
-        >
-          Read Latest
-        </a>
-        <a
-          href="/about"
-          class="border border-accent text-accent px-6 py-3 rounded-lg font-sans font-semibold text-sm hover:bg-accent/5 transition-colors"
-        >
-          About Me
-        </a>
-      </div>
-    </section>
+      <span class="font-mono text-[9px] uppercase tracking-[0.18em] text-text-dim">
+        Standing note
+      </span>
+    </div>
 
     <!-- Recent Thoughts Section -->
     <section class="mb-20 md:mb-24">

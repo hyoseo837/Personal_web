@@ -1,5 +1,6 @@
 ---
 import { getAllPosts, getSlugFromId, formatDate } from '../utils/posts';
+import SheetHeader from './SheetHeader.astro';
 
 interface Props {
   // Which pill is active on first paint. 'writing' = every category.
@@ -54,18 +55,19 @@ const isVisible = (category: string) => initial === 'writing' || category === in
 const initialCount = countFor(initial);
 
 const activeBlurb = categoryMeta.find((c) => c.slug === initial)?.blurb ?? categoryMeta[0].blurb;
+
+const sheetFields = [
+  { label: 'Pieces', value: String(posts.length) },
+  { label: 'Categories', value: String(visibleCategories.length - 1) },
+  { label: 'Latest', value: posts[0] ? formatDate(posts[0].data.date) : '—' },
+  { label: 'Archive', value: `${leetcodeCount} solutions` },
+];
 ---
 
 <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24" data-archive data-initial={initial}>
 
-  <header class="mb-12 md:mb-16">
-    <h1 class="heading-hero text-stone-900 mb-4">
-      Writing &amp; Thinking
-    </h1>
-    <p class="text-text-muted font-serif text-lg leading-relaxed max-w-xl" data-blurb>
-      {activeBlurb}
-    </p>
-  </header>
+  <SheetHeader section="Writing" summary={activeBlurb} fields={sheetFields} />
+
 
   <!-- Category pills: real links, intercepted by JS to filter without navigating -->
   <div class="flex flex-wrap gap-2 mb-8" data-pills>

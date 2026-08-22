@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPostsByCategory, getSlugFromId, formatDate } from '../utils/posts';
+import SheetHeader from '../components/SheetHeader.astro';
 
 const solutions = await getPostsByCategory('leetcode');
 
@@ -22,19 +23,15 @@ const difficultyClass: Record<string, string> = {
 >
   <main class="max-w-3xl mx-auto px-6 md:px-8 pt-16 md:pt-20 pb-24">
 
-    <header class="mb-16 md:mb-20">
-      <div class="flex items-center gap-4 mb-8">
-        <div class="w-8 md:w-12 h-px bg-accent-muted/30"></div>
-        <span class="label-xs tracking-[0.3em] uppercase">Archive —</span>
-      </div>
-      <h1 class="heading-hero text-stone-900 mb-6">
-        Archive<span class="text-stone-300 mx-4 font-light">/</span><span class="text-accent">LeetCode</span>
-      </h1>
-      <p class="mt-8 text-stone-500 font-serif italic text-xl md:text-2xl max-w-2xl leading-relaxed">
-        Problem solutions — approach, intuition, and complexity. Kept out of the
-        way of the writing, but kept.
-      </p>
-    </header>
+    <SheetHeader
+      section="Archive / LeetCode"
+      summary="Problem solutions — approach, intuition, and complexity. Kept out of the way of the writing, but kept."
+      fields={[
+        { label: 'Solutions', value: String(solutions.length) },
+        ...difficulties.map((d) => ({ label: d, value: String(countFor(d)) })),
+        { label: 'Latest', value: solutions[0] ? formatDate(solutions[0].data.date) : '—' },
+      ]}
+    />
 
     {solutions.length > 0 && (
       <div class="flex flex-wrap items-center gap-2 mb-8" id="difficulty-filter">

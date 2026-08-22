@@ -71,5 +71,8 @@ export async function getBacklinks(slug: string): Promise<CollectionEntry<'posts
  * Format a date consistently across the blog.
  */
 export function formatDate(date: Date): string {
-  return date.toLocaleDateString('en-CA');
+  // Frontmatter dates like `2026-06-29` parse as UTC midnight. Formatting them
+  // in the build machine's local zone shifts every date back a day west of UTC,
+  // so pin to UTC and keep output independent of where the site is built.
+  return date.toLocaleDateString('en-CA', { timeZone: 'UTC' });
 }
