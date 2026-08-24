@@ -31,20 +31,25 @@ const onIndex = pathname === '/';
     </a>
 
     <!-- Desktop running head -->
-    <nav aria-label="Main" class="hidden items-baseline gap-7 md:flex">
-      {!onIndex && navItems.map((item) => (
-        <a
-          href={item.href}
-          aria-current={isCurrent(item.href) ? "page" : undefined}
-          class:list={[
-            "apparatus inline-flex items-center gap-1.5 transition-colors",
-            isCurrent(item.href) ? "text-ink" : "text-ink-dim hover:text-ink",
-          ]}
-        >
-          {isCurrent(item.href) && <Mark kind="current" size={7} />}
-          {item.name}
-        </a>
-      ))}
+    <div class="hidden items-baseline gap-7 md:flex">
+      {!onIndex && (
+        <nav aria-label="Main" class="flex items-baseline gap-7">
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+              class:list={[
+                "apparatus inline-flex items-center gap-1.5 transition-colors",
+                isCurrent(item.href) ? "text-ink" : "text-ink-dim hover:text-ink",
+              ]}
+            >
+              {isCurrent(item.href) && <Mark kind="current" size={7} />}
+              {item.name}
+            </a>
+          ))}
+        </nav>
+      )}
+
       <button
         id="theme-toggle"
         class="-m-2 p-2 text-ink-dim transition-colors hover:text-ink"
@@ -53,7 +58,7 @@ const onIndex = pathname === '/';
         <Sun id="sun-icon" class="h-4 w-4" />
         <Moon id="moon-icon" class="hidden h-4 w-4" />
       </button>
-    </nav>
+    </div>
 
     <!-- Mobile controls -->
     <div class="z-50 flex items-center gap-1 md:hidden">

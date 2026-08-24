@@ -224,7 +224,6 @@
   .field {
     background-color: var(--field);
     color: var(--on-field);
-    transition: outline-color 0.2s;
   }
 
   .field:hover,
@@ -264,12 +263,6 @@
     text-align: right;
     font-variant-numeric: tabular-nums;
     padding-top: 0.3rem;
-  }
-
-  /* ---- State is a mark, never a hue. ---- */
-  .mark {
-    font-family: var(--font-mono);
-    color: var(--color-mark);
   }
 
   /* ---- Legacy utilities, kept so unconverted routes keep building. ---- */

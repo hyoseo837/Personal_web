@@ -46,9 +46,10 @@ const name = label ?? names[kind];
         <rect x="1.35" y="1.35" width="3.65" height="7.3" fill="currentColor" />
       </>
     )}
-    {(kind === 'evergreen' || kind === 'current') && (
+    {kind === 'evergreen' && (
       <rect x="0.7" y="0.7" width="8.6" height="8.6" fill="currentColor" />
     )}
+    {kind === 'current' && <path d="M1.2 0.8 L8.8 5 L1.2 9.2 Z" fill="currentColor" />}
     {kind === 'archived' && (
       <>
         <rect x="4.3" y="0.4" width="1.4" height="9.2" fill="currentColor" />

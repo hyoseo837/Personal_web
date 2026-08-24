@@ -66,9 +66,15 @@ const steps = [
 // A project card that promises a project should deliver one. Fall back to the
 // index only when the entry carries neither a live link nor a repo.
 function destination(p: (typeof projects)[number]) {
-  const href = p.link ?? p.github ?? '/projects';
+  // Archived entries resolve to source first: a backend PRODUCT.md records as
+  // shut down must never be offered as "Live" off a URL that no longer answers.
+  const href =
+    p.status === 'archived'
+      ? (p.github ?? p.link ?? '/projects')
+      : (p.link ?? p.github ?? '/projects');
   const external = href.startsWith('http');
-  return { href, external };
+  const label = !external ? 'Detail' : href === p.link ? 'Live' : 'Source';
+  return { href, external, label };
 }
 
 function parseStack(stack: string): string[] {
@@ -121,9 +127,9 @@ function parseStack(stack: string): string[] {
 
     <!-- The three steps that prove it. Full-bleed, and sized to their weight
          in the corpus — Byrne never draws a figure into an equal third. -->
-    <section
+    <nav
       class="mt-10 grid gap-px border-y border-rule md:mt-14 md:grid-cols-12"
-      aria-label="Sections"
+      aria-label="Routes"
     >
       {steps.map((s) => (
         <a
@@ -161,7 +167,7 @@ function parseStack(stack: string): string[] {
           </div>
         </a>
       ))}
-    </section>
+    </nav>
 
     <div class="plate-col">
 
@@ -221,7 +227,7 @@ function parseStack(stack: string): string[] {
 
         <ol class="flex flex-col">
           {constructionRows.map(({ project, n }) => {
-            const { href, external } = destination(project);
+            const { href, external, label } = destination(project);
             return (
               <li>
                 <a
@@ -239,9 +245,7 @@ function parseStack(stack: string): string[] {
                       {project.status === 'archived' && (
                         <Mark kind="archived" size={8} class="text-ink-dim" />
                       )}
-                      <span class="apparatus-sm text-ink-dim">
-                        {external ? (project.link ? 'Live' : 'Source') : 'Detail'}
-                      </span>
+                      <span class="apparatus-sm text-ink-dim">{label}</span>
                     </span>
                     <span class="mt-1.5 block font-display text-xl font-medium leading-[1.18] tracking-[-0.015em] text-ink md:text-2xl">
                       {project.title}
