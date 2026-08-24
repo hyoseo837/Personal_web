@@ -1,11 +1,10 @@
 ---
 /**
- * The page layout and its title block.
+ * The proposition head that opens every route other than the index.
  *
- * The block is an opaque panel so its text never fights the graph paper
- * showing through the rest of the sheet, and the whole column is anchored to
- * the left rather than centred — the empty margin sits on the right, the way
- * a drawing leaves room beside the drawn area.
+ * A proposition is stated, then its apparatus is listed beside it. The
+ * numeral hangs in the margin the way a numbered step hangs beside its
+ * assertion — the same law the index's first viewport obeys, at reading scale.
  */
 export interface SheetField {
   label: string;
@@ -16,53 +15,38 @@ interface Props {
   section: string;
   summary?: string;
   fields?: SheetField[];
+  /** Roman numeral for this route's proposition. Defaults to none. */
+  numeral?: string;
 }
 
-const { section, summary, fields = [] } = Astro.props;
+const { section, summary, fields = [], numeral } = Astro.props;
 ---
 
-<main class="max-w-[54rem] px-5 sm:px-8 lg:px-12 xl:px-16 pt-10 md:pt-14 pb-24">
+<main class="plate-col pb-20 pt-10 md:pt-14">
 
-  <header class="border border-border-dim bg-surface mb-14 md:mb-20 relative">
-    {/* Registration ticks, as on any called-out detail */}
-    <span class="absolute top-1.5 left-1.5 w-2.5 h-px bg-accent/45"></span>
-    <span class="absolute top-1.5 left-1.5 w-px h-2.5 bg-accent/45"></span>
-    <span class="absolute bottom-1.5 right-1.5 w-2.5 h-px bg-accent/45"></span>
-    <span class="absolute bottom-1.5 right-1.5 w-px h-2.5 bg-accent/45"></span>
+  <header class="mb-12 border-b border-rule pb-8 md:mb-16">
+    <p class="apparatus mb-6 text-ink">
+      {numeral ? `Proposition ${numeral}.` : 'Proposition.'}
+    </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-[1fr_auto]">
-      <div class="p-6 md:p-8 flex flex-col gap-3">
-        <span class="font-mono text-[10px] uppercase tracking-[0.22em] text-accent/70">
-          Hyoseo Lee
-        </span>
-        <h1 class="font-sans font-semibold text-[1.75rem] md:text-4xl tracking-[-0.03em] text-stone-900 leading-[1.08]">
+    <div class="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-16">
+      <div>
+        <h1 class="font-display text-[2rem] font-medium leading-[1.04] tracking-[-0.02em] text-ink md:text-5xl">
           {section}
         </h1>
         {summary && (
-          <p
-            class="font-serif text-text-muted text-base leading-[1.75] max-w-[52ch] mt-1"
-            data-blurb
-          >
+          <p class="mt-5 max-w-[54ch] text-base leading-[1.7] text-ink-muted">
             {summary}
           </p>
         )}
       </div>
 
       {fields.length > 0 && (
-        <dl class="border-t sm:border-t-0 sm:border-l border-border-dim flex flex-col justify-center sm:min-w-[13rem]">
-          {fields.map((field, i) => (
-            <div
-              class:list={[
-                'flex items-baseline justify-between gap-6 px-6 py-2.5',
-                i > 0 && 'border-t border-border-dim',
-              ]}
-            >
-              <dt class="font-mono text-[9px] uppercase tracking-[0.18em] text-text-dim">
-                {field.label}
-              </dt>
-              <dd class="font-mono text-[11px] text-stone-700 tabular-nums text-right">
-                {field.value}
-              </dd>
+        <dl class="flex flex-col gap-0 border-t border-rule md:min-w-[15rem] md:border-t-0">
+          {fields.map((field) => (
+            <div class="flex items-baseline justify-between gap-8 border-b border-rule py-2.5 md:border-b-0 md:border-t">
+              <dt class="apparatus-sm text-ink-dim">{field.label}</dt>
+              <dd class="font-mono text-[11px] text-ink tabular">{field.value}</dd>
             </div>
           ))}
         </dl>

@@ -1,0 +1,66 @@
+---
+/**
+ * Apparatus marks, drawn rather than set.
+ *
+ * These carry state, and the world's rule is that state is a mark and never a
+ * hue — so they differ by FORM (open, half, filled) and inherit their ink from
+ * context. Drawn as SVG rather than set as glyphs (U+25A1, U+22A2, U+220E,
+ * U+2020) because Google Fonts serves JetBrains Mono as unicode-range subsets
+ * and those code points are not reliably present; a fallback glyph would break
+ * the metric mid-line at 9px, which is exactly where these live.
+ */
+interface Props {
+  kind: 'seedling' | 'growing' | 'evergreen' | 'archived' | 'dead' | 'current';
+  label?: string;
+  size?: number;
+  class?: string;
+}
+
+const { kind, label, size = 9, class: cls = '' } = Astro.props;
+
+const names: Record<string, string> = {
+  seedling: 'Seedling',
+  growing: 'Growing',
+  evergreen: 'Evergreen',
+  archived: 'Archived',
+  dead: 'Discontinued',
+  current: 'Current page',
+};
+const name = label ?? names[kind];
+---
+<span class={`inline-flex items-center ${cls}`}>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 10 10"
+    fill="none"
+    aria-hidden="true"
+    style="display:block"
+  >
+    {kind === 'seedling' && (
+      <rect x="0.7" y="0.7" width="8.6" height="8.6" stroke="currentColor" stroke-width="1.3" />
+    )}
+    {kind === 'growing' && (
+      <>
+        <rect x="0.7" y="0.7" width="8.6" height="8.6" stroke="currentColor" stroke-width="1.3" />
+        <rect x="1.35" y="1.35" width="3.65" height="7.3" fill="currentColor" />
+      </>
+    )}
+    {(kind === 'evergreen' || kind === 'current') && (
+      <rect x="0.7" y="0.7" width="8.6" height="8.6" fill="currentColor" />
+    )}
+    {kind === 'archived' && (
+      <>
+        <rect x="4.3" y="0.4" width="1.4" height="9.2" fill="currentColor" />
+        <rect x="1.2" y="2.4" width="7.6" height="1.4" fill="currentColor" />
+      </>
+    )}
+    {kind === 'dead' && (
+      <>
+        <rect x="4.3" y="0.6" width="1.4" height="8" fill="currentColor" />
+        <rect x="0.8" y="8.2" width="8.4" height="1.4" fill="currentColor" />
+      </>
+    )}
+  </svg>
+  <span class="sr-only">{name}</span>
+</span>

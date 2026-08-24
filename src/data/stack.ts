@@ -5,7 +5,6 @@ export const stack = {
     { name: "Galaxy Phone", detail: "Daily Driver" },
     { name: "Galaxy Buds 3 pro", detail: "Audio" },
     { name: "Logitech pro wireless", detail: "Mouse" },
-    { name: "Xbox wireless controller", detail: "Gaming" },
   ],
   software: [
     { name: "VS Code", detail: "Editor" },

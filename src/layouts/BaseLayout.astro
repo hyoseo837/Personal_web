@@ -1,8 +1,6 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import SheetFrame from '../components/SheetFrame.astro';
-import SocialRail from '../components/SocialRail.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
@@ -17,7 +15,7 @@ const {
   title,
   description = "Hyoseo Lee — computer science at the University of Waterloo. Projects, dev logs, and a garden of notes on philosophy and logic.",
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
-  image = "/android-chrome-512x512.png", 
+  image = "/android-chrome-512x512.png",
 } = Astro.props;
 
 const siteTitle = `${title} - Hyoseo`;
@@ -26,7 +24,6 @@ const siteTitle = `${title} - Hyoseo`;
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Global Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -35,17 +32,14 @@ const siteTitle = `${title} - Hyoseo`;
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Primary Meta Tags -->
     <title>{siteTitle}</title>
     <meta name="title" content={siteTitle} />
     <meta name="description" content={description} />
     <meta name="author" content="Hyoseo Lee" />
     <meta name="keywords" content="Hyoseo Lee, hyoseo.dev, Computer Science, University of Waterloo, Software Engineering, Philosophy, Seeker of Patterns" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={siteTitle} />
@@ -54,16 +48,14 @@ const siteTitle = `${title} - Hyoseo`;
     <meta property="og:site_name" content="hyoseo.dev" />
     <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={siteTitle} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
 
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#f3f6f8" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0d1218" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#eeece7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12111a" media="(prefers-color-scheme: dark)" />
 
     <!-- Resolve the theme before first paint, or the page flashes light. -->
     <script is:inline>
@@ -94,7 +86,6 @@ const siteTitle = `${title} - Hyoseo`;
       });
     </script>
 
-    <!-- Schema.org (JSON-LD) -->
     <script is:inline type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -103,33 +94,46 @@ const siteTitle = `${title} - Hyoseo`;
         "url": "https://hyoseo.dev",
         "jobTitle": "Student",
         "description": "Computer Science student at the University of Waterloo. Builds small tools and writes about systems, logic, and language.",
-        "sameAs": [
-          "https://github.com/hyoseo837"
-        ],
-        "affiliation": {
-          "@type": "CollegeOrUniversity",
-          "name": "University of Waterloo"
-        }
+        "sameAs": ["https://github.com/hyoseo837"],
+        "affiliation": { "@type": "CollegeOrUniversity", "name": "University of Waterloo" }
       }
     </script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..700;1,6..96,500&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- KaTeX (used by blog posts with math) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
     <ClientRouter fallback="animate" />
   </head>
-  <body class="text-text-main font-sans antialiased min-h-screen">
-    <SocialRail />
-    <SheetFrame>
-      <Header />
-      <div class="flex-1">
-        <slot />
-      </div>
-      <Footer />
-    </SheetFrame>
+  <body class="min-h-screen flex flex-col antialiased">
+    <!--
+      THESIS: The site is one continuous argument, and every note, project and log
+      is a numbered step in it. Refuses the card grid of unrelated sections that
+      every developer portfolio ships.
+      OWN-WORLD: Byrne's Euclid (1847). Plate-white or ink-black ground; vermilion,
+      ultramarine and chrome yellow as flat fields owning whole regions, never as
+      accents on elements. Bodoni Moda states, Libre Caslon argues, JetBrains Mono
+      counts. Hairline rules, hanging indent, zero radius, no cast shadow. State is
+      an apparatus mark — square, turnstile, tombstone, dagger, falsum — never a
+      coloured badge.
+      STORY: A visitor sees a proposition stated at full scale, then the three steps
+      that prove it, and understands within one screen that this is one mind arguing
+      continuously rather than three products bolted into a nav bar.
+      FIRST VIEWPORT: PROPOSITION I. running head; the motto in Bodoni at display
+      scale filling the upper half; beneath a hairline, three full-bleed colour
+      fields — vermilion Writing, ultramarine Work, chrome-yellow Notes — each
+      carrying its step numeral, name and live count; tombstone bottom-right.
+      FORM: The Standing Proof, candidate 3 of 7 on the grounded list, assigned by
+      the roll; seed key 483f1cd1.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the
+      finish review, the verdict, DESIGN.md, and every shipping raster carrying its
+      provenance
+    -->
+    <Header />
+    <div class="flex-1">
+      <slot />
+    </div>
+    <Footer />
   </body>
 </html>

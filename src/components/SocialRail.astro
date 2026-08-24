@@ -17,10 +17,17 @@ const icons = {
     scrolls. Only from lg up, where the sheet frame leaves margin to hold it;
     below that the footer carries the same links. */}
 <nav
-  class="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 z-40 flex-col border-y border-l border-border-dim bg-surface"
+  class="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 z-40 flex-col border-y border-l-2 border-y-border-hover border-l-accent bg-surface shadow-[-2px_0_12px_rgba(16,24,32,0.08)]"
   aria-label="Elsewhere"
 >
-  {socialLinks.map((link, i) => {
+  <span
+    class="border-b border-border-dim bg-accent-soft py-3 font-mono text-[9px] font-semibold uppercase tracking-[0.24em] text-accent [writing-mode:vertical-rl]"
+    aria-hidden="true"
+  >
+    Elsewhere
+  </span>
+
+  {socialLinks.map((link) => {
     const Icon = icons[link.icon];
     return (
       <a
@@ -29,14 +36,11 @@ const icons = {
         rel={link.external ? 'noopener noreferrer' : undefined}
         aria-label={link.label}
         title={link.label}
-        class:list={[
-          'group relative p-2.5 text-stone-400 hover:text-accent hover:bg-surface-hover transition-colors duration-300',
-          i > 0 && 'border-t border-border-dim',
-        ]}
+        class="group relative border-t border-border-dim p-3 text-text-muted transition-colors duration-200 hover:bg-accent hover:text-white focus-visible:bg-accent focus-visible:text-white"
       >
-        <Icon class="w-4 h-4" />
+        <Icon class="w-5 h-5" />
         <span
-          class="pointer-events-none absolute right-full top-1/2 -translate-y-1/2 mr-2 whitespace-nowrap border border-border-dim bg-surface px-2 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-text-muted opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200"
+          class="pointer-events-none absolute right-full top-1/2 -translate-y-1/2 mr-2 whitespace-nowrap border border-border-hover bg-surface px-2 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-text-main opacity-0 shadow-[-2px_0_10px_rgba(16,24,32,0.10)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
         >
           {link.label}
         </span>

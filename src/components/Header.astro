@@ -1,101 +1,106 @@
 ---
 import { Menu, X, Sun, Moon } from 'lucide-astro';
+import Mark from './Mark.astro';
 const pathname = new URL(Astro.request.url).pathname;
 
+// The running head of a printed book: recto name, verso apparatus.
 const navItems = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Thinking', href: '/thinking' },
+  { name: 'Index', href: '/' },
+  { name: 'Writing', href: '/blog' },
+  { name: 'Work', href: '/projects' },
+  { name: 'Notes', href: '/thinking' },
+  { name: 'Author', href: '/about' },
 ];
+
+const isCurrent = (href: string) =>
+  href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
+
+// On the index the three fields already carry Writing / Work / Notes, so a nav
+// bar repeating them a few hundred pixels above is the duplication STORY
+// refuses. Off-index it is the only wayfinding there is, so it stays.
+const onIndex = pathname === '/';
 ---
 
-<header class="w-full px-6 md:px-8 pt-8 md:pt-10 flex justify-between items-center relative z-50">
-  <a href="/" class="text-xl text-accent font-sans font-semibold tracking-[-0.02em] hover:text-accent-hover transition-colors z-50">
-    Hyoseo Lee
-  </a>
+<header class="sticky top-0 z-50 border-b border-rule bg-ground">
+  <div class="plate-col flex items-baseline justify-between gap-6 py-3.5">
+    <a
+      href="/"
+      class="apparatus text-ink underline decoration-transparent decoration-dotted underline-offset-[6px] transition-colors hover:decoration-ink"
+    >
+      Hyoseo&nbsp;Lee
+    </a>
 
-  <!-- Desktop Nav -->
-  <nav class="hidden md:flex items-center gap-8 font-mono font-semibold text-[10px] uppercase tracking-[0.2em]">
-    {navItems.map((item) => {
-      const isActive = item.href === '/'
-        ? pathname === '/'
-        : pathname === item.href || pathname.startsWith(item.href + '/');
-      return (
+    <!-- Desktop running head -->
+    <nav aria-label="Main" class="hidden items-baseline gap-7 md:flex">
+      {!onIndex && navItems.map((item) => (
         <a
           href={item.href}
+          aria-current={isCurrent(item.href) ? "page" : undefined}
           class:list={[
-            "transition-colors duration-300 pb-0.5",
-            isActive
-              ? "text-accent border-b-2 border-current"
-              : "text-stone-400 hover:text-stone-900"
+            "apparatus inline-flex items-center gap-1.5 transition-colors",
+            isCurrent(item.href) ? "text-ink" : "text-ink-dim hover:text-ink",
           ]}
         >
+          {isCurrent(item.href) && <Mark kind="current" size={7} />}
           {item.name}
         </a>
-      );
-    })}
+      ))}
+      <button
+        id="theme-toggle"
+        class="-m-2 p-2 text-ink-dim transition-colors hover:text-ink"
+        aria-label="Switch between light and dark theme"
+      >
+        <Sun id="sun-icon" class="h-4 w-4" />
+        <Moon id="moon-icon" class="hidden h-4 w-4" />
+      </button>
+    </nav>
 
-    <button
-      id="theme-toggle"
-      class="p-1.5 -m-1.5 text-stone-400 hover:text-accent transition-colors"
-      aria-label="Switch between light and dark theme"
-    >
-      <Sun id="sun-icon" class="w-4 h-4" />
-      <Moon id="moon-icon" class="w-4 h-4 hidden" />
-    </button>
-  </nav>
-
-  <!-- Mobile Menu Button -->
-  <div class="flex items-center gap-1 md:hidden z-50">
-    <button
-      id="theme-toggle-mobile"
-      class="p-2 text-stone-400 hover:text-accent transition-colors"
-      aria-label="Switch between light and dark theme"
-    >
-      <Sun id="sun-icon-mobile" class="w-5 h-5" />
-      <Moon id="moon-icon-mobile" class="w-5 h-5 hidden" />
-    </button>
-  <button
-    id="menu-toggle"
-    class="p-2 text-stone-500 hover:text-accent transition-colors"
-    aria-label="Toggle Menu"
-    aria-expanded="false"
-    aria-controls="mobile-menu"
-  >
-    <Menu id="menu-icon" class="w-6 h-6" />
-    <X id="close-icon" class="w-6 h-6 hidden" />
-  </button>
+    <!-- Mobile controls -->
+    <div class="z-50 flex items-center gap-1 md:hidden">
+      <button
+        id="theme-toggle-mobile"
+        class="p-2 text-ink-dim transition-colors hover:text-ink"
+        aria-label="Switch between light and dark theme"
+      >
+        <Sun id="sun-icon-mobile" class="h-5 w-5" />
+        <Moon id="moon-icon-mobile" class="hidden h-5 w-5" />
+      </button>
+      <button
+        id="menu-toggle"
+        class="p-2 text-ink-dim transition-colors hover:text-ink"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <Menu id="menu-icon" class="h-5 w-5" />
+        <X id="close-icon" class="hidden h-5 w-5" />
+      </button>
+    </div>
   </div>
 
-  <!-- Mobile Nav Overlay -->
+  <!-- Mobile menu: the contents page, set as numbered steps -->
   <div
     id="mobile-menu"
-    class="fixed inset-0 bg-stone-50/98 backdrop-blur-md z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-300 md:hidden"
+    class="pointer-events-none fixed inset-0 z-40 flex flex-col justify-center gap-1 bg-ground px-8 opacity-0 transition-opacity duration-200 md:hidden"
   >
-    {navItems.map((item) => {
-      const isActive = item.href === '/'
-        ? pathname === '/'
-        : pathname === item.href || pathname.startsWith(item.href + '/');
-      return (
-        <a
-          href={item.href}
-          class:list={[
-            "text-2xl font-sans font-medium tracking-[-0.02em] transition-colors duration-300",
-            isActive ? "text-accent" : "text-stone-400"
-          ]}
-        >
+    {navItems.map((item, i) => (
+      <a
+        href={item.href}
+        aria-current={isCurrent(item.href) ? 'page' : undefined}
+        class="step border-b border-rule py-4"
+      >
+        <span class="step-numeral">{String(i + 1).padStart(2, '0')}</span>
+        <span class="inline-flex items-center gap-2.5 font-display text-2xl font-medium tracking-[-0.02em] text-ink">
+          {isCurrent(item.href) && <Mark kind="current" size={9} />}
           {item.name}
-        </a>
-      );
-    })}
+        </span>
+      </a>
+    ))}
   </div>
 </header>
 
 <script>
   // ClientRouter swaps the DOM, so these must rebind on every page load.
-  // astro:page-load fires on first load and after each navigation.
   function initHeader() {
     const applyIcons = (dark: boolean) => {
       ['sun-icon', 'sun-icon-mobile'].forEach((id) =>

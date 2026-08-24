@@ -1,82 +1,62 @@
 ---
-import { Github, Mail, Linkedin, Instagram, MapPin, SquarePen, Coffee, Hammer, Archive, FileText } from 'lucide-astro';
+import { Github, Mail, Linkedin, Instagram, SquarePen, Coffee, FileText } from 'lucide-astro';
 import { now, currentProject, latestProject } from '../data/now';
 import { socialLinks } from '../data/links';
+import Mark from './Mark.astro';
 
 const icons = { github: Github, blog: SquarePen, instagram: Instagram, linkedin: Linkedin, mail: Mail, cv: FileText, kofi: Coffee };
 
-// Sheet identity for the bottom title strip. The path names the sheet the way
-// a drawing number would; "revised" is the build date, which is honest for a
-// static site — it is exactly when this sheet was last issued.
-const path = new URL(Astro.request.url).pathname;
-const sheet =
-  path === '/'
-    ? 'Index'
-    : path
-        .replace(/^\/|\/$/g, '')
-        .split('/')
-        .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-        .join(' / ');
+// The colophon: what a book prints on its last leaf. "Revised" is the build
+// date, which is honest for a static site — it is when this plate was pulled.
 const revised = new Date().toLocaleDateString('en-CA', { timeZone: 'UTC' });
----
-<footer class="max-w-3xl mx-auto px-6 md:px-8 py-20 md:py-24 border-t border-stone-200/40">
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
 
-    <div class="space-y-4">
-      <div class="flex items-center gap-3 text-stone-400 group">
-        <MapPin class="w-3.5 h-3.5 group-hover:text-accent transition-colors" />
-        <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">Now at · {now.location}</span>
-      </div>
-      {latestProject && (
-        <div class="flex items-center gap-3 text-stone-400 group">
-          {currentProject
-            ? <Hammer class="w-3.5 h-3.5 group-hover:text-accent transition-colors" />
-            : <Archive class="w-3.5 h-3.5 group-hover:text-accent transition-colors" />}
-          <span class="text-[10px] uppercase tracking-[0.2em] font-sans font-bold group-hover:text-stone-600 transition-colors">
-            {currentProject ? 'Now building' : 'Last shipped'} · {latestProject.title}
-          </span>
-        </div>
-      )}
+const colophon = [
+  { label: 'Proved by', value: 'Hyoseo Lee' },
+  { label: 'Set in', value: 'Bodoni · Caslon' },
+  { label: 'At', value: now.location.replace(', Canada', '') },
+  { label: 'Revised', value: revised },
+];
+---
+<footer class="mt-auto border-t border-rule">
+  <div class="plate-col py-12">
+
+    <!-- The tombstone closes the argument. -->
+    <div class="mb-10 flex items-baseline gap-4">
+      <Mark kind="evergreen" label="Q.E.D." size={12} class="text-ink" />
+      <span class="apparatus text-ink-dim">
+        {currentProject ? 'Currently proving' : 'Last proved'}
+        {latestProject ? ` · ${latestProject.title}` : ''}
+      </span>
     </div>
 
-    {/* The fixed rail carries these from lg up, so avoid showing both. */}
-    <div class="flex flex-wrap gap-4 lg:hidden">
-      {socialLinks.map((item) => {
-        const Icon = icons[item.icon];
-        return (
-        <a
-          href={item.href}
-          target={item.external ? '_blank' : undefined}
-          rel={item.external ? 'noopener noreferrer' : undefined}
-          class="p-3 bg-stone-100/60 border border-stone-200/20 text-stone-400 hover:text-accent hover:bg-white hover:border-stone-200/50 transition-all duration-300 group"
-          aria-label={item.label}
-        >
-          <Icon class="w-4 h-4 group-hover:scale-110 transition-transform" />
-        </a>
-        );
-      })}
+    <div class="flex flex-wrap items-end justify-between gap-8">
+      <dl class="grid grid-cols-2 gap-x-10 gap-y-5 sm:grid-cols-4">
+        {colophon.map((f) => (
+          <div class="flex flex-col gap-1.5">
+            <dt class="apparatus-sm text-ink-dim">{f.label}</dt>
+            <dd class="font-mono text-[11px] text-ink tabular">{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <ul class="flex flex-wrap gap-1">
+        {socialLinks.map((item) => {
+          const Icon = icons[item.icon];
+          return (
+            <li>
+              <a
+                href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+                class="inline-flex border border-rule p-2.5 text-ink-muted transition-colors hover:border-mark hover:bg-mark hover:text-plate"
+                aria-label={item.label}
+              >
+                <Icon class="h-4 w-4" />
+              </a>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   </div>
-
-  <!-- The sheet's bottom title strip: real fields, in drawing order. -->
-  <dl class="mt-20 border-t border-border-dim grid grid-cols-2 sm:grid-cols-4">
-    {[
-      { label: 'Drawn by', value: 'Hyoseo Lee' },
-      { label: 'Sheet', value: sheet },
-      { label: 'Scale', value: '1:1' },
-      { label: 'Revised', value: revised },
-    ].map((field, i) => (
-      <div
-        class:list={[
-          'flex flex-col gap-1 px-4 py-3 border-border-dim',
-          i > 0 && 'sm:border-l',
-          i > 1 && 'border-t sm:border-t-0',
-          i % 2 === 1 && 'border-l sm:border-l',
-        ]}
-      >
-        <dt class="font-mono text-[9px] uppercase tracking-[0.18em] text-text-dim">{field.label}</dt>
-        <dd class="font-mono text-[11px] text-stone-600 tabular-nums truncate">{field.value}</dd>
-      </div>
-    ))}
-  </dl>
 </footer>
