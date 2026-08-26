@@ -403,6 +403,16 @@
         "name": "The Squared Rule",
         "body": "Every radius token is 0px. Do not add a rounded variant, do not reintroduce a radius scale, and do not special-case a component to curve. A circle is permitted only for something that is physically round.",
         "section": "shapes"
+      },
+      {
+        "name": "The Illustration Rule",
+        "body": "A project demo is a picture of an application, not an interface. Inside src/components/demos/ the site's palette does not apply: a miniature reproduces its subject's own colours — a dashboard's tickers, a simulation's heat map — because at roughly 200px wide it is a drawing, and recolouring it to three inks would stop it reading as its subject. Nothing outside that directory may claim the exemption, and a demo is never a real control: it is inert, decorative, and carries no state the reader can act on.",
+        "section": "colors"
+      },
+      {
+        "name": "The Miniature Floor Rule",
+        "body": "The 9px apparatus floor binds the interface, not the illustrations. A demo in src/components/demos/ may set type as small as 6.5px, because it is depicting text rather than setting it — nobody is meant to read a 7px label in a 200px mock, only to recognise its shape. Everywhere else 9px is the floor.",
+        "section": "typography"
       }
     ],
     "dos": [
@@ -422,7 +432,8 @@
       "Don't author new markup against the legacy token aliases — --color-stone-*, --color-accent-*, --color-surface, --color-text-*, --color-border-*, --color-chip*. They are a migration shim remapped onto this palette so that /about, /projects, /thinking, /archive and /blog keep building, and they will be removed as those routes are rebuilt.",
       "Don't give a component a dark: branch or introduce a colour that exists only in dark mode.",
       "Don't build a grid of equal-weight bordered cards. That is the pattern this site exists to refuse.",
-      "Don't invent a colour outside this palette. If a surface genuinely needs one, add it as a token here first — a literal in a component is drift."
+      "Don't invent a colour outside this palette. If a surface genuinely needs one, add it as a token here first — a literal in a component is drift.",
+      "Don't treat a project demo as UI. It is a drawing of an application: inert, decorative, and outside both the palette and the type ramp. Equally, don't let its licence leak — the exemption stops at that directory."
     ]
   }
 }

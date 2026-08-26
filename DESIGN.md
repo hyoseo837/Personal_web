@@ -228,6 +228,14 @@ sampled from their own sprites — stays a local literal with a comment saying s
 because promoting a one-off to the palette pollutes it. Text and controls that sit on a frozen surface
 must be frozen too — theme tokens go light-on-light there.
 
+**The Illustration Rule.** A project demo is a picture of an application, not an
+interface. Inside `src/components/demos/` the site's palette does not apply: a
+miniature reproduces its subject's own colours — a dashboard's tickers, a
+simulation's heat map — because at roughly 200px wide it is a drawing, and
+recolouring it to three inks would stop it reading as its subject. Nothing
+outside that directory may claim the exemption, and a demo is never a real
+control: it is inert, decorative, and carries no state the reader can act on.
+
 ## Typography
 
 **Display Font:** Bodoni Moda (with Didot, Georgia, serif)
@@ -273,6 +281,12 @@ has forked the display voice and will drift.
 tracked, and set in `ink-dim`. It is meant to be skimmed past. If a label feels
 like it needs to be bigger to be read, it is probably prose and belongs in the
 body voice.
+
+**The Miniature Floor Rule.** The 9px apparatus floor binds the interface, not
+the illustrations. A demo in `src/components/demos/` may set type as small as
+6.5px, because it is depicting text rather than setting it — nobody is meant to
+read a 7px label in a 200px mock, only to recognise its shape. Everywhere else
+9px is the floor.
 
 ## Layout
 
@@ -439,4 +453,8 @@ than lifted.
 - **Don't** build a grid of equal-weight bordered cards. That is the pattern this
   site exists to refuse.
 - **Don't** invent a colour outside this palette. If a surface genuinely needs
-  one, add it as a token here first — a literal in a component is drift.
+  one, add it as a token here first — a literal in a component is drift. The one
+  standing exemption is `src/components/demos/`, per The Illustration Rule.
+- **Don't** treat a project demo as UI. It is a drawing of an application: inert,
+  decorative, and outside both the palette and the type ramp. Equally, don't let
+  its licence leak — the exemption stops at that directory.
