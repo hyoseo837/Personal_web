@@ -1,201 +1,266 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedAt": "2026-08-26T06:00:00Z",
   "title": "Design System: hyoseo.dev",
   "extensions": {
     "colorMeta": {
-      "drafting-cyan": {
+      "vermilion": {
         "role": "primary",
-        "displayName": "Drafting Cyan",
-        "canonical": "#0d6c88",
-        "darkValue": "#45b9da",
+        "displayName": "Vermilion",
+        "canonical": "oklch(55.4% 0.207 27.5)",
         "tonalRamp": [
-          "oklch(15% 0.04 220)",
-          "oklch(25% 0.06 220)",
-          "oklch(35% 0.075 220)",
-          "oklch(45% 0.082 220)",
-          "oklch(58% 0.09 220)",
-          "oklch(72% 0.085 220)",
-          "oklch(85% 0.05 220)",
-          "oklch(95% 0.02 220)"
+          "oklch(15% 0.07 27.5)",
+          "oklch(26% 0.11 27.5)",
+          "oklch(37% 0.16 27.5)",
+          "oklch(47% 0.19 27.5)",
+          "oklch(55.4% 0.207 27.5)",
+          "oklch(68% 0.17 27.5)",
+          "oklch(82% 0.10 27.5)",
+          "oklch(95% 0.03 27.5)"
         ]
       },
-      "drafting-cyan-ink": {
+      "ultramarine": {
         "role": "primary",
-        "displayName": "Drafting Cyan Ink",
-        "canonical": "#0a5871",
-        "darkValue": "#6ecbe5",
-        "purpose": "Resting ink for label-sized text. No alpha of the base accent reaches 4.5:1 at 9-11px."
-      },
-      "sheet-white": {
-        "role": "neutral",
-        "displayName": "Sheet White",
-        "canonical": "#f3f6f8",
-        "darkValue": "#0d1218",
+        "displayName": "Ultramarine",
+        "canonical": "oklch(42.3% 0.138 258)",
         "tonalRamp": [
-          "#101820",
-          "#232e38",
-          "#3a4652",
-          "#5c6874",
-          "#7d8a95",
-          "#c2ccd4",
-          "#eaeff3",
-          "#f3f6f8"
+          "oklch(15% 0.06 258)",
+          "oklch(24% 0.09 258)",
+          "oklch(33% 0.12 258)",
+          "oklch(42.3% 0.138 258)",
+          "oklch(54% 0.13 258)",
+          "oklch(68% 0.10 258)",
+          "oklch(82% 0.06 258)",
+          "oklch(95% 0.02 258)"
         ]
       },
-      "panel": {
-        "role": "neutral",
-        "displayName": "Panel",
-        "canonical": "#eaeff3",
-        "darkValue": "#131b23",
+      "chrome": {
+        "role": "secondary",
+        "displayName": "Chrome Yellow",
+        "canonical": "oklch(80.6% 0.159 85.5)",
         "tonalRamp": [
-          "#101820",
-          "#232e38",
-          "#3a4652",
-          "#5c6874",
-          "#7d8a95",
-          "#c2ccd4",
-          "#eaeff3",
-          "#f3f6f8"
+          "oklch(15% 0.05 85.5)",
+          "oklch(28% 0.08 85.5)",
+          "oklch(42% 0.11 85.5)",
+          "oklch(56% 0.13 85.5)",
+          "oklch(68% 0.15 85.5)",
+          "oklch(80.6% 0.159 85.5)",
+          "oklch(89% 0.10 85.5)",
+          "oklch(96% 0.04 85.5)"
         ]
       },
-      "ink-main": {
-        "role": "neutral",
-        "displayName": "Main Ink",
-        "canonical": "#101820",
-        "darkValue": "#e4ecf2",
+      "mark": {
+        "role": "primary",
+        "displayName": "Mark Blue",
+        "canonical": "oklch(42.3% 0.138 258)",
         "tonalRamp": [
-          "#101820",
-          "#232e38",
-          "#3a4652",
-          "#5c6874",
-          "#7d8a95",
-          "#c2ccd4",
-          "#eaeff3",
-          "#f3f6f8"
+          "oklch(15% 0.06 258)",
+          "oklch(24% 0.09 258)",
+          "oklch(33% 0.12 258)",
+          "oklch(42.3% 0.138 258)",
+          "oklch(54% 0.13 258)",
+          "oklch(68% 0.10 258)",
+          "oklch(82% 0.06 258)",
+          "oklch(95% 0.02 258)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Warm Plate Ground",
+        "canonical": "oklch(93.6% 0.007 85)",
+        "tonalRamp": [
+          "oklch(15% 0.006 85)",
+          "oklch(26% 0.006 85)",
+          "oklch(38% 0.007 85)",
+          "oklch(50% 0.007 85)",
+          "oklch(63% 0.007 85)",
+          "oklch(76% 0.007 85)",
+          "oklch(87% 0.007 85)",
+          "oklch(93.6% 0.007 85)"
+        ]
+      },
+      "plate": {
+        "role": "neutral",
+        "displayName": "Plate White",
+        "canonical": "oklch(96.3% 0.005 85)",
+        "tonalRamp": [
+          "oklch(15% 0.004 85)",
+          "oklch(27% 0.004 85)",
+          "oklch(39% 0.005 85)",
+          "oklch(51% 0.005 85)",
+          "oklch(64% 0.005 85)",
+          "oklch(77% 0.005 85)",
+          "oklch(89% 0.005 85)",
+          "oklch(96.3% 0.005 85)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink Black",
+        "canonical": "oklch(19.2% 0.014 305)",
+        "tonalRamp": [
+          "oklch(19.2% 0.014 305)",
+          "oklch(28% 0.016 305)",
+          "oklch(37% 0.017 305)",
+          "oklch(47% 0.017 305)",
+          "oklch(58% 0.015 305)",
+          "oklch(71% 0.012 305)",
+          "oklch(84% 0.008 305)",
+          "oklch(95% 0.004 305)"
         ]
       },
       "ink-muted": {
         "role": "neutral",
         "displayName": "Muted Ink",
-        "canonical": "#47535e",
-        "darkValue": "#a3b1bc"
+        "canonical": "oklch(40.5% 0.017 305)",
+        "tonalRamp": [
+          "oklch(15% 0.012 305)",
+          "oklch(25% 0.015 305)",
+          "oklch(33% 0.016 305)",
+          "oklch(40.5% 0.017 305)",
+          "oklch(55% 0.016 305)",
+          "oklch(70% 0.012 305)",
+          "oklch(84% 0.008 305)",
+          "oklch(95% 0.004 305)"
+        ]
       },
       "ink-dim": {
         "role": "neutral",
         "displayName": "Dim Ink",
-        "canonical": "#7d8a95",
-        "darkValue": "#66757f"
-      },
-      "rule-faint": {
-        "role": "neutral",
-        "displayName": "Faint Rule",
-        "canonical": "rgba(120, 145, 165, 0.22)",
-        "darkValue": "rgba(140, 170, 195, 0.16)"
-      },
-      "rule-strong": {
-        "role": "neutral",
-        "displayName": "Strong Rule",
-        "canonical": "rgba(120, 145, 165, 0.5)",
-        "darkValue": "rgba(140, 170, 195, 0.34)"
-      },
-      "chip-ground": {
-        "role": "secondary",
-        "displayName": "Chip Ground",
-        "canonical": "#dbe7ee",
-        "darkValue": "#17222b",
+        "canonical": "oklch(53.4% 0.019 305)",
         "tonalRamp": [
-          "oklch(18% 0.02 220)",
-          "oklch(28% 0.025 220)",
-          "oklch(40% 0.03 220)",
-          "oklch(52% 0.03 220)",
-          "oklch(65% 0.028 220)",
-          "oklch(78% 0.024 220)",
-          "oklch(90% 0.018 220)",
-          "oklch(96% 0.008 220)"
+          "oklch(15% 0.012 305)",
+          "oklch(26% 0.016 305)",
+          "oklch(38% 0.018 305)",
+          "oklch(53.4% 0.019 305)",
+          "oklch(64% 0.017 305)",
+          "oklch(76% 0.012 305)",
+          "oklch(87% 0.008 305)",
+          "oklch(95% 0.004 305)"
         ]
       },
-      "code-ground": {
+      "felt": {
         "role": "tertiary",
+        "displayName": "Casino Felt",
+        "canonical": "oklch(38.5% 0.098 161)",
+        "tonalRamp": [
+          "oklch(15% 0.05 161)",
+          "oklch(24% 0.07 161)",
+          "oklch(31% 0.085 161)",
+          "oklch(38.5% 0.098 161)",
+          "oklch(52% 0.10 161)",
+          "oklch(68% 0.09 161)",
+          "oklch(83% 0.05 161)",
+          "oklch(95% 0.02 161)"
+        ]
+      },
+      "board": {
+        "role": "tertiary",
+        "displayName": "Go Board Linen",
+        "canonical": "oklch(91.3% 0.009 85)",
+        "tonalRamp": [
+          "oklch(15% 0.006 85)",
+          "oklch(26% 0.007 85)",
+          "oklch(38% 0.008 85)",
+          "oklch(50% 0.009 85)",
+          "oklch(63% 0.009 85)",
+          "oklch(76% 0.009 85)",
+          "oklch(85% 0.009 85)",
+          "oklch(91.3% 0.009 85)"
+        ]
+      },
+      "code-bg": {
+        "role": "neutral",
         "displayName": "Code Ground",
-        "canonical": "#0b1119",
-        "darkValue": "#080d14"
-      },
-      "grid-minor": {
-        "role": "tertiary",
-        "displayName": "Minor Grid Line",
-        "canonical": "rgba(13, 108, 136, 0.06)",
-        "darkValue": "rgba(69, 185, 218, 0.05)"
-      },
-      "grid-major": {
-        "role": "tertiary",
-        "displayName": "Major Grid Line",
-        "canonical": "rgba(13, 108, 136, 0.12)",
-        "darkValue": "rgba(69, 185, 218, 0.1)"
+        "canonical": "oklch(17.5% 0.018 293)",
+        "tonalRamp": [
+          "oklch(17.5% 0.018 293)",
+          "oklch(26% 0.020 293)",
+          "oklch(36% 0.022 293)",
+          "oklch(46% 0.022 293)",
+          "oklch(58% 0.019 293)",
+          "oklch(71% 0.015 293)",
+          "oklch(84% 0.009 293)",
+          "oklch(95% 0.004 293)"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Display",
-        "purpose": "Page-level H1 in post headers. The .heading-hero utility."
+        "displayName": "Proposition",
+        "purpose": "The one display voice. One per page, at the top, via the .proposition utility."
       },
       "headline": {
-        "displayName": "Headline",
-        "purpose": "The section name inside the title block. Tightest tracking in the system."
+        "displayName": "Sheet Title",
+        "purpose": "A route's own title in its sheet header."
       },
       "title": {
-        "displayName": "Title",
-        "purpose": "Card and article titles. Serif, so a list of posts reads as writing."
+        "displayName": "Step Title",
+        "purpose": "An item's name within a list of numbered steps."
       },
       "body": {
-        "displayName": "Body",
-        "purpose": "All prose. Serif. Title-block summaries capped at 52ch."
+        "displayName": "Argument",
+        "purpose": "All running prose, held to a 54-60ch measure."
       },
       "label": {
-        "displayName": "Label",
-        "purpose": "Nav, eyebrows, timestamps, tags. Mono uppercase. The .label-xs utility."
+        "displayName": "Apparatus",
+        "purpose": "Every label, count, date, nav item and button in the system."
       },
-      "field": {
-        "displayName": "Field",
-        "purpose": "Title-block and footer drawing fields. Mono, tabular values."
+      "label-sm": {
+        "displayName": "Apparatus Small",
+        "purpose": "Field labels inside a dense apparatus block."
       },
-      "field-value": {
-        "displayName": "Field Value",
-        "purpose": "Drawing-field values (dd) in the title block and footer strip. The only 11px step in the system."
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Step numerals hanging in the margin; any figure that aligns in a column."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "A note attached to something else — a credit line, a source, an aside under a block."
       }
     },
     "shadows": [
       {
-        "name": "rail-float",
-        "value": "-2px 0 12px rgba(16,24,32,0.08)",
-        "purpose": "The fixed social rail. The only element not printed on the sheet."
+        "name": "none",
+        "value": "none",
+        "purpose": "The system default and the only correct answer for chrome. A printed plate has no shadow; separate surfaces with a tonal step or a hairline instead."
       },
       {
-        "name": "rail-tooltip",
-        "value": "-2px 0 10px rgba(16,24,32,0.10)",
-        "purpose": "The rail's hover tooltip, which floats beside the rail."
+        "name": "hairline",
+        "value": "0 0 0 1px var(--yy-line)",
+        "purpose": "Spread-zero, blur-zero, no offset — a border by another name, used to draw grid lines on game boards. The only permitted box-shadow."
       }
     ],
     "motion": [
       {
-        "name": "control",
-        "value": "200ms–300ms ease",
-        "purpose": "Nav, links, icons, filter buttons, tooltips."
+        "name": "plate-shift",
+        "value": "background-color 0.4s, color 0.4s",
+        "purpose": "The body's transition when the theme is toggled; the plate changes, nothing else moves."
       },
       {
-        "name": "surface",
-        "value": "500ms ease",
-        "purpose": "Block ground and border shifts, corner tick opacity, theme change."
+        "name": "state-swap",
+        "value": "0.15s",
+        "purpose": "Buttons, pills and nav links inverting on hover or selection."
       },
       {
-        "name": "page",
-        "value": "0.28s ease",
-        "purpose": "Root view-transition crossfade via Astro ClientRouter (fallback=\"animate\")."
+        "name": "mark-settle",
+        "value": "0.13s ease-out",
+        "purpose": "A stone or mark appearing in place — scale only, no fade."
       },
       {
-        "name": "nudge",
-        "value": "translateX(4px) over 300–500ms",
-        "purpose": "The only sanctioned movement: article titles and backlinks on hover."
+        "name": "card-flight",
+        "value": "200ms cubic-bezier(0.2, 0, 0.2, 1)",
+        "purpose": "FLIP animation for a card travelling between holders in solitaire."
+      },
+      {
+        "name": "overlay-in",
+        "value": "0.35s ease-out both",
+        "purpose": "A solved or cleared banner fading onto a board."
+      },
+      {
+        "name": "route-change",
+        "value": "0.24s ease",
+        "purpose": "ClientRouter view transition between plates; the running head and colophon hold still."
       }
     ],
     "breakpoints": [
@@ -206,205 +271,158 @@
       {
         "name": "md",
         "value": "768px"
-      },
-      {
-        "name": "lg",
-        "value": "1024px"
-      },
-      {
-        "name": "xl",
-        "value": "1280px"
-      }
-    ],
-    "grid": [
-      {
-        "name": "minor",
-        "value": "16px",
-        "purpose": "Graph-paper minor grid, drawn from grid-minor."
-      },
-      {
-        "name": "major",
-        "value": "96px",
-        "purpose": "Graph-paper major grid, drawn from grid-major."
       }
     ]
   },
   "components": [
     {
-      "name": "Block",
+      "name": "Field",
+      "kind": "custom",
+      "refersTo": "field-vermilion",
+      "description": "A whole region taking one of Byrne's three inks as its background. The signature device: an ink owns a region or it does not appear.",
+      "html": "<a class=\"ds-field\" href=\"#\"><span class=\"ds-field-numeral\">01</span><span class=\"ds-field-name\">Writing</span><span class=\"ds-field-count\">42 pieces</span></a>",
+      "css": ".ds-field { display: block; padding: 2.5rem 2rem; background: var(--color-vermilion, #d8232a); color: var(--color-on-vermilion, #f6f5f1); text-decoration: none; border-radius: 0; outline: 2px solid transparent; outline-offset: -0.6rem; transition: outline-color 0.15s; } .ds-field:hover, .ds-field:focus-visible { outline-color: currentColor; } .ds-field-numeral { display: block; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; opacity: 0.75; } .ds-field-name { display: block; margin-top: 1.25rem; font-family: 'Bodoni Moda', Didot, Georgia, serif; font-size: 2rem; font-weight: 500; line-height: 1.04; letter-spacing: -0.02em; } .ds-field-count { display: block; margin-top: 0.75rem; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.75; }"
+    },
+    {
+      "name": "Action Button",
+      "kind": "button",
+      "refersTo": "button-action",
+      "description": "The system's only button. Apparatus voice, square, hairline border; inverts on hover.",
+      "html": "<button class=\"ds-btn-action\" type=\"button\">New deal</button>",
+      "css": ".ds-btn-action { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-ink, #17151c); background: transparent; border: 1px solid var(--color-rule-strong, rgba(23,21,28,0.55)); border-radius: 0; padding: 0.5rem 0.9rem; cursor: pointer; transition: background-color 0.15s, color 0.15s; } .ds-btn-action:hover { background: var(--color-ink, #17151c); color: var(--color-ground, #eeece7); } .ds-btn-action:focus-visible { outline: 2px solid var(--color-mark, #1c4f9c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Segmented Pills",
+      "kind": "chip",
+      "refersTo": "pill",
+      "description": "A ruled strip of options. Borders overlap by -1px so the set reads as one drawn strip rather than separate buttons.",
+      "html": "<div class=\"ds-pills\"><button class=\"ds-pill\" type=\"button\" aria-pressed=\"true\">Easy</button><button class=\"ds-pill\" type=\"button\" aria-pressed=\"false\">Normal</button><button class=\"ds-pill\" type=\"button\" aria-pressed=\"false\">Hard</button></div>",
+      "css": ".ds-pills { display: flex; } .ds-pill { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.45rem 0.8rem; border: 1px solid var(--color-rule, rgba(23,21,28,0.24)); border-radius: 0; margin-left: -1px; background: transparent; color: var(--color-ink-muted, #4a4652); cursor: pointer; transition: background-color 0.15s, color 0.15s; } .ds-pill:first-child { margin-left: 0; } .ds-pill:hover { color: var(--color-ink, #17151c); } .ds-pill[aria-pressed='true'] { background: var(--color-ink, #17151c); color: var(--color-ground, #eeece7); border-color: var(--color-ink, #17151c); } .ds-pill:focus-visible { outline: 2px solid var(--color-mark, #1c4f9c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Hanging Step",
       "kind": "card",
-      "refersTo": "block",
-      "description": "The universal container: hairline-ruled region with corner registration ticks. Used for post cards, project rows, note entries.",
-      "html": "<article class=\"ds-block\"><span class=\"ds-chip\">Dev-log</span><h3 class=\"ds-block-title\">What the sheet is for</h3><p class=\"ds-block-body\">A note on why the site is drawn rather than laid out.</p><time class=\"ds-block-date\">Aug 24, 2026</time></article>",
-      "css": ".ds-block { position: relative; display: flex; flex-direction: column; gap: 1rem; background: var(--color-surface, #eaeff3); border: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); border-radius: 0; padding: 2rem; transition: background-color 0.5s, border-color 0.5s; } .ds-block::before { content: \"\"; position: absolute; inset: -1px; pointer-events: none; --tick: var(--color-accent-muted, rgba(13,108,136,0.4)); background-image: linear-gradient(var(--tick),var(--tick)),linear-gradient(var(--tick),var(--tick)),linear-gradient(var(--tick),var(--tick)),linear-gradient(var(--tick),var(--tick)),linear-gradient(var(--tick),var(--tick)),linear-gradient(var(--tick),var(--tick)),linear-gradient(var(--tick),var(--tick)),linear-gradient(var(--tick),var(--tick)); background-repeat: no-repeat; background-size: 9px 1px,1px 9px,9px 1px,1px 9px,9px 1px,1px 9px,9px 1px,1px 9px; background-position: top left,top left,top right,top right,bottom left,bottom left,bottom right,bottom right; opacity: 0.55; transition: opacity 0.5s; } .ds-block:hover { background: var(--color-surface-hover, #e1e9ee); border-color: var(--color-border-hover, rgba(120,145,165,0.5)); } .ds-block:hover::before { opacity: 1; } .ds-block-title { font-family: \"IBM Plex Serif\", Georgia, serif; font-size: 1.25rem; font-weight: 600; line-height: 1.375; color: var(--color-text-main, #101820); margin: 0; } .ds-block-body { font-family: \"IBM Plex Serif\", Georgia, serif; font-size: 0.875rem; line-height: 1.625; color: var(--color-text-muted, #47535e); margin: 0; } .ds-block-date { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-dim, #7d8a95); }"
+      "refersTo": null,
+      "description": "The container pattern. Replaces the card: a numeral hangs in the margin beside its assertion, divided from the next by a hairline.",
+      "html": "<a class=\"ds-step\" href=\"#\"><span class=\"ds-step-numeral\">02</span><span><span class=\"ds-step-title\">Yin-Yang</span><span class=\"ds-step-body\">One puzzle a day. Fill the grid so each colour forms one connected group.</span><span class=\"ds-step-apparatus\">Daily &middot; 30 &times; 30</span></span></a>",
+      "css": ".ds-step { display: grid; grid-template-columns: 2.25rem 1fr; column-gap: 1rem; padding: 1.75rem 0; border-bottom: 1px solid var(--color-rule, rgba(23,21,28,0.24)); text-decoration: none; transition: background-color 0.15s; } .ds-step:hover { background: var(--color-plate, #f6f5f1); } .ds-step-numeral { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--color-ink-dim, #6d6878); text-align: right; font-variant-numeric: tabular-nums; padding-top: 0.4rem; } .ds-step-title { display: block; font-family: 'Bodoni Moda', Didot, Georgia, serif; font-size: 1.5rem; font-weight: 500; letter-spacing: -0.02em; color: var(--color-ink, #17151c); } .ds-step-body { display: block; margin-top: 0.75rem; max-width: 56ch; font-family: 'Libre Caslon Text', Georgia, serif; font-size: 1rem; line-height: 1.7; color: var(--color-ink-muted, #4a4652); } .ds-step-apparatus { display: block; margin-top: 1rem; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-ink-dim, #6d6878); }"
     },
     {
-      "name": "Chip",
-      "kind": "chip",
-      "refersTo": "chip",
-      "description": "Canonical tag: square, mono, uppercase. Used for post categories and stack technologies.",
-      "html": "<span class=\"ds-chip\">TypeScript</span>",
-      "css": ".ds-chip { display: inline-flex; align-items: center; background: var(--color-chip, #dbe7ee); color: var(--color-chip-ink, #35505f); border: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); border-radius: 0; padding: 0.125rem 0.625rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }"
-    },
-    {
-      "name": "Filter Button — Active",
-      "kind": "button",
-      "refersTo": "filter-active",
-      "description": "Selected state of a category, stage, or difficulty filter. Full-strength accent ground.",
-      "html": "<a class=\"ds-filter ds-filter-active\" href=\"#\" aria-current=\"page\">Dev-log <span class=\"ds-filter-count\">12</span></a>",
-      "css": ".ds-filter { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); border-radius: 0; padding: 0.5rem 1rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background-color 0.3s, color 0.3s; } .ds-filter-count { font-variant-numeric: tabular-nums; font-weight: 400; opacity: 0.7; } .ds-filter-active { background: var(--color-accent, #0d6c88); color: #fff; } .ds-filter-active:focus-visible { outline: 2px solid var(--color-accent, #0d6c88); outline-offset: 2px; }"
-    },
-    {
-      "name": "Filter Button — Rest",
-      "kind": "button",
-      "refersTo": "filter-rest",
-      "description": "Unselected filter. Panel ground, muted ink, ground shift on hover.",
-      "html": "<a class=\"ds-filter ds-filter-rest\" href=\"#\">TIL <span class=\"ds-filter-count\">31</span></a>",
-      "css": ".ds-filter { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); border-radius: 0; padding: 0.5rem 1rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background-color 0.3s, color 0.3s; } .ds-filter-count { font-variant-numeric: tabular-nums; font-weight: 400; opacity: 0.6; } .ds-filter-rest { background: var(--color-surface, #eaeff3); color: var(--color-text-muted, #47535e); } .ds-filter-rest:hover { background: var(--color-stone-200, #d9e1e7); } .ds-filter-rest:focus-visible { outline: 2px solid var(--color-accent, #0d6c88); outline-offset: 2px; }"
-    },
-    {
-      "name": "Status Badge",
-      "kind": "chip",
-      "refersTo": "chip",
-      "description": "Garden maturity stage and problem difficulty. The only place non-cyan hue enters the system.",
-      "html": "<span class=\"ds-badge ds-badge-seedling\">Seedling</span> <span class=\"ds-badge ds-badge-growing\">Growing</span> <span class=\"ds-badge ds-badge-evergreen\">Evergreen</span>",
-      "css": ".ds-badge { display: inline-block; border-radius: 0; padding: 0.25rem 0.5rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; box-shadow: inset 0 0 0 1px currentColor; } .ds-badge-seedling { color: #7d8a95; background: var(--color-stone-100, #eaeff3); } .ds-badge-growing { color: var(--color-accent, #0d6c88); background: var(--color-accent-soft, rgba(13,108,136,0.07)); } .ds-badge-evergreen { color: #15803d; background: #f0fdf4; }"
-    },
-    {
-      "name": "Title Block",
-      "kind": "custom",
-      "refersTo": "title-block",
-      "description": "The signature component: the drawing's title block at the head of every index page. Section name plus a field table.",
-      "html": "<header class=\"ds-titleblock\"><span class=\"ds-tick ds-tick-tl\"></span><span class=\"ds-tick ds-tick-tl-v\"></span><span class=\"ds-tick ds-tick-br\"></span><span class=\"ds-tick ds-tick-br-v\"></span><div class=\"ds-titleblock-main\"><span class=\"ds-titleblock-eyebrow\">Hyoseo Lee</span><h1 class=\"ds-titleblock-name\">Index</h1><p class=\"ds-titleblock-summary\">I build small tools to solve my own problems, and write down what I work out on the way.</p></div><dl class=\"ds-titleblock-fields\"><div class=\"ds-field\"><dt>Location</dt><dd>Ottawa</dd></div><div class=\"ds-field\"><dt>Term</dt><dd>Co-op · StatCan</dd></div><div class=\"ds-field\"><dt>Scale</dt><dd>1:1</dd></div></dl></header>",
-      "css": ".ds-titleblock { position: relative; display: grid; grid-template-columns: 1fr auto; background: var(--color-surface, #eaeff3); border: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); border-radius: 0; } .ds-tick { position: absolute; background: var(--color-accent, #0d6c88); opacity: 0.45; } .ds-tick-tl { top: 6px; left: 6px; width: 10px; height: 1px; } .ds-tick-tl-v { top: 6px; left: 6px; width: 1px; height: 10px; } .ds-tick-br { bottom: 6px; right: 6px; width: 10px; height: 1px; } .ds-tick-br-v { bottom: 6px; right: 6px; width: 1px; height: 10px; } .ds-titleblock-main { display: flex; flex-direction: column; gap: 0.75rem; padding: 2rem; } .ds-titleblock-eyebrow { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent, #0d6c88); opacity: 0.7; } .ds-titleblock-name { font-family: \"IBM Plex Sans\", system-ui, sans-serif; font-size: 2.25rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; color: var(--color-text-main, #101820); margin: 0; } .ds-titleblock-summary { font-family: \"IBM Plex Serif\", Georgia, serif; font-size: 1rem; line-height: 1.75; max-width: 52ch; color: var(--color-text-muted, #47535e); margin: 0; } .ds-titleblock-fields { display: flex; flex-direction: column; justify-content: center; min-width: 13rem; border-left: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); margin: 0; } .ds-field { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; padding: 0.625rem 1.5rem; } .ds-field + .ds-field { border-top: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); } .ds-field dt { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-text-dim, #7d8a95); } .ds-field dd { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; color: var(--color-stone-700, #3a4652); margin: 0; }"
-    },
-    {
-      "name": "Navigation",
+      "name": "Running Head",
       "kind": "nav",
-      "refersTo": "nav",
-      "description": "Desktop nav: mono uppercase, wide tracking, 2px accent underline on the active item.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a href=\"#\" class=\"ds-nav-link ds-nav-active\" aria-current=\"page\">Home</a><a href=\"#\" class=\"ds-nav-link\">About</a><a href=\"#\" class=\"ds-nav-link\">Projects</a><a href=\"#\" class=\"ds-nav-link\">Blog</a><a href=\"#\" class=\"ds-nav-link\">Thinking</a></nav>",
-      "css": ".ds-nav { display: flex; align-items: center; gap: 2rem; } .ds-nav-link { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; padding-bottom: 2px; color: var(--color-text-dim, #7d8a95); transition: color 0.3s; } .ds-nav-link:hover { color: var(--color-text-main, #101820); } .ds-nav-active { color: var(--color-accent, #0d6c88); border-bottom: 2px solid currentColor; } .ds-nav-link:focus-visible { outline: 2px solid var(--color-accent, #0d6c88); outline-offset: 2px; }"
+      "refersTo": "nav-link",
+      "description": "The sticky top nav. Current page is marked by a solid triangular apparatus mark, never by colour.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-nav-brand\" href=\"#\">Hyoseo&nbsp;Lee</a><nav class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"#\">Writing</a><a class=\"ds-nav-link ds-nav-link--current\" href=\"#\" aria-current=\"page\"><svg width=\"7\" height=\"7\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><path d=\"M1.2 0.8 L8.8 5 L1.2 9.2 Z\" fill=\"currentColor\"/></svg>Games</a><a class=\"ds-nav-link\" href=\"#\">Author</a></nav></header>",
+      "css": ".ds-nav { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; padding: 0.875rem 0; border-bottom: 1px solid var(--color-rule, rgba(23,21,28,0.24)); background: var(--color-ground, #eeece7); } .ds-nav-brand, .ds-nav-link { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; transition: color 0.15s; } .ds-nav-brand { color: var(--color-ink, #17151c); } .ds-nav-links { display: flex; align-items: baseline; gap: 1.75rem; } .ds-nav-link { color: var(--color-ink-dim, #6d6878); display: inline-flex; align-items: center; gap: 0.375rem; } .ds-nav-link:hover { color: var(--color-ink, #17151c); } .ds-nav-link--current { color: var(--color-ink, #17151c); }"
     },
     {
-      "name": "Social Rail Link",
+      "name": "Apparatus Mark",
       "kind": "custom",
-      "refersTo": "rail-link",
-      "description": "One link in the fixed right-margin rail — the only element in the system that casts a shadow.",
-      "html": "<nav class=\"ds-rail\" aria-label=\"Elsewhere\"><span class=\"ds-rail-cap\" aria-hidden=\"true\">Elsewhere</span><a class=\"ds-rail-link\" href=\"#\" aria-label=\"GitHub\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"/><path d=\"M9 18c-4.51 2-5-2-7-2\"/></svg><span class=\"ds-rail-tip\">GitHub</span></a><a class=\"ds-rail-link\" href=\"#\" aria-label=\"Email\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/></svg><span class=\"ds-rail-tip\">Email</span></a></nav>",
-      "css": ".ds-rail { display: inline-flex; flex-direction: column; background: var(--color-surface, #eaeff3); border-top: 1px solid var(--color-border-hover, rgba(120,145,165,0.5)); border-bottom: 1px solid var(--color-border-hover, rgba(120,145,165,0.5)); border-left: 2px solid var(--color-accent, #0d6c88); box-shadow: -2px 0 12px rgba(16,24,32,0.08); } .ds-rail-cap { writing-mode: vertical-rl; background: var(--color-accent-soft, rgba(13,108,136,0.07)); border-bottom: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); padding: 0.75rem 0; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 9px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--color-accent, #0d6c88); text-align: center; } .ds-rail-link { position: relative; padding: 0.75rem; color: var(--color-text-muted, #47535e); border-top: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); transition: background-color 0.2s, color 0.2s; } .ds-rail-link:hover, .ds-rail-link:focus-visible { background: var(--color-accent, #0d6c88); color: #fff; } .ds-rail-tip { position: absolute; right: 100%; top: 50%; transform: translateY(-50%); margin-right: 0.5rem; white-space: nowrap; background: var(--color-surface, #eaeff3); border: 1px solid var(--color-border-hover, rgba(120,145,165,0.5)); box-shadow: -2px 0 10px rgba(16,24,32,0.10); padding: 0.25rem 0.5rem; font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-text-main, #101820); opacity: 0; pointer-events: none; transition: opacity 0.2s; } .ds-rail-link:hover .ds-rail-tip, .ds-rail-link:focus-visible .ds-rail-tip { opacity: 1; }"
+      "refersTo": null,
+      "description": "The state vocabulary. Kinds differ by form — open, half, solid, dagger, falsum — and inherit currentColor. Drawn as SVG because the matching Unicode glyphs are not reliably present in the subsetted mono webfont.",
+      "html": "<span class=\"ds-marks\"><span class=\"ds-mark\"><svg width=\"9\" height=\"9\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><rect x=\"0.7\" y=\"0.7\" width=\"8.6\" height=\"8.6\" stroke=\"currentColor\" stroke-width=\"1.3\"/></svg>Seedling</span><span class=\"ds-mark\"><svg width=\"9\" height=\"9\" viewBox=\"0 0 10 10\" fill=\"none\" aria-hidden=\"true\"><rect x=\"0.7\" y=\"0.7\" width=\"8.6\" height=\"8.6\" stroke=\"currentColor\" stroke-width=\"1.3\"/><rect x=\"1.35\" y=\"1.35\" width=\"3.65\" height=\"7.3\" fill=\"currentColor\"/></svg>Growing</span><span class=\"ds-mark\"><svg width=\"9\" height=\"9\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><rect x=\"0.7\" y=\"0.7\" width=\"8.6\" height=\"8.6\" fill=\"currentColor\"/></svg>Evergreen</span><span class=\"ds-mark\"><svg width=\"9\" height=\"9\" viewBox=\"0 0 10 10\" aria-hidden=\"true\"><rect x=\"4.3\" y=\"0.4\" width=\"1.4\" height=\"9.2\" fill=\"currentColor\"/><rect x=\"1.2\" y=\"2.4\" width=\"7.6\" height=\"1.4\" fill=\"currentColor\"/></svg>Archived</span></span>",
+      "css": ".ds-marks { display: flex; flex-wrap: wrap; gap: 1.25rem; } .ds-mark { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-ink-dim, #6d6878); } .ds-mark svg { display: block; }"
     },
     {
-      "name": "Footer Title Strip",
+      "name": "Sheet Header",
       "kind": "custom",
-      "refersTo": "title-block",
-      "description": "The sheet's bottom title strip: Drawn by / Sheet / Scale / Revised, in drawing order.",
-      "html": "<dl class=\"ds-strip\"><div class=\"ds-strip-cell\"><dt>Drawn by</dt><dd>Hyoseo Lee</dd></div><div class=\"ds-strip-cell\"><dt>Sheet</dt><dd>Index</dd></div><div class=\"ds-strip-cell\"><dt>Scale</dt><dd>1:1</dd></div><div class=\"ds-strip-cell\"><dt>Revised</dt><dd>2026-08-24</dd></div></dl>",
-      "css": ".ds-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); margin: 0; } .ds-strip-cell { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.75rem 1rem; } .ds-strip-cell + .ds-strip-cell { border-left: 1px solid var(--color-border-dim, rgba(120,145,165,0.22)); } .ds-strip-cell dt { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-text-dim, #7d8a95); } .ds-strip-cell dd { font-family: \"IBM Plex Mono\", ui-monospace, monospace; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--color-stone-600, #4d5a66); margin: 0; }"
-    },
-    {
-      "name": "Wiki-link",
-      "kind": "custom",
-      "refersTo": "prose",
-      "description": "Garden-internal link. Resolved targets get a dotted accent underline; unresolved ones read as not-yet-written.",
-      "html": "<p class=\"ds-prose\">See <a class=\"ds-wiki\" href=\"#\">the sheet metaphor</a>, and eventually <a class=\"ds-wiki ds-wiki-new\" href=\"#\">zone coordinates</a>.</p>",
-      "css": ".ds-prose { font-family: \"IBM Plex Serif\", Georgia, serif; font-size: 1.125rem; line-height: 1.75; color: var(--color-stone-700, #3a4652); } .ds-wiki { color: var(--color-accent, #0d6c88); text-decoration: none; border-bottom: 1px dotted var(--color-accent-muted, rgba(13,108,136,0.4)); } .ds-wiki:hover { border-bottom-style: solid; border-bottom-color: var(--color-accent, #0d6c88); } .ds-wiki-new { color: var(--color-stone-400, #7d8a95); border-bottom-color: var(--color-stone-300, #c2ccd4); cursor: help; }"
+      "refersTo": null,
+      "description": "How every route other than the index opens: a proposition stated, with its apparatus listed beside it and a hairline underneath.",
+      "html": "<header class=\"ds-sheet\"><p class=\"ds-sheet-eyebrow\">Proposition II.</p><div class=\"ds-sheet-row\"><div><h1 class=\"ds-sheet-title\">Yin-Yang</h1><p class=\"ds-sheet-summary\">The Special Daily &mdash; a 30&times;30 board. Fill it so each colour forms one connected group.</p></div><dl class=\"ds-sheet-fields\"><div><dt>Grid</dt><dd>30 &times; 30</dd></div><div><dt>Puzzles</dt><dd>One a day</dd></div></dl></div></header>",
+      "css": ".ds-sheet { border-bottom: 1px solid var(--color-rule, rgba(23,21,28,0.24)); padding-bottom: 2rem; } .ds-sheet-eyebrow { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-ink, #17151c); margin: 0 0 1.5rem; } .ds-sheet-row { display: grid; gap: 2.5rem; } @media (min-width: 768px) { .ds-sheet-row { grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 4rem; } } .ds-sheet-title { font-family: 'Bodoni Moda', Didot, Georgia, serif; font-size: 2rem; font-weight: 500; line-height: 1.04; letter-spacing: -0.02em; color: var(--color-ink, #17151c); margin: 0; } .ds-sheet-summary { margin: 1.25rem 0 0; max-width: 54ch; font-family: 'Libre Caslon Text', Georgia, serif; font-size: 1rem; line-height: 1.7; color: var(--color-ink-muted, #4a4652); } .ds-sheet-fields { margin: 0; min-width: 15rem; } .ds-sheet-fields > div { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--color-rule, rgba(23,21,28,0.24)); padding: 0.625rem 0; } .ds-sheet-fields dt { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-ink-dim, #6d6878); } .ds-sheet-fields dd { margin: 0; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; color: var(--color-ink, #17151c); font-variant-numeric: tabular-nums; }"
     }
   ],
   "narrative": {
-    "northStar": "The Working Drawing",
-    "overview": "The site is not a page. It is a sheet — a drawing issued at 1:1 scale, with a ruled border, zone markers running A–D down both edges and 1–6 across the top, registration ticks at every corner, and a title strip at the bottom that states who drew it, which sheet this is, and when it was last revised. Everything sits on graph paper: a 16px minor grid and a 96px major grid, both drawn from the accent so the paper shifts with the theme instead of being a fixed grey. A faint paper grain (2.2% opacity) sits over the light theme and is switched off entirely in dark, where it would read as noise rather than fibre.\n\nThe register is cold, precise and unhurried. There is exactly one ink — Drafting Cyan — and it appears almost everywhere in trace amounts and at full strength almost nowhere. Everything else is a cool grey-blue scale that inverts wholesale in dark mode, which is what lets a single text-stone-900 be correct in both themes without a dark: variant. Nothing is warm. Nothing is rounded. Nothing lifts off the page.\n\nThis world replaced a warm cream-and-terracotta, light-only predecessor. PRODUCT.md still describes that earlier look; the code does not. The current system is a deliberate rejection of it, and warmth is the one quality this world does not admit.",
+    "northStar": "The Standing Proof",
+    "overview": "The site is set as a plate from Oliver Byrne's 1847 Elements of Euclid, the edition that threw out lettered references and proved its propositions with flat coloured figures instead. That is the whole conceit: a proposition is stated at full scale, and the steps that prove it follow beneath it. The site is one continuous argument rather than three products bolted into a nav bar, and every page is a numbered step in it.\n\nDensity is low and deliberate. The plate is mostly empty ground with hairline rules doing the dividing, and the only things allowed to be loud are the display type and the three inks — which appear as whole fields, never as decoration on a control. Everything that is apparatus rather than argument (labels, counts, dates, state) drops to 9–11px monospace and gets out of the way. There is no card grid, no rounded corner, no drop shadow, no gradient, and no coloured status badge anywhere in the system.\n\nThe confirmed anti-reference is the standard developer portfolio: a hero, then a grid of equal-weight cards for unrelated sections. This site refuses that explicitly. Where that pattern would use a card, this one uses a numbered step with the numeral hanging in the margin; where it would use a coloured pill for state, this one draws a mark.",
     "keyCharacteristics": [
-      "Graph-paper ground visible through the entire sheet; text blocks sit on opaque panels over it rather than dimming it.",
-      "Zero border-radius at the token level — the whole radius scale is squared.",
-      "One accent, one grey scale, both fully inverted for dark mode at token level.",
-      "IBM Plex as a single superfamily across three roles: serif reads, sans structures, mono labels.",
-      "Drafting chrome — zone markers, registration ticks, a title block — carried as real, aria-hidden ornament.",
-      "No shadows on anything printed on the sheet."
+      "Byrne's three inks as full-bleed fields, never as accents on elements",
+      "Bodoni states, Libre Caslon argues, JetBrains Mono counts",
+      "Zero border-radius everywhere — every step of the scale is squared at the token",
+      "No cast shadows; depth comes from hairline rules and a two-step tonal ground",
+      "State is a drawn mark distinguished by form, never by hue",
+      "Dark mode is a pure token inversion — no component ever branches on theme"
     ],
     "rules": [
       {
-        "name": "The One Ink Rule",
-        "body": "There is one accent in this system and no second one. Anything that reads as an accent — a rule, a tick, a link, a grid line, a selected state — is Drafting Cyan at some alpha. A new hue may only enter as a status badge, never as decoration.",
+        "name": "The Field Rule",
+        "body": "An ink owns a whole region or it does not appear. Vermilion, ultramarine and chrome are backgrounds for entire blocks — never a border on a button, a coloured icon, a tinted chip, or a highlight on a word. If you are reaching for one of the three to decorate a control, the answer is a hairline rule or an ink-grey instead.",
+        "section": "colors"
+      },
+      {
+        "name": "The Vermilion Is Not A Text Colour Rule",
+        "body": "Vermilion measures 4.24:1 against the plate ground and fails body text. Ultramarine is the interactive ink for exactly this reason. Never set links, labels or running text in vermilion; use it as a field behind on-vermilion type, or as a rule.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mark, Not The Hue Rule",
+        "body": "State is carried by a drawn apparatus mark whose form differs — open square, half-filled square, solid square, dagger, turnstile — and which inherits its colour from context. There is no green \"published\", no amber \"draft\", no coloured badge anywhere in this system.",
         "section": "colors"
       },
       {
         "name": "The Token Inversion Rule",
-        "body": "Dark mode is implemented by redefining the token values, not by adding dark: variants in components. A new component that needs a dark: class is a signal the token set is missing something — extend the tokens instead.",
+        "body": "Dark mode is implemented by redefining tokens under :root[data-theme=\"dark\"] and nowhere else. No component carries a dark: branch, and no new colour is introduced for the dark plate. If a surface needs a dark-mode fix, the fix belongs in the token block.",
         "section": "colors"
       },
       {
-        "name": "The Warm-Is-Out Rule",
-        "body": "No warm neutral, no terracotta, no cream. Every grey in this system carries blue.",
+        "name": "The Physical Object Rule",
+        "body": "A playing card, a go stone and a felt table are objects, not chrome, so they keep fixed light values in both themes and are exempt from token inversion. This is the only sanctioned exception, and it applies to game surfaces alone. Any frozen value reused across a surface must be a named token (felt, card-face, board, stone-black, stone-white); a value that exists only to match a single piece of artwork — the three cat-suit buttons sampled from their own sprites — stays a local literal with a comment saying so, because promoting a one-off to the palette pollutes it. Text and controls that sit on a frozen surface must be frozen too — theme tokens go light-on-light there.",
         "section": "colors"
       },
       {
-        "name": "The Mono Annotation Rule",
-        "body": "Anything that is data rather than prose — a count, a date, a coordinate, a scale, a stack tag, a difficulty — is monospaced and tabular. Prose is never mono; data is never serif.",
+        "name": "The Three Voices Rule",
+        "body": "Bodoni states, Libre Caslon argues, JetBrains Mono counts. A heading set in the body serif, or a paragraph set in the display face, is a bug. Anything that is data rather than prose — a count, a date, an ID, a size, a duration — is monospace regardless of where it appears.",
         "section": "typography"
       },
       {
-        "name": "The Annotation Ink Rule",
-        "body": "Label-sized text in the accent uses Drafting Cyan Ink, never an alpha of Drafting Cyan. accent/40 measures 1.82:1 and accent/60 measures 2.58:1 on light ground - no alpha of the base accent clears 4.5:1 at 9-11px, which is the only size range labels use.",
+        "name": "The One Display Voice Rule",
+        "body": "The display voice exists once, as the .proposition utility. Never restate its family, size, weight, line-height and tracking in a component; reach for the class. A component that redeclares them has forked the display voice and will drift.",
         "section": "typography"
       },
       {
-        "name": "The Two-Voice Rule",
-        "body": "Sans for structure, serif for content. A heading that introduces a section is sans; a heading that is content (a post title, a project name) is serif.",
+        "name": "The Apparatus Is Small Rule",
+        "body": "Apparatus type is 9–11px, uppercase, widely tracked, and set in ink-dim. It is meant to be skimmed past. If a label feels like it needs to be bigger to be read, it is probably prose and belongs in the body voice.",
         "section": "typography"
       },
       {
-        "name": "The Left-Anchored Sheet Rule",
-        "body": "Index pages anchor content to the left edge of the sheet and let the right margin run empty. Do not centre a portfolio page; centring is reserved for reading (PostLayout) and the footer.",
+        "name": "The Plate Column Rule",
+        "body": "No route sets its own max-width. If a page needs a different measure, the measure is wrong for the site, not for the page.",
         "section": "layout"
       },
       {
-        "name": "The Chrome Needs Margin Rule",
-        "body": "Zone markers and the rail only exist from lg up, and are aria-hidden and pointer-events-none. Drafting ornament never competes with content for width.",
+        "name": "The Steps, Not Cards Rule",
+        "body": "A collection renders as numbered steps divided by hairlines. A grid of equal-weight bordered cards is the pattern this site was built to refuse.",
         "section": "layout"
       },
       {
-        "name": "The Paper Has No Thickness Rule",
-        "body": "Surfaces never lift. Hierarchy is carried by hairline rules, opacity of the ground, and ink weight. The only shadows in the system are on the fixed rail, because it is the one element not printed on the sheet.",
+        "name": "The No Cast Shadow Rule",
+        "body": "A printed plate has no shadow. If a surface needs to separate from the one behind it, move it one tonal step or give it a hairline — never lift it.",
         "section": "elevation"
       },
       {
-        "name": "The No-Motion-On-Hover Rule",
-        "body": "Hover changes color, border, and opacity — never scale, never translateY. The one sanctioned movement is a 1px horizontal nudge (translate-x-1) on article titles and backlinks, which reads as a cursor tracking a line, not as a card lifting.",
-        "section": "elevation"
-      },
-      {
-        "name": "The Square Corner Rule",
-        "body": "Nothing in this system has a radius, the focus ring included. If a component needs rounded-*, the answer is that it needs a rule instead. The one exception is a dot marking a point on a timeline.",
-        "section": "shapes"
-      },
-      {
-        "name": "The Tick Marks the Region Rule",
-        "body": "Corner ticks signal \"this is a called-out detail.\" Use them on containers that hold a discrete unit of work — a card, a title block, the sheet itself. Do not sprinkle them on every bordered box.",
+        "name": "The Squared Rule",
+        "body": "Every radius token is 0px. Do not add a rounded variant, do not reintroduce a radius scale, and do not special-case a component to curve. A circle is permitted only for something that is physically round.",
         "section": "shapes"
       }
     ],
     "dos": [
-      "Do put every new color, in both themes, in the @theme block and the [data-theme=\"dark\"] override, then use the bare token in components.",
-      "Do set data — counts, dates, scales, coordinates, stack tags — in mono with tabular-nums.",
-      "Do give any new container a hairline rule-faint border and zero radius, and add corner ticks only if it is a called-out region.",
-      "Do put text-bearing content on an opaque panel, so the graph paper never runs under prose.",
-      "Do keep drafting chrome aria-hidden, pointer-events-none, and gated to lg and up.",
-      "Do express hover as a color, border, or opacity change over 300–500ms.",
-      "Do use Drafting Cyan Ink for any label-sized text set in the accent, and reach for .label-xs rather than rebuilding the label role inline.",
-      "Do keep code-block colors on the fixed code-ground token — they must not follow the inverted scale, because Shiki runs one dark theme."
+      "Do put every route inside .plate-col and let the site's one measure decide the width.",
+      "Do reach for .proposition when you need the display voice, rather than restating its four type properties.",
+      "Do set anything counted or labelled — dates, counts, IDs, durations — in JetBrains Mono at 9–11px, uppercase, in ink-dim.",
+      "Do carry state with an apparatus mark whose form differs, and give it a sr-only label.",
+      "Do fix dark mode in the token block under :root[data-theme=\"dark\"].",
+      "Do name a frozen game colour as a token (felt, board, card-face, stone-black, stone-white) and freeze its text and controls to match.",
+      "Do render a collection as hairline-divided steps with the numeral hanging in the margin."
     ],
     "donts": [
-      "Don't reintroduce the warm cream and terracotta palette (#faf7f2, orange-200) that this system replaced. PRODUCT.md still describes it; the code does not. Warmth is the one thing this world rejects.",
-      "Don't add a border radius. The token scale is 0px at every step by intent; rounded-* utilities are inert and their presence in source is leftover, not permission.",
-      "Don't add a box-shadow to anything printed on the sheet. Only the fixed rail floats.",
-      "Don't introduce a second accent hue. New non-cyan color enters only as a small ringed status badge.",
-      "Don't write dark: variants in components. If dark mode needs a different value, the token is missing.",
-      "Don't scale or lift an element on hover. A 1px horizontal nudge on a title is the entire sanctioned movement vocabulary.",
-      "Don't centre an index page's content column — the sheet is left-anchored and the right margin is meant to be empty.",
-      "Don't set label-sized accent text in an alpha of the accent - it cannot reach AA at 9-11px. Use Drafting Cyan Ink.",
-      "Don't set prose in mono or data in serif.",
-      "Don't copy the two known drifts: the rounded-full sans pill in the projects timeline, .icon-box's rounded-lg, or .heading-serif's name (it applies font-sans). Converge on the canonical forms."
+      "Don't use vermilion, ultramarine or chrome as an accent on an element — no coloured borders, icons, chips or highlighted words. They are fields.",
+      "Don't set text in vermilion. It measures 4.24:1 on the plate ground.",
+      "Don't add a box-shadow with blur or offset. A spread-zero, blur-zero 0 0 0 1px used as a hairline is the only permitted form.",
+      "Don't reintroduce a border radius, add a rounded variant, or curve a single component. Circles are for physically round objects only.",
+      "Don't author new markup against the legacy token aliases — --color-stone-*, --color-accent-*, --color-surface, --color-text-*, --color-border-*, --color-chip*. They are a migration shim remapped onto this palette so that /about, /projects, /thinking, /archive and /blog keep building, and they will be removed as those routes are rebuilt.",
+      "Don't give a component a dark: branch or introduce a colour that exists only in dark mode.",
+      "Don't build a grid of equal-weight bordered cards. That is the pattern this site exists to refuse.",
+      "Don't invent a colour outside this palette. If a surface genuinely needs one, add it as a token here first — a literal in a component is drift."
     ]
   }
 }

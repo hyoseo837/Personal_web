@@ -1,532 +1,438 @@
 ---
 name: hyoseo.dev
-description: A personal site drawn as a working technical drawing — graph paper, hairline rules, and one cold ink.
+description: A personal site set as a plate from Byrne's Euclid — flat fields of ink owning whole regions, hairline rules, and not one rounded corner.
 colors:
-  drafting-cyan: "#0d6c88"
-  drafting-cyan-hover: "#0a5871"
-  drafting-cyan-soft: "rgba(13, 108, 136, 0.07)"
-  drafting-cyan-muted: "rgba(13, 108, 136, 0.4)"
-  drafting-cyan-bright: "rgba(13, 108, 136, 0.8)"
-  drafting-cyan-ink: "#0a5871"
-  sheet-white: "#f3f6f8"
-  panel: "#eaeff3"
-  panel-hover: "#e1e9ee"
-  rule-faint: "rgba(120, 145, 165, 0.22)"
-  rule-strong: "rgba(120, 145, 165, 0.5)"
-  ink-main: "#101820"
-  ink-muted: "#47535e"
-  ink-dim: "#7d8a95"
-  chip-ground: "#dbe7ee"
-  chip-ink: "#35505f"
-  code-ground: "#0b1119"
-  code-rule: "rgba(255, 255, 255, 0.07)"
-  grid-minor: "rgba(13, 108, 136, 0.06)"
-  grid-major: "rgba(13, 108, 136, 0.12)"
+  vermilion: "#d8232a"
+  on-vermilion: "#f6f5f1"
+  ultramarine: "#1c4f9c"
+  on-ultramarine: "#f6f5f1"
+  chrome: "#f2b705"
+  on-chrome: "#17151c"
+  mark: "#1c4f9c"
+  mark-deep: "#163f7d"
+  ground: "#eeece7"
+  plate: "#f6f5f1"
+  ink: "#17151c"
+  ink-muted: "#4a4652"
+  ink-dim: "#6d6878"
+  rule: "rgba(23, 21, 28, 0.24)"
+  rule-strong: "rgba(23, 21, 28, 0.55)"
+  code-bg: "#14131c"
+  code-line: "rgba(246, 245, 241, 0.09)"
+  felt: "#015032"
+  card-face: "#f6f5f1"
+  card-edge: "rgba(23, 21, 28, 0.55)"
+  board: "#e6e3dc"
+  stone-black: "#17151c"
+  stone-white: "#f6f5f1"
 typography:
   display:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
-    fontSize: "clamp(2.25rem, 6vw, 3.75rem)"
-    fontWeight: 600
-    lineHeight: 1.1
-    letterSpacing: "-0.025em"
+    fontFamily: "Bodoni Moda, Didot, Georgia, serif"
+    fontSize: "clamp(2.125rem, 6.6vw, 4.75rem)"
+    fontWeight: 500
+    lineHeight: 1.06
+    letterSpacing: "-0.02em"
   headline:
-    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
-    fontSize: "clamp(1.75rem, 4vw, 2.25rem)"
-    fontWeight: 600
-    lineHeight: 1.08
-    letterSpacing: "-0.03em"
+    fontFamily: "Bodoni Moda, Didot, Georgia, serif"
+    fontSize: "clamp(2rem, 4vw, 3rem)"
+    fontWeight: 500
+    lineHeight: 1.04
+    letterSpacing: "-0.02em"
   title:
-    fontFamily: "IBM Plex Serif, Georgia, serif"
-    fontSize: "1.25rem"
-    fontWeight: 600
-    lineHeight: 1.375
-    letterSpacing: "normal"
+    fontFamily: "Bodoni Moda, Didot, Georgia, serif"
+    fontSize: "1.5rem"
+    fontWeight: 500
+    lineHeight: 1.2
+    letterSpacing: "-0.02em"
   body:
-    fontFamily: "IBM Plex Serif, Georgia, serif"
-    fontSize: "1.125rem"
+    fontFamily: "Libre Caslon Text, Georgia, serif"
+    fontSize: "1rem"
     fontWeight: 400
-    lineHeight: 1.75
+    lineHeight: 1.7
+    letterSpacing: "normal"
+  caption:
+    fontFamily: "Libre Caslon Text, Georgia, serif"
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.6
     letterSpacing: "normal"
   label:
-    fontFamily: "IBM Plex Mono, ui-monospace, monospace"
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
     fontSize: "10px"
-    fontWeight: 600
-    lineHeight: 1.4
-    letterSpacing: "0.1em"
-  field:
-    fontFamily: "IBM Plex Mono, ui-monospace, monospace"
-    fontSize: "9px"
-    fontWeight: 400
+    fontWeight: 500
     lineHeight: 1.4
     letterSpacing: "0.18em"
-  field-value:
-    fontFamily: "IBM Plex Mono, ui-monospace, monospace"
+  label-sm:
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontSize: "9px"
+    fontWeight: 500
+    lineHeight: 1.4
+    letterSpacing: "0.2em"
+  numeral:
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
     fontSize: "11px"
     fontWeight: 400
     lineHeight: 1.4
-    letterSpacing: "normal"
+    letterSpacing: "0.08em"
 rounded:
-  xs: "0px"
-  sm: "0px"
-  md: "0px"
-  lg: "0px"
-  xl: "0px"
-  2xl: "0px"
-  3xl: "0px"
-  4xl: "0px"
-spacing:
-  grid-minor: "16px"
-  grid-major: "96px"
-  block-y: "32px"
-  block-y-lg: "48px"
-  sheet-gutter: "20px"
-  sheet-gutter-lg: "64px"
+  none: "0px"
 components:
-  block:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.ink-main}"
-    rounded: "{rounded.md}"
-    padding: "32px"
-  block-hover:
-    backgroundColor: "{colors.panel-hover}"
-  chip:
-    backgroundColor: "{colors.chip-ground}"
-    textColor: "{colors.chip-ink}"
+  field-vermilion:
+    backgroundColor: "{colors.vermilion}"
+    textColor: "{colors.on-vermilion}"
+    rounded: "{rounded.none}"
+  field-ultramarine:
+    backgroundColor: "{colors.ultramarine}"
+    textColor: "{colors.on-ultramarine}"
+    rounded: "{rounded.none}"
+  field-chrome:
+    backgroundColor: "{colors.chrome}"
+    textColor: "{colors.on-chrome}"
+    rounded: "{rounded.none}"
+  button-action:
+    textColor: "{colors.ink}"
     typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: "2px 10px"
-  filter-active:
-    backgroundColor: "{colors.drafting-cyan}"
-    textColor: "{colors.sheet-white}"
-    typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: "8px 16px"
-  filter-rest:
-    backgroundColor: "{colors.panel}"
+    rounded: "{rounded.none}"
+    padding: "0.5rem 0.9rem"
+  button-action-hover:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.ground}"
+  pill:
     textColor: "{colors.ink-muted}"
     typography: "{typography.label}"
-    rounded: "{rounded.md}"
-    padding: "8px 16px"
-  title-block:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.ink-main}"
-    rounded: "{rounded.md}"
-    padding: "24px"
-  rail-link:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.ink-muted}"
-    rounded: "{rounded.md}"
-    padding: "12px"
-  rail-link-hover:
-    backgroundColor: "{colors.drafting-cyan}"
-    textColor: "#ffffff"
+    rounded: "{rounded.none}"
+    padding: "0.45rem 0.8rem"
+  pill-selected:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.ground}"
+    rounded: "{rounded.none}"
+    padding: "0.45rem 0.8rem"
+  nav-link:
+    textColor: "{colors.ink-dim}"
+    typography: "{typography.label}"
+  nav-link-current:
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
 ---
 
 # Design System: hyoseo.dev
 
 ## Overview
 
-**Creative North Star: "The Working Drawing"**
+**Creative North Star: "The Standing Proof"**
 
-The site is not a page. It is a sheet — a drawing issued at 1:1 scale, with a
-ruled border, zone markers running A–D down both edges and 1–6 across the top,
-registration ticks at every corner, and a title strip at the bottom that states
-who drew it, which sheet this is, and when it was last revised. Everything sits
-on graph paper: a 16px minor grid and a 96px major grid, both drawn from the
-accent so the paper shifts with the theme instead of being a fixed grey. A
-faint paper grain (2.2% opacity) sits over the light theme and is switched off
-entirely in dark, where it would read as noise rather than fibre.
+The site is set as a plate from Oliver Byrne's 1847 *Elements of Euclid*, the
+edition that threw out lettered references and proved its propositions with flat
+coloured figures instead. That is the whole conceit: a proposition is stated at
+full scale, and the steps that prove it follow beneath it. The site is one
+continuous argument rather than three products bolted into a nav bar, and every
+page is a numbered step in it.
 
-The register is cold, precise and unhurried. There is exactly one ink —
-Drafting Cyan — and it appears almost everywhere in trace amounts and at full
-strength almost nowhere. Everything else is a cool grey-blue scale that inverts
-wholesale in dark mode, which is what lets a single `text-stone-900` be correct
-in both themes without a `dark:` variant. Nothing is warm. Nothing is rounded.
-Nothing lifts off the page.
+Density is low and deliberate. The plate is mostly empty ground with hairline
+rules doing the dividing, and the only things allowed to be loud are the display
+type and the three inks — which appear as whole fields, never as decoration on a
+control. Everything that is apparatus rather than argument (labels, counts,
+dates, state) drops to 9–11px monospace and gets out of the way. There is no
+card grid, no rounded corner, no drop shadow, no gradient, and no coloured
+status badge anywhere in the system.
 
-This world replaced a warm cream-and-terracotta, light-only predecessor.
-PRODUCT.md still describes that earlier look; the code does not. The current
-system is a deliberate rejection of it, and warmth is the one quality this
-world does not admit.
+The confirmed anti-reference is the standard developer portfolio: a hero, then a
+grid of equal-weight cards for unrelated sections. This site refuses that
+explicitly. Where that pattern would use a card, this one uses a numbered step
+with the numeral hanging in the margin; where it would use a coloured pill for
+state, this one draws a mark.
 
 **Key Characteristics:**
-
-- Graph-paper ground visible through the entire sheet; text blocks sit on
-  opaque panels over it rather than dimming it.
-- Zero border-radius at the token level — the whole radius scale is squared.
-- One accent, one grey scale, both fully inverted for dark mode at token level.
-- IBM Plex as a single superfamily across three roles: serif reads, sans
-  structures, mono labels.
-- Drafting chrome — zone markers, registration ticks, a title block — carried
-  as real, aria-hidden ornament.
-- No shadows on anything printed on the sheet.
+- Byrne's three inks as full-bleed fields, never as accents on elements
+- Bodoni states, Libre Caslon argues, JetBrains Mono counts
+- Zero border-radius everywhere — every step of the scale is squared at the token
+- No cast shadows; depth comes from hairline rules and a two-step tonal ground
+- State is a drawn mark distinguished by form, never by hue
+- Dark mode is a pure token inversion — no component ever branches on theme
 
 ## Colors
 
-A single cold ink on cool grey-blue paper. The entire scale is redefined under
-`[data-theme="dark"]`, so tokens carry both themes and component code never
-needs a dark variant.
+Three saturated inks against a warm paper ground, with the inks reserved for
+whole regions and the greys doing all the ordinary work.
 
 ### Primary
-
-- **Drafting Cyan** (`#0d6c88` light / `#45b9da` dark): the one ink of the
-  sheet. Links, active nav, selected filters, the grid lines themselves,
-  registration ticks, the rail's left edge, and the standing-note motto all
-  resolve to this value at varying alpha. Its full-strength appearances are
-  deliberately few: an active filter, a hover on a rail link, the site
-  wordmark.
-- **Drafting Cyan Deep** (`#0a5871` light / `#6ecbe5` dark): hover state for
-  the wordmark and inline project links. Note the direction inverts by theme —
-  darker in light, lighter in dark.
-- **Drafting Cyan Ink** (`#0a5871` light / `#6ecbe5` dark): the ink for
-  label-sized text. It shares its value with Drafting Cyan Deep but is a
-  separate token because it is a resting text color, not a hover state — no
-  alpha of the base accent reaches 4.5:1 at 9–11px, so annotation text needs
-  its own deeper value rather than a grey fallback.
-- **Drafting Cyan Soft** (7% alpha, 10% in dark): the ground behind icon boxes,
-  the "Elsewhere" rail cap, project media placeholders, and the ring that
-  blooms around a timeline dot on hover.
-- **Drafting Cyan Muted** (40% alpha): registration ticks, selection
-  highlight, wiki-link underlines, blockquote borders.
+- **Vermilion** (`{colors.vermilion}`): the first of Byrne's three inks. Owns the
+  Writing field on the index and marks pull-quote borders in prose. It is a field
+  colour and a rule colour only — see the named rule below.
+- **Ultramarine** (`{colors.ultramarine}`): the second ink, and the one that
+  doubles as the interactive colour. Owns the Work field, and is aliased as
+  `mark` for every link, turnstile and focus ring at text size.
+- **Chrome Yellow** (`{colors.chrome}`): the third ink. Owns the Notes field, and
+  carries selection highlight and the solved/cleared banners.
 
 ### Neutral
-
-- **Sheet White** (`#f3f6f8` light / `#0d1218` dark): the page ground, and the
-  paper the grid is drawn on.
-- **Panel** (`#eaeff3` light / `#131b23` dark): every opaque block that carries
-  text — cards, the title block, the rail, filter buttons at rest. Its job is
-  to stop the graph paper from running under prose.
-- **Panel Hover** (`#e1e9ee` light / `#18222c` dark): the only ground change a
-  block makes on hover.
-- **Rule Faint** (`rgba(120,145,165,0.22)`): the hairline that draws every
-  border, divider, and table rule.
-- **Rule Strong** (`rgba(120,145,165,0.5)`): the same rule on hover, and the
-  rail's horizontal edges.
-- **Main Ink** (`#101820` light / `#e4ecf2` dark): headings and body text.
-- **Muted Ink** (`#47535e` light / `#a3b1bc` dark): summaries, descriptions,
-  secondary prose.
-- **Dim Ink** (`#7d8a95` light / `#66757f` dark): field labels, zone markers,
-  timestamps.
-- **Chip Ground / Chip Ink** (`#dbe7ee` on `#35505f`): the tag pair, a notch
-  cooler than the panel so tags read as stamped rather than raised.
+- **Plate White** (`{colors.plate}`): raised surfaces — the sheet a step or panel
+  sits on, one tone above the ground.
+- **Ground** (`{colors.ground}`): the page itself. Warm, not neutral; this is
+  paper, not a white screen.
+- **Ink** (`{colors.ink}`): body text, display type, and the fill for solid
+  apparatus marks.
+- **Ink Muted** (`{colors.ink-muted}`): secondary prose — summaries, blurbs, the
+  second line of a step.
+- **Ink Dim** (`{colors.ink-dim}`): apparatus — labels, counts, dates, step
+  numerals, inactive nav.
+- **Rule** (`{colors.rule}`) and **Rule Strong** (`{colors.rule-strong}`): the
+  hairlines that do all the dividing. Rule for ordinary separation, Rule Strong
+  for a border that has to hold an edge.
 
 ### Fixed (theme-independent)
-
-- **Code Ground** (`#0b1119` light / `#080d14` dark): code blocks stay dark in
-  both themes, because Shiki runs a single dark theme (`night-owl`). This token
-  deliberately does **not** follow the inverted stone scale.
-
-### Semantic status
-
-Three status colors exist and are the only non-cyan hues in the system:
-green (`green-600/700` on `green-50`) for evergreen notes and Easy problems,
-yellow (`yellow-700` on `yellow-50`) for Medium, red (`red-600` on `red-50`)
-for Hard. They appear only as small ringed badges, never as surfaces.
+These do not invert. Code is always dark because Shiki runs a single dark theme
+(`night-owl`), and the game surfaces are physical objects.
+- **Code Ground** (`{colors.code-bg}`) with **Code Line** (`{colors.code-line}`).
+- **Felt** (`{colors.felt}`): the solitaire table, carried over from the original
+  ddanzt build.
+- **Card Face** (`{colors.card-face}`) / **Card Edge** (`{colors.card-edge}`): a
+  playing card, whose pixel art is dark linework on white.
+- **Board** (`{colors.board}`) with **Stone Black** (`{colors.stone-black}`) and
+  **Stone White** (`{colors.stone-white}`): the Yin-Yang board and its stones.
 
 ### Named Rules
 
-**The One Ink Rule.** There is one accent in this system and no second one.
-Anything that reads as an accent — a rule, a tick, a link, a grid line, a
-selected state — is Drafting Cyan at some alpha. A new hue may only enter as a
-status badge, never as decoration.
+**The Field Rule.** An ink owns a whole region or it does not appear. Vermilion,
+ultramarine and chrome are backgrounds for entire blocks — never a border on a
+button, a coloured icon, a tinted chip, or a highlight on a word. If you are
+reaching for one of the three to decorate a control, the answer is a hairline
+rule or an ink-grey instead.
 
-**The Token Inversion Rule.** Dark mode is implemented by redefining the token
-values, not by adding `dark:` variants in components. A new component that
-needs a `dark:` class is a signal the token set is missing something — extend
-the tokens instead.
+**The Vermilion Is Not A Text Colour Rule.** Vermilion measures 4.24:1 against
+the plate ground and fails body text. Ultramarine is the interactive ink for
+exactly this reason. Never set links, labels or running text in vermilion; use it
+as a field behind `on-vermilion` type, or as a rule.
 
-**The Warm-Is-Out Rule.** No warm neutral, no terracotta, no cream. Every grey
-in this system carries blue.
+**The Mark, Not The Hue Rule.** State is carried by a drawn apparatus mark whose
+*form* differs — open square, half-filled square, solid square, dagger, turnstile
+— and which inherits its colour from context. There is no green "published", no
+amber "draft", no coloured badge anywhere in this system.
+
+**The Token Inversion Rule.** Dark mode is implemented by redefining tokens under
+`:root[data-theme="dark"]` and nowhere else. No component carries a `dark:`
+branch, and no new colour is introduced for the dark plate. If a surface needs a
+dark-mode fix, the fix belongs in the token block.
+
+**The Physical Object Rule.** A playing card, a go stone and a felt table are
+objects, not chrome, so they keep fixed light values in both themes and are
+exempt from token inversion. This is the *only* sanctioned exception, it applies
+to game surfaces alone. Any frozen value reused across a surface must be a named
+token (`felt`, `card-face`, `board`, `stone-black`, `stone-white`); a value that
+exists only to match a single piece of artwork — the three cat-suit buttons
+sampled from their own sprites — stays a local literal with a comment saying so,
+because promoting a one-off to the palette pollutes it. Text and controls that sit on a frozen surface
+must be frozen too — theme tokens go light-on-light there.
 
 ## Typography
 
-**Display / UI Font:** IBM Plex Sans (with system-ui, sans-serif)
-**Reading Font:** IBM Plex Serif (with Georgia, serif)
-**Label / Data Font:** IBM Plex Mono (with ui-monospace, monospace)
+**Display Font:** Bodoni Moda (with Didot, Georgia, serif)
+**Body Font:** Libre Caslon Text (with Georgia, serif)
+**Label/Mono Font:** JetBrains Mono (with ui-monospace, monospace)
 
-**Character:** One superfamily doing three jobs, which is what keeps a site
-carrying portfolio, dev logs and garden notes reading as one mind. Sans is
-structural and tightly tracked; serif is the voice and does all the actual
-reading; mono is the annotation layer — every label, count, coordinate and
-field on the sheet is monospaced, and that is the system's loudest signature.
+**Character:** A high-contrast Didone for statements and a sturdy old-style
+Caslon for argument — the pairing of a title page and its text block. The
+monospace is not a third voice so much as the ruled margin: it only ever carries
+things that are counted or labelled.
 
 ### Hierarchy
-
-- **Display** (Sans 600, `text-4xl`→`text-6xl`, 1.1, -0.025em): page-level H1
-  in post headers. The `.heading-hero` utility.
-- **Headline** (Sans 600, `1.75rem`→`text-4xl`, 1.08, -0.03em): the section
-  name inside the title block — the tightest tracking in the system.
-- **Title** (Serif 600, `text-xl`–`text-2xl`, snug): card and article titles.
-  Serif here is what makes a list of posts read as writing rather than as rows.
-- **Body** (Serif 400, `text-base`–`text-xl`, 1.75): all prose. Title-block
-  summaries are capped at `52ch`.
-- **Label** (Mono 600, 10px, 0.1em–0.2em, uppercase): nav items, section
-  eyebrows, timestamps, category tags. The `.label-xs` utility sets this in
-  Drafting Cyan Ink.
-- **Field** (Mono 400, 9px, 0.18em, uppercase): drawing-field keys in the
-  title block and footer strip — `dt`, dim and tracked out.
-- **Field Value** (Mono 400, 11px, tabular, no tracking): the matching `dd`.
-  The only 11px step in the system, and it exists so a field value reads a
-  notch above its key without becoming body text.
+- **Display** (500, `clamp(2.125rem, 6.6vw, 4.75rem)`, 1.06): the proposition.
+  One per page, at the top, with `text-wrap: balance`.
+- **Headline** (500, `2rem` rising to `3rem` at `md`, 1.04): a route's own title
+  in the sheet header.
+- **Title** (500, `1.5rem`, 1.2): an item's name in a list of steps.
+- **Body** (400, `1rem`, 1.7): all running prose. Constrained to a `54–60ch`
+  measure; never full-bleed.
+- **Caption** (400, `0.875rem`, 1.6): a note attached to something else — a
+  credit line, a source, an aside under a block. One step below body, never used
+  for a whole passage.
+- **Label** (500, `10px`, `0.18em`, uppercase): every label, count, date, nav
+  item and button in the system.
+- **Label Small** (500, `9px`, `0.2em`, uppercase): the same voice one step down,
+  for field labels inside a dense apparatus block.
+- **Numeral** (400, `11px`, `0.08em`, tabular): step numerals hanging in the
+  margin, and any figure that should align in a column.
 
 ### Named Rules
 
-**The Mono Annotation Rule.** Anything that is data rather than prose — a
-count, a date, a coordinate, a scale, a stack tag, a difficulty — is
-monospaced and tabular. Prose is never mono; data is never serif.
+**The Three Voices Rule.** Bodoni states, Libre Caslon argues, JetBrains Mono
+counts. A heading set in the body serif, or a paragraph set in the display face,
+is a bug. Anything that is data rather than prose — a count, a date, an ID, a
+size, a duration — is monospace regardless of where it appears.
 
-**The Annotation Ink Rule.** Label-sized text in the accent uses Drafting Cyan
-Ink, never an alpha of Drafting Cyan. `accent/40` measures 1.82:1 and
-`accent/60` measures 2.58:1 on light ground — no alpha of the base accent
-clears 4.5:1 at 9–11px, which is the only size range labels use.
+**The One Display Voice Rule.** The display voice exists once, as the
+`.proposition` utility. Never restate its family, size, weight, line-height and
+tracking in a component; reach for the class. A component that redeclares them
+has forked the display voice and will drift.
 
-**The Two-Voice Rule.** Sans for structure, serif for content. A heading that
-introduces a section is sans; a heading that *is* content (a post title, a
-project name) is serif.
+**The Apparatus Is Small Rule.** Apparatus type is 9–11px, uppercase, widely
+tracked, and set in `ink-dim`. It is meant to be skimmed past. If a label feels
+like it needs to be bigger to be read, it is probably prose and belongs in the
+body voice.
 
 ## Layout
 
-The sheet is the layout. `SheetFrame` draws a bordered rectangle inset from the
-viewport (`mx-3` → `sm:mx-6` → `lg:mx-12` → `xl:mx-16`, `my-3`/`sm:my-6`) with
-a minimum height of `calc(100vh - gutter)`, and everything lives inside it. The
-margin outside the frame is not empty space — from `lg` up it holds the zone
-markers and the fixed social rail.
+Every route's measure comes from a single utility, `.plate-col`: a centred column
+capped at `64rem` with `1.25rem` of gutter rising to `2rem` at `sm`. Changing that
+one value rescales the whole site, which is the point — no route sets its own
+width.
 
-Content is anchored left, not centred: `Sheet` sets `max-w-[54rem]` with no
-auto margin, so the slack sits on the right the way a drawing leaves room
-beside the drawn area. Post pages are the exception — `PostLayout` centres at
-`max-w-4xl` because long-form reading wants the column balanced. The footer
-centres at `max-w-3xl`.
+The recurring spatial figure is the **hanging step**: a two-column grid of
+`2.25rem` for the numeral and the remaining space for the assertion, with a `1rem`
+gutter. The numeral sits in the margin beside its content rather than above it,
+which is the world's law bending the type rather than labelling it. Lists of
+things — notes, projects, games — are always steps separated by a hairline
+bottom rule, never cards in a grid.
 
-Spacing rhythm follows the paper: the 16px minor grid is the unit, the 96px
-major grid the section interval. Blocks pad at `p-8` / `md:p-12`; sections
-separate at `mb-20` / `md:mb-24`; the sheet's top padding is `pt-10` /
-`md:pt-14` with `pb-24` at the base.
+Section rhythm runs on a wide scale: `3rem` between a header and its content,
+`5rem` between major blocks, with content blocks internally spaced at `0.75–1.5rem`.
+Vertical dividing is done with `border-b border-rule` on the item, not with
+margin alone.
 
-**Responsive behavior.** Two real breakpoints do the work. At `md` (768px) the
-mobile overlay nav is replaced by inline nav, and card grids go from one column
-to two (or to the 2/3 media–text split on projects). At `lg` (1024px) the
-drafting chrome appears: zone markers, the fixed social rail, and the wider
-frame inset. Below `lg` the rail's links are carried by the footer instead, so
-they are never both visible.
+**Responsive behavior.** Two breakpoints carry the site. Below `md` (768px) the
+running head collapses to a full-screen overlay menu whose items are numbered
+steps, and the sheet header's apparatus list stacks under the title as a
+bordered block. At `md` and up the running head becomes a horizontal nav and the
+sheet header becomes a two-column grid with the title left and its apparatus
+right-aligned beside it. Wide content — tables, code, game boards — scrolls
+inside its own container; the page body never scrolls sideways.
 
 ### Named Rules
 
-**The Left-Anchored Sheet Rule.** Index pages anchor content to the left edge
-of the sheet and let the right margin run empty. Do not centre a portfolio
-page; centring is reserved for reading (`PostLayout`) and the footer.
+**The Plate Column Rule.** No route sets its own max-width. If a page needs a
+different measure, the measure is wrong for the site, not for the page.
 
-**The Chrome Needs Margin Rule.** Zone markers and the rail only exist from
-`lg` up, and are `aria-hidden` and `pointer-events-none`. Drafting ornament
-never competes with content for width.
+**The Steps, Not Cards Rule.** A collection renders as numbered steps divided by
+hairlines. A grid of equal-weight bordered cards is the pattern this site was
+built to refuse.
 
 ## Elevation & Depth
 
-This system is flat by law. There is no elevation scale, no shadow token set,
-and the radius scale is squared to `0px` at every step so nothing can round
-itself out of the drawing. Depth is carried three ways: hairline rules
-(`rule-faint` → `rule-strong` on hover), the opacity of the ground (opaque
-panels reading as drawn regions over the transparent graph paper), and ink
-weight (dim → muted → main).
+There is no elevation. Not "subtle shadows" — none. `box-shadow` does not appear
+anywhere in the site chrome, and there is no blur, no glow, and no gradient.
 
-Two shadows exist in the entire system, both on the fixed social rail —
-`-2px 0 12px rgba(16,24,32,0.08)` on the rail itself and
-`-2px 0 10px rgba(16,24,32,0.10)` on its hover tooltip. The rail is the one
-element that is not printed on the sheet; it floats over it, and needs the
-separation to say so.
+Depth is carried by exactly two devices. First, a **two-step tonal ground**:
+`ground` for the page and `plate` one tone above it for anything that reads as a
+raised surface, with no third step. Second, **hairline rules**: a 1px `rule`
+border, which is how a panel, a step, a header and a footer all announce their
+edges. That is the entire depth vocabulary.
+
+The one shadow-shaped thing in the codebase is `box-shadow` used as a *hairline*
+on game cells (`0 0 0 1px`), where it draws a grid line rather than suggesting
+lift. Spread-zero, blur-zero, no offset. That is a border by another name and is
+allowed; a blurred, offset shadow is not.
 
 ### Named Rules
 
-**The Paper Has No Thickness Rule.** Surfaces never lift. Hierarchy is carried
-by hairline rules, opacity of the ground, and ink weight. The only shadows in
-the system are on the fixed rail, because it is the one element not printed on
-the sheet.
-
-**The No-Motion-On-Hover Rule.** Hover changes color, border, and opacity —
-never scale, never `translateY`. The one sanctioned movement is a 1px
-horizontal nudge (`translate-x-1`) on article titles and backlinks, which reads
-as a cursor tracking a line, not as a card lifting.
+**The No Cast Shadow Rule.** A printed plate has no shadow. If a surface needs to
+separate from the one behind it, move it one tonal step or give it a hairline —
+never lift it.
 
 ## Shapes
 
-Zero radius, everywhere, enforced at the token level — `--radius-xs` through
-`--radius-4xl` are all `0px`, which squares every card, image, code block and
-badge at once without touching component code. Borders are always 1px hairlines
-in `rule-faint`; the only 2px border in the system is the rail's left edge in
-full-strength accent, and the 2px underline on the active nav item.
+Everything is square. The radius scale is not merely unused; it is **overwritten
+at the token level**, with every step from `xs` through `4xl` redefined to `0px`.
+That means a stray `rounded-lg` in markup is inert and produces a square corner
+anyway — the system cannot be un-squared from a component.
 
-The recurring silhouette is the **registration tick**: an L of two 9px hairlines
-at each corner, drawn in accent at 40–55% and rising to full opacity on hover.
-It appears on `.soft-block` (all four corners, via a `::before` with eight
-background gradients), on the title block (two opposite corners only, at 2.5px
-scale), and on the sheet frame (all four corners, at 3px). Ticks are what mark
-a region as *called out* rather than merely bordered.
+The two exceptions are genuinely circular by nature and are drawn, not
+rounded: the Yin-Yang stones (`border-radius: 50%`) and the circular marks in
+the game art. Both are objects rendered on a board, not UI chrome.
 
-Circles survive in exactly one place: `rounded-full` on timeline dots and year
-markers, which resolves through Tailwind's infinity calc rather than the
-squared token scale. A dot is a point, not a corner, so this is intentional.
+Borders are the primary form device. A 1px hairline in `rule` for ordinary
+separation, `rule-strong` where an edge must hold, and dashed hairlines for empty
+slots and drop targets. Focus is a 2px `mark` outline at 2px offset — square,
+like everything else.
 
 ### Named Rules
 
-**The Square Corner Rule.** Nothing in this system has a radius, the focus ring
-included. If a component
-needs `rounded-*`, the answer is that it needs a rule instead. The one
-exception is a dot marking a point on a timeline.
-
-**The Tick Marks the Region Rule.** Corner ticks signal "this is a called-out
-detail." Use them on containers that hold a discrete unit of work — a card, a
-title block, the sheet itself. Do not sprinkle them on every bordered box.
+**The Squared Rule.** Every radius token is `0px`. Do not add a rounded variant,
+do not reintroduce a radius scale, and do not special-case a component to curve.
+A circle is permitted only for something that is physically round.
 
 ## Components
 
-### Blocks (`.soft-block`)
+### Buttons
+- **Shape:** square (`0px`), 1px `rule-strong` border.
+- **Primary (action):** label voice — 10px mono, uppercase, `0.18em` tracking —
+  in `ink` on a transparent ground, `0.5rem 0.9rem` padding.
+- **Hover / Focus:** the button *inverts*: `ink` ground with `ground`-coloured
+  type, over a `0.15s` background and colour transition. Focus is the global 2px
+  `mark` outline.
+- **On a frozen surface:** the same button re-declares its colours against the
+  frozen palette rather than the theme tokens, per The Physical Object Rule.
 
-**Character:** Drawn, not styled.
+### Chips / Pills
+- **Style:** square, 1px `rule` border, 11px mono uppercase at `0.1em`, in
+  `ink-muted`. Segmented groups overlap borders with `margin-left: -1px` so the
+  set reads as one ruled strip rather than separate buttons.
+- **State:** the selected pill inverts to an `ink` ground with `ground` type and
+  an `ink` border. Selection is carried by `aria-pressed`, not by colour alone.
 
-- **Shape:** hairline `rule-faint` border, zero radius, four corner
-  registration ticks via `::before`.
-- **Ground:** `panel`, padding `p-8` / `md:p-12`.
-- **Hover:** ground → `panel-hover`, border → `rule-strong`, ticks 0.55 → 1
-  opacity, all over 500ms. Nothing scales, nothing lifts.
-- **Usage:** post cards, project rows, note entries, empty states.
-
-### Chips (`.chip`)
-
-- **Style:** `chip-ground` on `chip-ink`, mono 10px 500, uppercase, 0.08em
-  tracking, hairline border, `px-2.5 py-0.5`, square.
-- **Usage:** categories and stack technologies.
-- **Known drift:** the projects-page timeline uses a `rounded-full` sans-serif
-  pill for stack tags instead of `.chip`. Converge on `.chip`.
-
-### Status badges
-
-- **Style:** mono 9px 600, uppercase, `ring-1 ring-inset`, `px-2 py-1`, square.
-- **Variants:** seedling (dim on `stone-100`), growing (accent on
-  `accent-soft`), evergreen (green); Easy / Medium / Hard in green / yellow /
-  red. Difficulty badges are fixed at `w-16` and centred so the archive list
-  aligns as a column.
-
-### Filter buttons
-
-- **Style:** mono 12px 500, uppercase, 0.12em tracking, hairline border,
-  `px-4 py-2`, square, with a tabular count at reduced opacity inside.
-- **Rest:** `panel` ground, `ink-muted`. **Hover:** `stone-200` ground.
-  **Active:** full accent ground, white text.
-- **Behavior:** the blog's category filters are real anchors intercepted by JS,
-  so they work without JS and filter without navigating. Keep that pattern —
-  a filter that is only a `<button>` loses its URL.
-
-### Title block (`Sheet`)
-
-The signature component. An opaque bordered panel at the top of every index
-page, split into a left cell (mono eyebrow "Hyoseo Lee", the section name at
-headline weight, an optional serif summary at `52ch`) and an optional right
-`<dl>` of drawing fields, divided by a hairline and stacked with hairlines
-between rows. Field keys are mono 9px dim and tracked to 0.18em; values are
-mono 11px tabular, right-aligned. Two opposite corners carry registration
-ticks. The right column collapses under the left below `sm`.
-
-### Footer title strip
-
-The counterpart at the bottom of the sheet: a four-cell `<dl>` of *Drawn by /
-Sheet / Scale / Revised*, in drawing order, `grid-cols-2` collapsing to
-`sm:grid-cols-4`, with hairlines drawn conditionally so the 2×2 and 1×4
-arrangements both rule correctly. "Sheet" is derived from the URL path and
-"Revised" is the build date — both honest for a static site.
-
-### Sheet frame (`SheetFrame`)
-
-The bordered rectangle enclosing the whole document, with zone markers (1–6
-across the top, A–D down both sides) and corner registration marks. All markers
-are mono 9px at 0.2em tracking, `text-dim` at 50%, `aria-hidden`,
-`pointer-events-none`, `select-none`, and drawn only from `lg` up.
-
-### Social rail (`SocialRail`)
-
-Fixed to the right margin, vertically centred, `lg` and up only. A vertical
-`writing-mode: vertical-rl` "Elsewhere" cap on `accent-soft`, then a stack of
-icon links divided by hairlines, with a 2px accent left edge. Hover and
-`focus-visible` both flip the link to accent ground with white icon and reveal
-a mono tooltip to its left. Below `lg` the footer carries the same links.
+### Cards / Containers
+There are no cards. The container pattern is the **sheet**: a `plate-col`-width
+block whose header is separated from its content by a hairline bottom rule and
+`2rem` of padding, with no border on the outside and no background of its own.
 
 ### Navigation
+- **Style:** label voice, horizontal, `1.75rem` gaps, baseline-aligned with the
+  wordmark. Sticky to the top with a hairline bottom rule over the ground.
+- **States:** `ink-dim` at rest, `ink` on hover, and the current page gets `ink`
+  plus a solid triangular apparatus mark before its name — form, not colour.
+- **Mobile:** a full-screen overlay on the ground, whose items are numbered steps
+  at `1.5rem` display size with hairline bottom rules, fading in over `0.2s`.
 
-- **Desktop:** mono 10px 600, uppercase, 0.2em tracking. Rest `stone-400`,
-  hover `stone-900`, active accent with a 2px bottom border. Theme toggle sits
-  at the end of the same row.
-- **Mobile:** a full-screen `bg-stone-50/98` backdrop-blurred overlay,
-  opacity-transitioned over 300ms, with sans 2xl links. Body scroll is locked
-  while open and `aria-expanded` is kept in sync.
-- **Wordmark:** sans `text-xl` 600 at -0.02em in accent — one of the few
-  full-strength accent appearances.
+### The Apparatus Mark (signature)
+The system's state vocabulary, drawn as inline SVG on a 10×10 viewBox and
+inheriting `currentColor`. Kinds differ by **form**: an open square is Seedling, a
+half-filled square is Growing, a solid square is Evergreen, a solid triangle is
+the current page, a dagger is Archived, and a falsum is Discontinued. Default
+size is 9px, with a visually-hidden label always beside it.
 
-### Prose (`PostLayout`)
+They are drawn rather than set as Unicode glyphs (U+25A1, U+22A2, U+220E, U+2020)
+because Google Fonts serves JetBrains Mono as unicode-range subsets and those
+code points are not reliably present — a fallback glyph would break the metric
+mid-line at 9px, which is exactly where these live.
 
-Serif at `text-lg`/`md:text-xl`, `stone-700`, with serif bold headings.
-Inline code sits on `stone-200/50`; code blocks are forced to `code-ground`
-with a `code-line` border. Tables use uppercase mono-weight headers over
-hairline rules. The `@tailwindcss/typography` plugin bakes literal `oklch()`
-values that ignore the token overrides, so `global.css` remaps every
-`--tw-prose-*` variable onto the token scale, unlayered so it wins.
-
-### Wiki-links
-
-Resolved links (`a.internal`) are accent with a dotted `accent-muted` bottom
-border that goes solid on hover — deliberately distinct from an outbound link.
-Unresolved links (`a.internal.new`) are `stone-400` with a `stone-300` border
-and `cursor: help`, so a broken garden link reads as not-yet-written rather
-than as an error.
-
-### Motion
-
-Transitions are `duration-300` for controls, `duration-500` for blocks and
-theme changes, easing default. Page transitions run through Astro's
-`ClientRouter` with `fallback="animate"` (not the native `@view-transition`
-rule, which Firefox still lacks for cross-document navigation); the root
-crossfade is tuned to 0.28s ease, and `header` / `footer` carry
-`view-transition-name` so the chrome holds still while the body crossfades.
+### The Field (signature)
+A whole region taking one of the three inks as its background, with its paired
+`on-*` token for type. Used for the index's three regions. Hover and focus draw a
+2px `currentColor` outline *inset* by `0.6rem`, so the field is drawn on rather
+than lifted.
 
 ## Do's and Don'ts
 
 ### Do:
-
-- **Do** put every new color, in both themes, in the `@theme` block and the
-  `[data-theme="dark"]` override, then use the bare token in components.
-- **Do** set data — counts, dates, scales, coordinates, stack tags — in mono
-  with `tabular-nums`.
-- **Do** give any new container a hairline `rule-faint` border and zero radius,
-  and add corner ticks only if it is a called-out region.
-- **Do** put text-bearing content on an opaque `panel`, so the graph paper
-  never runs under prose.
-- **Do** keep drafting chrome `aria-hidden`, `pointer-events-none`, and gated
-  to `lg` and up.
-- **Do** express hover as a color, border, or opacity change over 300–500ms.
-- **Do** use Drafting Cyan Ink for any label-sized text set in the accent, and
-  reach for `.label-xs` rather than rebuilding the label role inline.
-- **Do** keep code-block colors on the fixed `code-ground` token — they must
-  not follow the inverted scale, because Shiki runs one dark theme.
+- **Do** put every route inside `.plate-col` and let the site's one measure decide
+  the width.
+- **Do** reach for `.proposition` when you need the display voice, rather than
+  restating its four type properties.
+- **Do** set anything counted or labelled — dates, counts, IDs, durations — in
+  JetBrains Mono at 9–11px, uppercase, in `ink-dim`.
+- **Do** carry state with an apparatus mark whose form differs, and give it a
+  `sr-only` label.
+- **Do** fix dark mode in the token block under `:root[data-theme="dark"]`.
+- **Do** name a frozen game colour as a token (`felt`, `board`, `card-face`,
+  `stone-black`, `stone-white`) and freeze its text and controls to match.
+- **Do** render a collection as hairline-divided steps with the numeral hanging
+  in the margin.
 
 ### Don't:
-
-- **Don't** reintroduce the warm cream and terracotta palette (`#faf7f2`,
-  `orange-200`) that this system replaced. PRODUCT.md still describes it; the
-  code does not. Warmth is the one thing this world rejects.
-- **Don't** add a border radius. The token scale is `0px` at every step by
-  intent; `rounded-*` utilities are inert and their presence in source is
-  leftover, not permission.
-- **Don't** add a box-shadow to anything printed on the sheet. Only the fixed
-  rail floats.
-- **Don't** introduce a second accent hue. New non-cyan color enters only as a
-  small ringed status badge.
-- **Don't** write `dark:` variants in components. If dark mode needs a
-  different value, the token is missing.
-- **Don't** scale or lift an element on hover. A 1px horizontal nudge on a
-  title is the entire sanctioned movement vocabulary.
-- **Don't** centre an index page's content column — the sheet is left-anchored
-  and the right margin is meant to be empty.
-- **Don't** set label-sized accent text in an alpha of the accent — it cannot
-  reach AA at 9–11px. Use Drafting Cyan Ink.
-- **Don't** set prose in mono or data in serif.
-- **Don't** copy the two known drifts: the `rounded-full` sans pill in the
-  projects timeline, `.icon-box`'s `rounded-lg`, or `.heading-serif`'s name
-  (it applies `font-sans`). Converge on the canonical forms.
+- **Don't** use vermilion, ultramarine or chrome as an accent on an element — no
+  coloured borders, icons, chips or highlighted words. They are fields.
+- **Don't** set text in vermilion. It measures 4.24:1 on the plate ground.
+- **Don't** add a `box-shadow` with blur or offset. A spread-zero, blur-zero
+  `0 0 0 1px` used as a hairline is the only permitted form.
+- **Don't** reintroduce a border radius, add a rounded variant, or curve a single
+  component. Circles are for physically round objects only.
+- **Don't** author new markup against the legacy token aliases — `--color-stone-*`,
+  `--color-accent-*`, `--color-surface`, `--color-text-*`, `--color-border-*`,
+  `--color-chip*`. They are a migration shim remapped onto this palette so that
+  `/about`, `/projects`, `/thinking`, `/archive` and `/blog` keep building, and
+  they will be removed as those routes are rebuilt.
+- **Don't** give a component a `dark:` branch or introduce a colour that exists
+  only in dark mode.
+- **Don't** build a grid of equal-weight bordered cards. That is the pattern this
+  site exists to refuse.
+- **Don't** invent a colour outside this palette. If a surface genuinely needs
+  one, add it as a token here first — a literal in a component is drift.

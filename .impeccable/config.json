@@ -5,27 +5,9 @@
     "ignoreValues": [
       {
         "rule": "design-system-color",
-        "value": "#17151c",
-        "createdAt": "2026-08-26T02:37:42.344Z",
-        "reason": "Frozen light plate value: the solitaire table must not invert with the theme, since the card art is dark linework on white."
-      },
-      {
-        "rule": "design-system-color",
         "value": "rgba(242, 239, 230, 0.26)",
         "createdAt": "2026-08-26T02:37:42.417Z",
         "reason": "Empty-slot hairline on the frozen dark table; cannot follow --color-rule, which inverts."
-      },
-      {
-        "rule": "design-system-color",
-        "value": "#f6f5f1",
-        "createdAt": "2026-08-26T02:37:42.492Z",
-        "reason": "Frozen --color-plate for the card face; a playing card is a physical object and does not invert."
-      },
-      {
-        "rule": "design-system-color",
-        "value": "rgba(23, 21, 28, 0.55)",
-        "createdAt": "2026-08-26T02:37:42.565Z",
-        "reason": "Frozen --color-rule-strong for the card edge; pairs with the non-inverting card face."
       },
       {
         "rule": "design-system-color",
@@ -50,24 +32,6 @@
         "value": "rgba(242, 239, 230, 0.9)",
         "createdAt": "2026-08-26T02:47:37.954Z",
         "reason": "Focus ring on the frozen dark solitaire table; --color-mark inverts and reads too dim against it."
-      },
-      {
-        "rule": "design-system-color",
-        "value": "#015032",
-        "createdAt": "2026-08-26T02:54:53.672Z",
-        "reason": "user confirmed: the casino-felt green from the original ddanzt build, asked for by name."
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "1rem",
-        "createdAt": "2026-08-26T02:56:25.708Z",
-        "reason": "Tailwind text-base, which compiles to exactly 1rem and is used 13x across the site (incl. Sheet.astro's summary prose). DESIGN.md's 1.125rem body step documents the retired IBM Plex world, not the shipped Byrne build."
-      },
-      {
-        "rule": "design-system-font-size",
-        "value": "0.875rem",
-        "createdAt": "2026-08-26T02:56:25.777Z",
-        "reason": "Tailwind text-sm, which compiles to exactly 0.875rem and is used 9x across the site. Same stale-DESIGN.md cause as the 1rem entry."
       }
     ]
   }
