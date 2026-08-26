@@ -9,16 +9,17 @@ const navItems = [
   { name: 'Writing', href: '/blog' },
   { name: 'Work', href: '/projects' },
   { name: 'Notes', href: '/thinking' },
+  { name: 'Games', href: '/games' },
   { name: 'Author', href: '/about' },
 ];
 
 const isCurrent = (href: string) =>
   href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
 
-// On the index the three fields already carry Writing / Work / Notes, so a nav
-// bar repeating them a few hundred pixels above is the duplication STORY
-// refuses. Off-index it is the only wayfinding there is, so it stays.
-const onIndex = pathname === '/';
+// The index used to hide this nav, on the grounds that its three colour fields
+// already carried Writing / Work / Notes. They do — but they carry nothing
+// else, so Games and Author had no desktop route in from the homepage. The
+// running head now shows everywhere.
 ---
 
 <header class="sticky top-0 z-50 border-b border-rule bg-ground">
@@ -32,23 +33,21 @@ const onIndex = pathname === '/';
 
     <!-- Desktop running head -->
     <div class="hidden items-baseline gap-7 md:flex">
-      {!onIndex && (
-        <nav aria-label="Main" class="flex items-baseline gap-7">
-          {navItems.map((item) => (
-            <a
-              href={item.href}
-              aria-current={isCurrent(item.href) ? "page" : undefined}
-              class:list={[
-                "apparatus inline-flex items-center gap-1.5 transition-colors",
-                isCurrent(item.href) ? "text-ink" : "text-ink-dim hover:text-ink",
-              ]}
-            >
-              {isCurrent(item.href) && <Mark kind="current" size={7} />}
-              {item.name}
-            </a>
-          ))}
-        </nav>
-      )}
+      <nav aria-label="Main" class="flex items-baseline gap-7">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isCurrent(item.href) ? "page" : undefined}
+            class:list={[
+              "apparatus inline-flex items-center gap-1.5 transition-colors",
+              isCurrent(item.href) ? "text-ink" : "text-ink-dim hover:text-ink",
+            ]}
+          >
+            {isCurrent(item.href) && <Mark kind="current" size={7} />}
+            {item.name}
+          </a>
+        ))}
+      </nav>
 
       <button
         id="theme-toggle"

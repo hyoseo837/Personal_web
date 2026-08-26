@@ -10,8 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "tsx src/scripts/check-data.ts",
-    "encode-demo": "./encode-demo.sh"
+    "test": "tsx src/scripts/check-data.ts && tsx src/scripts/check-solitaire.ts && tsx src/scripts/check-yinyang.ts",
+    "encode-demo": "./encode-demo.sh",
+    "fetch:yinyang": "tsx src/scripts/fetch-yinyang.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",

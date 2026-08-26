@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sheet from '../../components/Sheet.astro';
+import { Spade, Grid3x3 } from 'lucide-astro';
+
+// Two games is not a collection worth a data file yet. Extract to src/data/
+// when a third one turns up.
+const games = [
+  {
+    href: '/games/solitaire',
+    title: 'Shenzhen Solitaire',
+    icon: Spade,
+    blurb:
+      "The card game buried inside SHENZHEN I/O, rebuilt from scratch. Three suits of nine, twelve cats and one mouse, on a table that empties itself when you get it right.",
+    apparatus: 'Cards · 40',
+  },
+  {
+    href: '/games/yin-yang',
+    title: 'Yin-Yang',
+    icon: Grid3x3,
+    blurb:
+      "The Special Daily, a 30×30 board. Fill the grid so each colour forms one connected group and no 2×2 square is a single colour. Carried over each day from puzzle-yin-yang.com with its creator's permission.",
+    apparatus: 'Daily · 30 × 30',
+  },
+];
+---
+<BaseLayout
+  title="Games"
+  description="Two small games to waste time on: a rebuild of SHENZHEN I/O's solitaire, and Yin-Yang, a connectivity puzzle with a unique solution."
+>
+  <Sheet
+    section="Games"
+    summary="Things built to be played rather than read. Both run entirely in the page — nothing to install, no account, no server keeping score."
+    numeral="V"
+    fields={[{ label: 'Games', value: String(games.length) }]}
+  >
+    <ul class="border-t border-rule">
+      {games.map((game, i) => (
+        <li>
+          <a href={game.href} class="step group block border-b border-rule py-7 transition-colors hover:bg-plate">
+            <span class="step-numeral pt-1.5 text-ink-dim">{String(i + 1).padStart(2, '0')}</span>
+            <span class="block">
+              <span class="flex items-baseline gap-3">
+                <game.icon class="h-4 w-4 shrink-0 translate-y-0.5 text-ink-dim transition-colors group-hover:text-ink" />
+                <span class="font-display text-2xl font-medium tracking-[-0.02em] text-ink md:text-3xl">
+                  {game.title}
+                </span>
+              </span>
+              <span class="mt-3 block max-w-[56ch] text-base leading-[1.7] text-ink-muted">
+                {game.blurb}
+              </span>
+              <span class="apparatus-sm mt-4 block text-ink-dim">{game.apparatus}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </Sheet>
+</BaseLayout>

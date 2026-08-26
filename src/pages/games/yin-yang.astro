@@ -1,0 +1,594 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sheet from '../../components/Sheet.astro';
+
+// One puzzle a day, chosen from src/data/yinyang.json by hashing the date, so
+// everyone gets the same board and it turns over at local midnight. The bank is
+// built offline by `npm run gen:yinyang`; nothing is generated or solved in the
+// browser — the page only checks the three rules against what the player fills in.
+---
+<BaseLayout
+  title="Yin-Yang"
+  description="The Special Daily Yin-Yang, a 30x30 board. Fill every cell black or white so each colour forms one connected group and no 2x2 area is a single colour. One puzzle a day, with a solve counter and a streak."
+>
+  <Sheet
+    section="Yin-Yang"
+    summary="The Special Daily — a 30×30 board. Fill it so all the black stones touch in one group, all the white stones touch in one group, and no 2×2 square is a single colour. One puzzle a day, carried over from puzzle-yin-yang.com with its creator's blessing."
+    numeral="II"
+    fields={[
+      { label: 'Grid', value: '30 × 30' },
+      { label: 'Puzzles', value: 'One a day' },
+      { label: 'Source', value: 'puzzle-yin-yang' },
+    ]}
+  >
+    <div id="yinyang">
+      <div class="yy-head">
+        <p class="apparatus yy-date" id="yy-date"></p>
+        <dl class="yy-stats">
+          <div><dt class="apparatus-sm">Solved</dt><dd class="tabular" id="yy-solved">0</dd></div>
+          <div><dt class="apparatus-sm">Streak</dt><dd class="tabular" id="yy-streak">0</dd></div>
+          <div><dt class="apparatus-sm">Best</dt><dd class="tabular" id="yy-best">0</dd></div>
+        </dl>
+      </div>
+
+      <div class="yy-stage">
+        <div class="yy-board" id="yy-board" aria-label="Today's Yin-Yang puzzle"></div>
+        <div class="yy-won" id="yy-won" role="status" aria-live="polite" hidden>
+          <p class="proposition">Solved.</p>
+          <p class="apparatus" id="yy-won-line"></p>
+          <p class="apparatus yy-next" id="yy-next"></p>
+        </div>
+      </div>
+
+      <div class="yy-bar">
+        <button type="button" class="yy-action" id="yy-restart">Start over</button>
+        <p class="apparatus-sm yy-status" id="yy-status"></p>
+      </div>
+
+      <details class="yy-help">
+        <summary class="apparatus">How to play</summary>
+        <div class="yy-help-body">
+          <p>
+            <strong>Goal.</strong> Every cell ends up black or white, satisfying
+            all three rules at once.
+          </p>
+          <ul>
+            <li>All black cells form one group, connected edge to edge. Diagonals
+              do not count.</li>
+            <li>All white cells likewise form one single connected group.</li>
+            <li>No 2×2 square anywhere is entirely one colour. Squares that break
+              this are flagged as you play.</li>
+          </ul>
+          <p>
+            Click a cell to cycle it empty → black → white, or drag to paint a run
+            of them. Right-click cycles the other way. Press <kbd>Z</kbd> to undo —
+            a whole drag comes back in one go. The stones printed with a ring are
+            the puzzle's given clues and cannot be changed. Your progress is kept
+            if you close the tab.
+          </p>
+          <p>
+            A new board arrives each day. Solving on consecutive days builds a
+            streak; miss a day and it resets.
+          </p>
+          <p class="yy-credit">
+            Yin-Yang is also known as Shirokuro. This is the Special Daily from
+            <a href="https://www.puzzle-yin-yang.com" target="_blank" rel="noopener noreferrer">puzzle-yin-yang.com</a>,
+            reproduced with the site creator's permission. Go there for every
+            other size, a solver and an archive.
+          </p>
+        </div>
+      </details>
+    </div>
+  </Sheet>
+</BaseLayout>
+
+<style is:global>
+  /* is:global for the same reason as the solitaire board: the cells are built
+     at runtime, so scoped rules would never match them. Scoped by #yinyang. */
+
+  #yinyang {
+    /* Frozen light values. A stone is a physical object — black stays black in
+       both themes, so the board it sits on cannot invert either. */
+    --yy-board: #e6e3dc;
+    --yy-black: #17151c;
+    --yy-white: #f6f5f1;
+    --yy-line: color-mix(in srgb, var(--yy-black) 20%, transparent);
+    --yy-flag: color-mix(in srgb, var(--color-vermilion) 26%, transparent);
+  }
+
+  /* ---- Head: today's date and the running record ---- */
+  #yinyang .yy-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    border-bottom: 1px solid var(--color-rule);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  #yinyang .yy-date { color: var(--color-ink); }
+  #yinyang .yy-stats { display: flex; gap: 2rem; }
+  #yinyang .yy-stats dt { color: var(--color-ink-dim); margin-bottom: 0.35rem; }
+  #yinyang .yy-stats dd {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+
+  /* ---- Board ---- */
+  #yinyang .yy-stage { position: relative; width: min(100%, 42rem); }
+
+  #yinyang .yy-board {
+    display: grid;
+    grid-template-columns: repeat(var(--n), 1fr);
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--yy-board);
+    border: 1px solid var(--color-rule-strong);
+    padding: 1px;
+    gap: 1px;
+  }
+
+  #yinyang .yy-cell {
+    position: relative;
+    background: var(--yy-board);
+    box-shadow: 0 0 0 1px var(--yy-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #yinyang .yy-cell[data-fixed] { cursor: default; }
+  #yinyang .yy-cell[data-bad] { background: var(--yy-flag); }
+
+  /* The stone itself. Empty cells simply have none. */
+  #yinyang .yy-cell::after {
+    content: '';
+    width: 76%;
+    height: 76%;
+    border-radius: 50%;
+    transform: scale(0);
+  }
+  #yinyang .yy-cell[data-v='1']::after {
+    background: var(--yy-black);
+    transform: scale(1);
+  }
+  #yinyang .yy-cell[data-v='0']::after {
+    background: var(--yy-white);
+    box-shadow: inset 0 0 0 1px var(--yy-line);
+    transform: scale(1);
+  }
+  /* A given clue wears a ring, so Start over holds no surprises. */
+  #yinyang .yy-cell[data-fixed][data-v='1']::after {
+    box-shadow: 0 0 0 2px var(--yy-board), 0 0 0 3px var(--yy-black);
+  }
+  #yinyang .yy-cell[data-fixed][data-v='0']::after {
+    box-shadow: inset 0 0 0 1px var(--yy-line), 0 0 0 2px var(--yy-board), 0 0 0 3px var(--yy-black);
+  }
+
+  #yinyang .yy-cell:focus-visible { outline: 2px solid var(--color-mark); outline-offset: -2px; z-index: 1; }
+
+  /* ---- Solved overlay ---- */
+  #yinyang .yy-won {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    text-align: center;
+    padding: 1rem;
+    /* The board underneath is frozen light, so this text must be frozen too —
+       the theme tokens would go light-on-light in dark mode. */
+    color: var(--yy-black);
+    background: color-mix(in srgb, var(--yy-board) 86%, transparent);
+    animation: yy-won-in 0.35s ease-out both;
+  }
+  #yinyang .yy-won[hidden] { display: none; }
+  #yinyang .yy-next { color: color-mix(in srgb, var(--yy-black) 62%, transparent); }
+  @keyframes yy-won-in { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---- Bar ---- */
+  #yinyang .yy-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-rule);
+    padding: 0.75rem 0;
+    margin-top: 1.25rem;
+  }
+  #yinyang .yy-status { color: var(--color-ink-dim); }
+
+  #yinyang .yy-action {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule-strong);
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  #yinyang .yy-action:hover { background: var(--color-ink); color: var(--color-ground); }
+
+  /* ---- Instructions ---- */
+  #yinyang .yy-help {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--color-rule);
+    padding-top: 1rem;
+  }
+  #yinyang .yy-help summary { cursor: pointer; color: var(--color-ink-dim); }
+  #yinyang .yy-help summary:hover { color: var(--color-ink); }
+  #yinyang .yy-help-body {
+    max-width: 60ch;
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-ink-muted);
+  }
+  #yinyang .yy-help-body ul { margin: 0.75rem 0; padding-left: 1.1rem; list-style: square; }
+  #yinyang .yy-help-body li { margin: 0.4rem 0; }
+  #yinyang .yy-help-body p + p { margin-top: 0.75rem; }
+  #yinyang .yy-help-body strong { color: var(--color-ink); }
+  #yinyang .yy-help-body a {
+    color: var(--color-mark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  #yinyang .yy-credit { margin-top: 1rem; font-size: 0.875rem; color: var(--color-ink-dim); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #yinyang .yy-action { transition: none; }
+    #yinyang .yy-won { animation: none; }
+  }
+</style>
+
+<script>
+  import bank from '../../data/yinyang.json';
+  import {
+    BLACK, WHITE, UNKNOWN,
+    parseClues, formatClues, monoSquares, check,
+  } from '../../utils/yinyang';
+
+  interface Daily { n: number; clues: string }
+  interface Stats { solved: number; streak: number; best: number; last: string }
+  const BLANK: Stats = { solved: 0, streak: 0, best: 0, last: '' };
+
+  let n = 0;
+  let puzzleDate = '';
+  let clues: Int8Array;
+  let grid: Int8Array;
+  let cells: HTMLElement[] = [];
+  let left = 0;                     // unknown cells, tracked so the win check is cheap
+  let shownV: Int8Array;            // what each cell is currently painted as
+  let shownBad: Uint8Array;
+  let stats: Stats = { ...BLANK };
+  let solved = false;
+  let flagged = 0;
+  let ticker: ReturnType<typeof setInterval> | undefined;
+  let abort: AbortController | undefined;
+
+  /** One gesture's worth of changes — a click, or a whole drag. */
+  type Stroke = { i: number; prev: number }[];
+  let undo: Stroke[] = [];
+  let stroke: Stroke | null = null;
+
+  /** Local calendar day, so "today" matches the player's own midnight. */
+  const dayKey = (d = new Date()) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  const yesterdayKey = () => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return dayKey(d);
+  };
+
+  const read = <T,>(key: string, fallback: T): T => {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? { ...fallback, ...JSON.parse(raw) } : fallback;
+    } catch { return fallback; }
+  };
+  const write = (key: string, value: unknown) => {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode */ }
+  };
+
+  /**
+   * Today's board if the bank has it, otherwise the newest one that is not in
+   * the future. The bank only grows when `npm run fetch:yinyang` runs, so a site
+   * that has not been rebuilt for a few days falls back rather than showing
+   * nothing — and the header always names the date the board actually came from.
+   */
+  function todaysPuzzle(): { date: string; puzzle: Daily } | null {
+    const entries = Object.entries(bank as Record<string, Daily>).sort(([a], [b]) => a.localeCompare(b));
+    if (!entries.length) return null;
+    const today = dayKey();
+    const upto = entries.filter(([date]) => date <= today);
+    const [date, puzzle] = (upto.length ? upto[upto.length - 1] : entries[0])!;
+    return { date, puzzle };
+  }
+
+  const clock = (ms: number) => {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    const rest = `${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+    const h = Math.floor(s / 3600);
+    return h ? `${h}:${rest}` : rest;
+  };
+
+  const untilMidnight = () => {
+    const next = new Date();
+    next.setHours(24, 0, 0, 0);
+    return next.getTime() - Date.now();
+  };
+
+  const prettyDay = (day: string) =>
+    new Date(`${day}T00:00:00`).toLocaleDateString('en-CA', {
+      weekday: 'long', month: 'long', day: 'numeric',
+    });
+
+  function build(root: HTMLElement) {
+    const board = root.querySelector<HTMLElement>('#yy-board')!;
+    board.style.setProperty('--n', String(n));
+    const frag = document.createDocumentFragment();
+    cells = [];
+    for (let i = 0; i < n * n; i++) {
+      const fixed = clues[i] !== UNKNOWN;
+      const el = document.createElement(fixed ? 'div' : 'button');
+      el.className = 'yy-cell';
+      el.dataset.i = String(i);
+      if (fixed) {
+        el.dataset.fixed = '';
+      } else {
+        (el as HTMLButtonElement).type = 'button';
+        el.setAttribute('aria-label', `row ${((i / n) | 0) + 1}, column ${(i % n) + 1}`);
+      }
+      frag.appendChild(el);
+      cells.push(el);
+    }
+    board.replaceChildren(frag);
+    // Force a full repaint against the fresh DOM.
+    shownV = new Int8Array(n * n).fill(-2 as unknown as number);
+    shownBad = new Uint8Array(n * n).fill(2);
+  }
+
+  /**
+   * Only touches cells that actually changed. At 900 cells a full rewrite on
+   * every pointermove is what makes a drag stutter, and a drag crosses a lot of
+   * cells.
+   */
+  function paint(root: HTMLElement) {
+    const bad = new Uint8Array(n * n);
+    let count = 0;
+    for (const i of monoSquares(n, grid)) {
+      for (const j of [i, i - 1, i - n, i - n - 1]) if (!bad[j]) { bad[j] = 1; count++; }
+    }
+    flagged = count;
+
+    for (let i = 0; i < n * n; i++) {
+      if (shownV[i] !== grid[i]) {
+        const el = cells[i];
+        if (grid[i] === UNKNOWN) delete el.dataset.v;
+        else el.dataset.v = String(grid[i]);
+        shownV[i] = grid[i];
+      }
+      if (shownBad[i] !== bad[i]) {
+        cells[i].toggleAttribute('data-bad', bad[i] === 1);
+        shownBad[i] = bad[i];
+      }
+    }
+    status(root);
+  }
+
+  function status(root: HTMLElement) {
+    root.querySelector('#yy-status')!.textContent = solved
+      ? `Solved · next puzzle in ${clock(untilMidnight())}`
+      : `${left} left` + (flagged ? ' · 2×2 flagged' : '');
+  }
+
+  function showStats(root: HTMLElement) {
+    // A streak only stands if it was kept today or yesterday.
+    const live = stats.last === dayKey() || stats.last === yesterdayKey() ? stats.streak : 0;
+    root.querySelector('#yy-solved')!.textContent = String(stats.solved);
+    root.querySelector('#yy-streak')!.textContent = String(live);
+    root.querySelector('#yy-best')!.textContent = String(stats.best);
+  }
+
+  function finish(root: HTMLElement, fresh: boolean) {
+    solved = true;
+    const today = dayKey();
+    // `fresh` is false when restoring an already-finished board, so reloading
+    // the page can never inflate the streak.
+    if (fresh && stats.last !== today) {
+      stats.streak = stats.last === yesterdayKey() ? stats.streak + 1 : 1;
+      stats.best = Math.max(stats.best, stats.streak);
+      stats.solved += 1;
+      stats.last = today;
+      write('yinyang-stats', stats);
+    }
+    showStats(root);
+    root.querySelector('#yy-won-line')!.textContent =
+      `${prettyDay(puzzleDate)} · streak ${stats.last === today ? stats.streak : 0}`;
+    root.querySelector('#yy-next')!.textContent = `Next puzzle in ${clock(untilMidnight())}`;
+    root.querySelector<HTMLElement>('#yy-won')!.hidden = false;
+    status(root);
+  }
+
+  function start(root: HTMLElement, restart = false) {
+    const today = todaysPuzzle();
+    if (!today) {
+      root.querySelector('#yy-date')!.textContent =
+        'No puzzle yet — run npm run fetch:yinyang';
+      return;
+    }
+    puzzleDate = today.date;
+    n = today.puzzle.n;
+    clues = parseClues(n, today.puzzle.clues);
+    grid = Int8Array.from(clues);
+    solved = false;
+    root.querySelector<HTMLElement>('#yy-won')!.hidden = true;
+    root.querySelector('#yy-date')!.textContent =
+      `${prettyDay(puzzleDate)} · Special Daily · ${n}×${n}`;
+
+    const key = `yinyang-progress`;
+    const saved = read(key, { day: '', grid: '' });
+    if (!restart && saved.day === puzzleDate && saved.grid.length === n * n) {
+      const resumed = parseClues(n, saved.grid);
+      // Never let stale storage override the givens.
+      for (let i = 0; i < n * n; i++) grid[i] = clues[i] !== UNKNOWN ? clues[i] : resumed[i];
+    }
+    write(key, { day: puzzleDate, grid: formatClues(grid) });
+
+    left = 0;
+    for (let i = 0; i < n * n; i++) if (grid[i] === UNKNOWN) left++;
+    undo = [];
+    stroke = null;
+
+    build(root);
+    paint(root);
+    showStats(root);
+    if (left === 0 && check(n, grid).solved) finish(root, false);
+  }
+
+  function init() {
+    const root = document.getElementById('yinyang');
+    if (!root) return;
+
+    clearInterval(ticker);
+    abort?.abort();
+    abort = new AbortController();
+    const { signal } = abort;
+
+    stats = read('yinyang-stats', BLANK);
+    start(root);
+    if (!n) return;
+
+    const board = root.querySelector<HTMLElement>('#yy-board')!;
+
+    /** Applies a value to one cell, keeping the unknown count in step. */
+    const set = (i: number, v: number) => {
+      if (grid[i] === v) return false;
+      stroke?.push({ i, prev: grid[i] });
+      if (grid[i] === UNKNOWN) left--;
+      if (v === UNKNOWN) left++;
+      grid[i] = v;
+      return true;
+    };
+
+    const begin = () => { stroke = []; };
+    const commit = () => {
+      if (stroke?.length) {
+        undo.push(stroke);
+        if (undo.length > 200) undo.shift();
+      }
+      stroke = null;
+    };
+
+    /** Rewinds one gesture. Applied back to front so overlapping paints restore. */
+    const undoLast = () => {
+      if (solved) return;
+      const last = undo.pop();
+      if (!last) return;
+      for (let k = last.length - 1; k >= 0; k--) set(last[k].i, last[k].prev);
+      settle();
+    };
+
+    const settle = () => {
+      write('yinyang-progress', { day: puzzleDate, grid: formatClues(grid) });
+      paint(root);
+      // check() walks the whole board twice, so only ask once it can succeed.
+      if (left === 0 && check(n, grid).solved) finish(root, true);
+    };
+
+    const step = (i: number, back: boolean) => {
+      if (solved || clues[i] !== UNKNOWN) return;
+      const cycle = back ? [UNKNOWN, WHITE, BLACK] : [UNKNOWN, BLACK, WHITE];
+      set(i, cycle[(cycle.indexOf(grid[i]) + 1) % 3]);
+      settle();
+    };
+
+    /**
+     * Press cycles one cell and remembers what it landed on; dragging paints
+     * that same value across whatever the pointer crosses. Painting a fixed
+     * value rather than cycling is what makes a drag predictable.
+     */
+    let painting: number | null = null;
+    const cellAt = (x: number, y: number) =>
+      (document.elementFromPoint(x, y) as HTMLElement | null)?.closest<HTMLElement>('.yy-cell');
+
+    board.addEventListener('pointerdown', (e) => {
+      const el = (e.target as HTMLElement).closest<HTMLElement>('.yy-cell');
+      if (!el?.dataset.i) return;
+      const i = Number(el.dataset.i);
+      if (solved || clues[i] !== UNKNOWN) return;
+      e.preventDefault();
+      begin();
+      step(i, e.button === 2);
+      painting = grid[i];
+      board.setPointerCapture(e.pointerId);
+    }, { signal });
+
+    board.addEventListener('pointermove', (e) => {
+      if (painting === null || solved) return;
+      const el = cellAt(e.clientX, e.clientY);
+      if (!el?.dataset.i) return;
+      const i = Number(el.dataset.i);
+      if (clues[i] !== UNKNOWN) return;
+      if (set(i, painting)) settle();
+    }, { signal });
+
+    const release = (e: PointerEvent) => {
+      painting = null;
+      commit();
+      if (board.hasPointerCapture(e.pointerId)) board.releasePointerCapture(e.pointerId);
+    };
+    board.addEventListener('pointerup', release, { signal });
+    board.addEventListener('pointercancel', release, { signal });
+
+    // Keyboard activation arrives as a click with detail 0, so pointer-driven
+    // clicks are not handled twice.
+    board.addEventListener('click', (e) => {
+      if (e.detail !== 0) return;
+      const el = (e.target as HTMLElement).closest<HTMLElement>('.yy-cell');
+      if (!el?.dataset.i) return;
+      begin();
+      step(Number(el.dataset.i), false);
+      commit();
+    }, { signal });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'z' && e.key !== 'Z') return;
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      e.preventDefault();
+      undoLast();
+    }, { signal });
+
+    board.addEventListener('contextmenu', (e) => e.preventDefault(), { signal });
+    root.querySelector('#yy-restart')!.addEventListener('click', () => start(root, true), { signal });
+
+    // Keeps the countdown honest and rolls the board over at midnight.
+    let shownDay = dayKey();
+    ticker = setInterval(() => {
+      if (dayKey() !== shownDay) { shownDay = dayKey(); start(root); }
+      else if (solved) {
+        root.querySelector('#yy-next')!.textContent = `Next puzzle in ${clock(untilMidnight())}`;
+        status(root);
+      }
+    }, 1000);
+  }
+
+  document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:before-swap', () => {
+    clearInterval(ticker);
+    abort?.abort();
+  });
+</script>

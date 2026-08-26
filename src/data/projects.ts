@@ -141,7 +141,7 @@ export const projects: Project[] = [
       "A complete reconstruction of the SHENZHEN I/O solitaire card game in React. The project where I truly mastered React's state management.",
     icon: Spade,
     github: "https://github.com/hyoseo837/ddanzt",
-    link: "https://hyoseo837.github.io/ddanzt/",
+    link: "/games/solitaire",
     duration: "2023.10 - 2024.01",
     media: { type: 'demo' },
   },

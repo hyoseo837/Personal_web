@@ -1,0 +1,552 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sheet from '../../components/Sheet.astro';
+
+// A vanilla port of the React game at github.com/hyoseo837/ddanzt. The rules
+// live in the page script; the card art is the original pixel art, moved to
+// /public/games/solitaire/.
+---
+<BaseLayout
+  title="Shenzhen Solitaire"
+  description="A playable port of SHENZHEN I/O's solitaire — three suits, three free cells, four cats a colour. Click a card to pick it up, click again to drop it."
+>
+  <Sheet
+    section="Shenzhen Solitaire"
+    summary="The card game buried inside SHENZHEN I/O, rebuilt from scratch. Three suits of nine, twelve cats, one mouse. Click a run to lift it, click again to drop it — press R for a new deal."
+    numeral="I"
+    fields={[
+      { label: 'Deck', value: '40' },
+      { label: 'Suits', value: '3' },
+      { label: 'Free cells', value: '3' },
+    ]}
+  >
+    <div id="solitaire">
+      <div class="sol-stage">
+      <div class="sol-board">
+        <div class="sol-top">
+          <div class="sol-cells" id="sol-free"></div>
+          <div class="sol-dragons">
+            <button type="button" data-dragon="x" title="Collect the grey cats" aria-label="Collect the grey cats"></button>
+            <button type="button" data-dragon="y" title="Collect the gold cats" aria-label="Collect the gold cats"></button>
+            <button type="button" data-dragon="z" title="Collect the brown cats" aria-label="Collect the brown cats"></button>
+          </div>
+          <div class="sol-flower" id="sol-flower"></div>
+          <div class="sol-cells" id="sol-found"></div>
+        </div>
+        <div class="sol-tableau" id="sol-tableau"></div>
+      </div>
+
+      <div class="sol-won" id="sol-won" role="status" aria-live="polite" hidden>
+        <p class="proposition">Cleared.</p>
+        <p class="apparatus" id="sol-won-record"></p>
+        <button type="button" class="sol-action sol-won-action" id="sol-won-again">Deal again</button>
+      </div>
+      </div>
+
+      <div class="sol-bar">
+        <button type="button" id="sol-reset" class="sol-action">New deal</button>
+        <p class="apparatus-sm text-ink-dim" id="sol-stats"></p>
+      </div>
+
+      <details class="sol-help">
+        <summary class="apparatus">How to play</summary>
+        <div class="sol-help-body">
+          <p>
+            <strong>Goal.</strong> Stack all three suits from 1 to 9 in the holders
+            on the right, and gather every cat.
+          </p>
+          <ul>
+            <li>In the tableau a card may sit on a card of a <em>different</em> suit
+              whose number is exactly one higher. A run built that way moves as one.</li>
+            <li>The three cells on the left each hold any single card.</li>
+            <li>When all four cats of one colour are exposed — on top of a pile or in
+              a cell — press that colour's button. They stack together and take one
+              free cell with them.</li>
+            <li>The mouse is a bonus card: it leaves for the middle holder on its own
+              the moment it is exposed.</li>
+            <li>Number cards fly to their holder automatically once no card on the
+              board still needs them. You can always send one up by hand: select it,
+              then click the holder.</li>
+          </ul>
+          <p class="sol-credit">
+            Original game by <a href="https://store.steampowered.com/app/504210/SHENZHEN_IO/" target="_blank" rel="noopener noreferrer">Zachtronics</a>.
+            This rebuild's <a href="https://github.com/hyoseo837/ddanzt" target="_blank" rel="noopener noreferrer">source</a>.
+          </p>
+        </div>
+      </details>
+    </div>
+  </Sheet>
+</BaseLayout>
+
+<style is:global>
+  /* is:global, not scoped. Astro scopes a component's CSS with a data-astro-cid
+     attribute stamped onto template elements, but the cards, piles and slots are
+     built at runtime via innerHTML and never receive it — scoped rules would not
+     match them. Every selector below is scoped under #solitaire by hand instead. */
+
+  /* The table is a fixed dark field in both themes — a card is a physical
+     object, so it does not invert with the plate. */
+  #solitaire {
+    --cw: clamp(32px, 7.6vw, 56px);
+    --ch: calc(var(--cw) * 1.7);
+    --gap: calc(var(--cw) * 0.2);
+    /* Frozen light values. The pixel art is dark linework on white, so a card
+       is the one thing on the site that must not invert with the plate. */
+    --table: #015032;
+    --slot: rgba(242, 239, 230, 0.26);
+    --focus: rgba(242, 239, 230, 0.9);
+    --card-face: #f6f5f1;
+    --card-edge: rgba(23, 21, 28, 0.55);
+  }
+
+  #solitaire .sol-board {
+    background: var(--table);
+    border: 1px solid var(--color-rule-strong);
+    padding: calc(var(--cw) * 0.34);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--cw) * 0.5);
+    overflow-x: auto;
+  }
+
+  #solitaire .sol-top,
+  #solitaire .sol-tableau {
+    display: grid;
+    grid-template-columns: repeat(8, var(--cw));
+    gap: var(--gap);
+    justify-content: center;
+    align-items: start;
+    min-width: min-content;
+  }
+
+  #solitaire .sol-cells { display: flex; gap: var(--gap); }
+  #solitaire #sol-free { grid-column: 1 / 4; }
+  #solitaire #sol-found { grid-column: 6 / 9; }
+  #solitaire .sol-flower { grid-column: 5; }
+
+  #solitaire .sol-dragons {
+    grid-column: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--ch);
+    padding: 2px 0;
+  }
+
+  #solitaire .sol-dragons button {
+    width: calc(var(--cw) * 0.42);
+    height: calc(var(--cw) * 0.42);
+    border: 1px solid var(--card-edge);
+    cursor: pointer;
+    transition: outline-color 0.15s;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  #solitaire .sol-dragons button[data-dragon="x"] { background: #ababab; }
+  #solitaire .sol-dragons button[data-dragon="y"] { background: #d7b160; }
+  #solitaire .sol-dragons button[data-dragon="z"] { background: #ad8256; }
+  #solitaire .sol-dragons button[data-ready] { outline-color: var(--color-chrome); }
+  #solitaire .sol-dragons button:disabled { cursor: default; opacity: 0.45; }
+  #solitaire .sol-dragons button:focus-visible { outline-color: var(--focus); }
+
+  /* ---- Cards and slots ---- */
+  /* The pile fans downward: each card is pulled back over the one before it so
+     only a strip — enough for the corner number — stays visible. Rendered
+     back-to-front, so the exposed card sits lowest and paints last. */
+  #solitaire .sol-pile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: var(--ch);
+    flex: none;
+  }
+  /* --pile-fan is set per pile by the script: the deeper the pile, the
+     tighter the fan, so the tableau never outgrows its fixed height. */
+  #solitaire .sol-pile .sol-card + .sol-card {
+    margin-top: calc(var(--pile-fan) - var(--ch));
+  }
+
+  #solitaire .sol-card,
+  #solitaire .sol-slot {
+    width: var(--cw);
+    height: var(--ch);
+    flex: none;
+    box-sizing: border-box;
+  }
+
+  #solitaire .sol-card {
+    background: var(--card-face);
+    border: 1px solid var(--card-edge);
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    outline: 2px solid transparent;
+    outline-offset: 1px;
+    transition: outline-color 0.12s;
+  }
+  #solitaire .sol-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+  #solitaire .sol-card[data-sel] { outline-color: var(--color-chrome); }
+  #solitaire .sol-card[data-spent] { filter: contrast(55%); cursor: default; }
+  #solitaire .sol-card:focus-visible { outline-color: var(--focus); }
+
+  #solitaire .sol-slot {
+    border: 1px dashed var(--slot);
+    cursor: pointer;
+    outline: 2px solid transparent;
+    outline-offset: 1px;
+  }
+  #solitaire .sol-slot[data-idle] { cursor: default; }
+  #solitaire .sol-slot:focus-visible { outline-color: var(--focus); }
+
+  /* ---- Bar under the table ---- */
+  #solitaire .sol-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-rule);
+    padding: 0.75rem 0;
+  }
+
+  #solitaire .sol-action {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule-strong);
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  #solitaire .sol-action:hover {
+    background: var(--color-ink);
+    color: var(--color-ground);
+  }
+
+  /* The cleared message sits on the felt, over the empty board — the
+     foundations and gathered cats stay readable through the scrim. */
+  #solitaire .sol-stage { position: relative; }
+
+  #solitaire .sol-won {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    text-align: center;
+    padding: 1rem;
+    color: var(--card-face);
+    background: color-mix(in srgb, var(--table) 78%, transparent);
+    animation: sol-won-in 0.35s ease-out both;
+  }
+  #solitaire .sol-won[hidden] { display: none; }
+
+  #solitaire .sol-won-action {
+    color: var(--card-face);
+    border-color: var(--card-face);
+  }
+  #solitaire .sol-won-action:hover {
+    background: var(--card-face);
+    color: var(--table);
+  }
+
+  @keyframes sol-won-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ---- Instructions ---- */
+  #solitaire .sol-help {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--color-rule);
+    padding-top: 1rem;
+  }
+  #solitaire .sol-help summary { cursor: pointer; color: var(--color-ink-dim); }
+  #solitaire .sol-help summary:hover { color: var(--color-ink); }
+  #solitaire .sol-help-body {
+    max-width: 60ch;
+    margin-top: 1rem;
+    font-size: 1rem;      /* text-base, as Sheet's summary prose */
+    line-height: 1.7;
+    color: var(--color-ink-muted);
+  }
+  #solitaire .sol-help-body ul { margin: 0.75rem 0; padding-left: 1.1rem; list-style: square; }
+  #solitaire .sol-help-body li { margin: 0.4rem 0; }
+  #solitaire .sol-help-body strong { color: var(--color-ink); }
+  #solitaire .sol-help-body a {
+    color: var(--color-mark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  #solitaire .sol-credit { margin-top: 1rem; font-size: 0.875rem; color: var(--color-ink-dim); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #solitaire .sol-card,
+    #solitaire .sol-action,
+    #solitaire .sol-dragons button { transition: none; }
+    #solitaire .sol-won { animation: none; }
+  }
+</style>
+
+<script>
+  import {
+    type Card, type Game, SUITS, SPECIAL,
+    deal, isWon, isSelectable, move, catsExposed, collect,
+    nextAuto, sendUp, toFoundation,
+  } from '../../utils/solitaire';
+
+  const SUIT_NAME: Record<string, string> = { a: 'red', b: 'blue', c: 'green' };
+  const CAT_NAME: Record<string, string> = { x: 'grey', y: 'gold', z: 'brown' };
+  const ART = '/games/solitaire/';
+
+  let g: Game;
+  let sel: { row: number; idx: number } | null = null;
+  let busy = false;            // an auto-move is in flight; ignore clicks
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let abort: AbortController | undefined;
+
+  const readCount = (key: string) => {
+    try { return Number(localStorage.getItem(key)) || 0; } catch { return 0; }
+  };
+  const writeCount = (key: string, n: number) => {
+    try { localStorage.setItem(key, String(n)); } catch { /* private mode */ }
+  };
+
+  const src = (c: Card) =>
+    `${ART}Card${c.shape}${SPECIAL.includes(c.shape) ? '' : c.number}.png`;
+
+  const label = (c: Card) =>
+    c.shape === 'bonus' ? 'the mouse'
+      : SPECIAL.includes(c.shape) ? `${CAT_NAME[c.shape]} cat`
+      : `${SUIT_NAME[c.shape]} ${c.number}`;
+
+  // Every card in the deck is unique by shape+number, so this key follows one
+  // card across a re-render even when it lands in a different holder.
+  const cardHTML = (c: Card, attrs = '') =>
+    `<div class="sol-card" data-key="${c.shape}${c.number}" ${attrs}>` +
+    `<img src="${src(c)}" alt="${label(c)}" draggable="false"></div>`;
+
+  // Both in card-heights: how much of a covered card stays visible, and how
+  // much room the tableau leaves below the first card for fanning.
+  const FAN = 0.31;
+  const LANES = 2.5;
+  const fanFor = (n: number) => (n > 1 ? Math.min(FAN, LANES / (n - 1)) : FAN);
+
+  const pileOpen = (n: number) =>
+    `<div class="sol-pile" style="--pile-fan: calc(var(--ch) * ${fanFor(n)})">`;
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+  function pileHTML(row: number) {
+    const pile = g.board[row];
+    if (!pile.length) {
+      // A cell holding gathered cats shows that colour's face, dimmed.
+      if (row >= 8 && g.spent[row - 8] !== null)
+        return `${pileOpen(1)}${cardHTML({ shape: g.spent[row - 8]!, number: 0 }, 'data-spent')}</div>`;
+      return `${pileOpen(1)}<div class="sol-slot" data-row="${row}" tabindex="0" role="button" aria-label="empty ${row >= 8 ? 'cell' : 'column'}"></div></div>`;
+    }
+    // Rendered back-to-front so the exposed card (index 0) paints last.
+    const cards = pile
+      .map((c, i) =>
+        cardHTML(
+          c,
+          `data-row="${row}" data-idx="${i}" tabindex="0" role="button"` +
+            (sel && sel.row === row && sel.idx >= i ? ' data-sel' : '')
+        )
+      )
+      .reverse()
+      .join('');
+    return `${pileOpen(pile.length)}${cards}</div>`;
+  }
+
+  /**
+   * Rebuilds the board, then FLIPs: every card that ends up somewhere new is
+   * animated from where it just was. One mechanism covers all of it — a run
+   * dragged across the tableau, a number flying to its holder, the mouse
+   * leaving, cats gathering into a cell.
+   */
+  function render(root: HTMLElement) {
+    const before = new Map<string, DOMRect>();
+    if (!reduced.matches)
+      root.querySelectorAll<HTMLElement>('.sol-card[data-key]').forEach((el) =>
+        before.set(el.dataset.key!, el.getBoundingClientRect())
+      );
+
+    const tableau = root.querySelector<HTMLElement>('#sol-tableau')!;
+    tableau.style.height = `calc(var(--ch) * ${1 + LANES})`;
+
+    root.querySelector('#sol-free')!.innerHTML = [8, 9, 10].map(pileHTML).join('');
+    root.querySelector('#sol-tableau')!.innerHTML =
+      [0, 1, 2, 3, 4, 5, 6, 7].map(pileHTML).join('');
+
+    root.querySelector('#sol-flower')!.innerHTML = g.flower
+      ? cardHTML({ shape: 'bonus', number: 0 }, 'data-spent')
+      : '<div class="sol-slot" data-idle></div>';
+
+    root.querySelector('#sol-found')!.innerHTML = SUITS.map((s, i) =>
+      g.completed[i]
+        ? cardHTML({ shape: s, number: g.completed[i] }, `data-found="${s}" tabindex="0" role="button"`)
+        : `<div class="sol-slot" data-found="${s}" tabindex="0" role="button" aria-label="${SUIT_NAME[s]} holder, empty"></div>`
+    ).join('');
+
+    root.querySelectorAll<HTMLButtonElement>('[data-dragon]').forEach((b) => {
+      const ready = catsExposed(g, b.dataset.dragon!);
+      b.toggleAttribute('data-ready', ready);
+      b.disabled = !ready;
+    });
+
+    if (!before.size) return;
+    root.querySelectorAll<HTMLElement>('.sol-card[data-key]').forEach((el) => {
+      const from = before.get(el.dataset.key!);
+      if (!from) return;
+      const to = el.getBoundingClientRect();
+      const dx = from.left - to.left;
+      const dy = from.top - to.top;
+      if (!dx && !dy) return;
+      el.style.zIndex = '2';   // a travelling card rides over the piles it crosses
+      el.animate(
+        [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
+        { duration: 200, easing: 'cubic-bezier(0.2, 0, 0.2, 1)' }
+      ).finished.then(() => { el.style.zIndex = ''; }, () => {});
+    });
+  }
+
+  function init() {
+    const root = document.getElementById('solitaire');
+    if (!root) return;
+
+    clearTimeout(timer);
+    abort?.abort();
+    abort = new AbortController();
+    const { signal } = abort;
+
+    const stats = root.querySelector('#sol-stats')!;
+    const won = root.querySelector<HTMLElement>('#sol-won')!;
+    const wonRecord = root.querySelector('#sol-won-record')!;
+    const wonAgain = root.querySelector<HTMLElement>('#sol-won-again')!;
+    const resetBtn = root.querySelector<HTMLElement>('#sol-reset')!;
+    let wins = readCount('solitaire-wins');
+    let plays = readCount('solitaire-plays');
+
+    const showStats = () => {
+      const rate = plays ? Math.round((100 * wins) / plays) : 0;
+      const line = `Won ${wins} of ${plays} \u00b7 ${rate}%`;
+      stats.textContent = line;
+      wonRecord.textContent = line;
+    };
+
+    // Render, then let one auto-move land per beat so the cascade is legible.
+    function tick() {
+      render(root!);
+      const row = nextAuto(g);
+      if (row === -1) {
+        if (isWon(g)) {
+          wins += 1;
+          writeCount('solitaire-wins', wins);
+          showStats();
+          won.hidden = false;
+          // Keyboard players land on the one thing left to do.
+          if (!reduced.matches) wonAgain.focus({ preventScroll: true });
+          else wonAgain.focus();
+        }
+        return;
+      }
+      busy = true;
+      timer = setTimeout(() => {
+        sendUp(g, row);
+        busy = false;
+        tick();
+      }, 210);
+    }
+
+    function reset() {
+      clearTimeout(timer);
+      g = deal();
+      sel = null;
+      busy = false;
+      // Hiding the overlay would strand focus on body if it holds it.
+      if (won.contains(document.activeElement)) resetBtn.focus({ preventScroll: true });
+      won.hidden = true;
+      plays += 1;
+      writeCount('solitaire-plays', plays);
+      showStats();
+      tick();
+    }
+
+    root.addEventListener('click', (e) => {
+      if (busy) return;
+      const el = (e.target as HTMLElement).closest<HTMLElement>(
+        '[data-dragon],[data-found],[data-row]'
+      );
+      if (!el) return;
+
+      if (el.dataset.dragon !== undefined) {
+        collect(g, el.dataset.dragon);
+        sel = null;
+        tick();
+        return;
+      }
+
+      if (el.dataset.found !== undefined) {
+        if (sel) {
+          toFoundation(g, sel.row, sel.idx + 1, el.dataset.found);
+          sel = null;
+          tick();
+        }
+        return;
+      }
+
+      const row = Number(el.dataset.row);
+      const idx = el.dataset.idx === undefined ? null : Number(el.dataset.idx);
+      if (!sel) {
+        if (idx !== null && isSelectable(g.board[row].slice(0, idx + 1))) {
+          sel = { row, idx };
+          render(root!);
+        }
+        return;
+      }
+      // Second click drops the run — clicking back where it came from just
+      // puts it down again.
+      move(g, sel.row, sel.idx + 1, row);
+      sel = null;
+      tick();
+    }, { signal });
+
+    root.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const el = (e.target as HTMLElement).closest('[data-row],[data-found]');
+      if (!el) return;
+      e.preventDefault();
+      el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    }, { signal });
+
+    resetBtn.addEventListener('click', reset, { signal });
+    wonAgain.addEventListener('click', reset, { signal });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'r' || e.metaKey || e.ctrlKey || e.altKey) return;
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      reset();
+    }, { signal });
+
+    reset();
+  }
+
+  document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:before-swap', () => {
+    clearTimeout(timer);
+    abort?.abort();
+  });
+</script>

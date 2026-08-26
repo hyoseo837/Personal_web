@@ -1,0 +1,63 @@
+name: Fetch the daily Yin-Yang puzzle
+
+# puzzle-yin-yang.com only ever serves *today's* Special Daily — there is no
+# archive to backfill — so the bank has to be topped up while each puzzle is
+# still current. Two runs a day because the site's midnight is not UTC and a
+# repeat fetch on a day already in the bank is a no-op, so the spare run costs
+# one request.
+on:
+  schedule:
+    - cron: '15 0 * * *'
+    - cron: '15 12 * * *'
+  workflow_dispatch:
+
+# Needed for the commit below.
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-yinyang
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch today's puzzle
+        run: npm run fetch:yinyang
+
+      - name: Check the bank still passes
+        run: npm run test
+
+      - name: Commit if the bank grew
+        id: commit
+        run: |
+          if git diff --quiet -- src/data/yinyang.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Already had today's puzzle; nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/yinyang.json
+          git commit -m "Add the Yin-Yang Special Daily for $(date -u +%Y-%m-%d)"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Only needed if Cloudflare Pages is NOT already building on push to the
+      # default branch. Add CLOUDFLARE_DEPLOY_HOOK as a repository secret to use
+      # it; the step is skipped when the secret is absent.
+      - name: Ask Cloudflare Pages to rebuild
+        if: steps.commit.outputs.changed == 'true' && env.HOOK != ''
+        env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$HOOK" > /dev/null
