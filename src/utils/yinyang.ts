@@ -84,6 +84,50 @@ export function unreachable(n: number, g: Int8Array, colour: number): number[] {
   return own.filter((i) => !seen[i]);
 }
 
+/**
+ * The connected group containing cell `i`, as a sorted list of cell indices —
+ * or an empty list if that cell is still blank. Orthogonal only; diagonals do
+ * not join, which is the whole point of rules 1 and 2.
+ */
+export function groupAt(n: number, g: Int8Array, i: number): number[] {
+  const colour = g[i];
+  if (colour === UNKNOWN) return [];
+  const seen = new Uint8Array(n * n);
+  const queue = [i];
+  seen[i] = 1;
+  for (let head = 0; head < queue.length; head++) {
+    const cur = queue[head];
+    const r = (cur / n) | 0;
+    const c = cur - r * n;
+    const push = (j: number) => {
+      if (seen[j] || g[j] !== colour) return;
+      seen[j] = 1;
+      queue.push(j);
+    };
+    if (r > 0) push(cur - n);
+    if (r < n - 1) push(cur + n);
+    if (c > 0) push(cur - 1);
+    if (c < n - 1) push(cur + 1);
+  }
+  return queue.sort((a, b) => a - b);
+}
+
+/**
+ * How many separate groups `colour` is currently in. The win condition wants
+ * this at 1 for each colour, so it doubles as a distance-to-solved readout.
+ */
+export function groupCount(n: number, g: Int8Array, colour: number): number {
+  const N = n * n;
+  const seen = new Uint8Array(N);
+  let count = 0;
+  for (let i = 0; i < N; i++) {
+    if (g[i] !== colour || seen[i]) continue;
+    count++;
+    for (const j of groupAt(n, g, i)) seen[j] = 1;
+  }
+  return count;
+}
+
 export interface Check {
   filled: boolean;
   mono: number[];

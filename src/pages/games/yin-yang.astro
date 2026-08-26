@@ -62,9 +62,9 @@ import Sheet from '../../components/Sheet.astro';
           <p>
             Click a cell to cycle it empty → black → white, or drag to paint a run
             of them. Right-click cycles the other way. Press <kbd>Z</kbd> to undo —
-            a whole drag comes back in one go. The stones printed with a ring are
-            the puzzle's given clues and cannot be changed. Your progress is kept
-            if you close the tab.
+            a whole drag comes back in one go. The stones carrying a dot are
+            the puzzle's given clues and cannot be changed. Hover a stone to light
+            up everything joined to it. Your progress is kept if you close the tab.
           </p>
           <p>
             A new board arrives each day. Solving on consecutive days builds a
@@ -89,11 +89,13 @@ import Sheet from '../../components/Sheet.astro';
   #yinyang {
     /* Frozen light values. A stone is a physical object — black stays black in
        both themes, so the board it sits on cannot invert either. */
-    --yy-board: #e6e3dc;
+    --yy-board: #a09889;
     --yy-black: #17151c;
     --yy-white: #f6f5f1;
-    --yy-line: color-mix(in srgb, var(--yy-black) 20%, transparent);
+    --yy-line: color-mix(in srgb, var(--yy-black) 42%, transparent);
     --yy-flag: color-mix(in srgb, var(--color-vermilion) 26%, transparent);
+    /* The given-clue dot, as a share of the cell. */
+    --yy-dot: 14%;
   }
 
   /* ---- Head: today's date and the running record ---- */
@@ -119,6 +121,9 @@ import Sheet from '../../components/Sheet.astro';
   /* ---- Board ---- */
   #yinyang .yy-stage { position: relative; width: min(100%, 42rem); }
 
+  /* A go board, not a spreadsheet: the lines run through the cell centres and
+     the stones sit on the crossings. Cells are contiguous (no gap) so each
+     cell's half-lines meet its neighbour's and read as one continuous rule. */
   #yinyang .yy-board {
     display: grid;
     grid-template-columns: repeat(var(--n), 1fr);
@@ -126,14 +131,24 @@ import Sheet from '../../components/Sheet.astro';
     aspect-ratio: 1;
     background: var(--yy-board);
     border: 1px solid var(--color-rule-strong);
-    padding: 1px;
-    gap: 1px;
+    /* Half a cell of margin. The outer crossing already sits half a cell inside
+       the content box, so this puts it a full cell from the frame — the go-board
+       proportion — and leaves room for an edge stone's group ring. */
+    padding: calc(100% / var(--n) / 2);
+    gap: 0;
   }
 
   #yinyang .yy-cell {
     position: relative;
-    background: var(--yy-board);
-    box-shadow: 0 0 0 1px var(--yy-line);
+    background-color: transparent;
+    /* Two hairlines crossing at the centre. build() trims them to half-length
+       on the outer rows and columns so the grid stops at the last crossing. */
+    background-image:
+      linear-gradient(var(--yy-line), var(--yy-line)),
+      linear-gradient(var(--yy-line), var(--yy-line));
+    background-repeat: no-repeat;
+    background-size: 100% 1px, 1px 100%;
+    background-position: center, center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -144,7 +159,7 @@ import Sheet from '../../components/Sheet.astro';
     -webkit-tap-highlight-color: transparent;
   }
   #yinyang .yy-cell[data-fixed] { cursor: default; }
-  #yinyang .yy-cell[data-bad] { background: var(--yy-flag); }
+  #yinyang .yy-cell[data-bad] { background-color: var(--yy-flag); }
 
   /* The stone itself. Empty cells simply have none. */
   #yinyang .yy-cell::after {
@@ -163,15 +178,34 @@ import Sheet from '../../components/Sheet.astro';
     box-shadow: inset 0 0 0 1px var(--yy-line);
     transform: scale(1);
   }
-  /* A given clue wears a ring, so Start over holds no surprises. */
-  #yinyang .yy-cell[data-fixed][data-v='1']::after {
-    box-shadow: 0 0 0 2px var(--yy-board), 0 0 0 3px var(--yy-black);
+  /* A given wears a dot at its centre, so Start over holds no surprises. The dot
+     sits inside the stone rather than ringing it, which leaves the outline free
+     for the group highlight. */
+  #yinyang .yy-cell[data-fixed][data-v]::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--yy-dot);
+    height: var(--yy-dot);
+    margin: calc(var(--yy-dot) / -2) 0 0 calc(var(--yy-dot) / -2);
+    border-radius: 50%;
+    z-index: 1;
   }
-  #yinyang .yy-cell[data-fixed][data-v='0']::after {
-    box-shadow: inset 0 0 0 1px var(--yy-line), 0 0 0 2px var(--yy-board), 0 0 0 3px var(--yy-black);
-  }
+  #yinyang .yy-cell[data-fixed][data-v='1']::before { background: var(--yy-white); }
+  #yinyang .yy-cell[data-fixed][data-v='0']::before { background: var(--yy-black); }
 
   #yinyang .yy-cell:focus-visible { outline: 2px solid var(--color-mark); outline-offset: -2px; z-index: 1; }
+
+  /* Hovering a stone rings everything orthogonally joined to it, so the
+     connectivity rule is visible rather than something you hold in your head. */
+  #yinyang .yy-cell[data-group]::after {
+    box-shadow: 0 0 0 2px var(--yy-board), 0 0 0 4px var(--color-chrome);
+  }
+  #yinyang .yy-cell[data-group][data-v='0']::after {
+    box-shadow: inset 0 0 0 1px var(--yy-line), 0 0 0 2px var(--yy-board), 0 0 0 4px var(--color-chrome);
+  }
+  #yinyang .yy-cell[data-group] { z-index: 2; }
 
   /* ---- Solved overlay ---- */
   #yinyang .yy-won {
@@ -256,7 +290,7 @@ import Sheet from '../../components/Sheet.astro';
   import bank from '../../data/yinyang.json';
   import {
     BLACK, WHITE, UNKNOWN,
-    parseClues, formatClues, monoSquares, check,
+    parseClues, formatClues, monoSquares, check, groupAt, groupCount,
   } from '../../utils/yinyang';
 
   interface Daily { n: number; clues: string }
@@ -351,6 +385,17 @@ import Sheet from '../../components/Sheet.astro';
         (el as HTMLButtonElement).type = 'button';
         el.setAttribute('aria-label', `row ${((i / n) | 0) + 1}, column ${(i % n) + 1}`);
       }
+      // The grid stops at the outermost crossings, so edge cells carry only the
+      // half of each line that points inward.
+      const r = (i / n) | 0;
+      const c = i % n;
+      const hSize = c === 0 || c === n - 1 ? '50% 1px' : '100% 1px';
+      const hPos = c === 0 ? 'right center' : c === n - 1 ? 'left center' : 'center';
+      const vSize = r === 0 || r === n - 1 ? '1px 50%' : '1px 100%';
+      const vPos = r === 0 ? 'center bottom' : r === n - 1 ? 'center top' : 'center';
+      el.style.backgroundSize = `${hSize}, ${vSize}`;
+      el.style.backgroundPosition = `${hPos}, ${vPos}`;
+
       frag.appendChild(el);
       cells.push(el);
     }
@@ -389,9 +434,17 @@ import Sheet from '../../components/Sheet.astro';
   }
 
   function status(root: HTMLElement) {
-    root.querySelector('#yy-status')!.textContent = solved
-      ? `Solved · next puzzle in ${clock(untilMidnight())}`
-      : `${left} left` + (flagged ? ' · 2×2 flagged' : '');
+    const el = root.querySelector('#yy-status')!;
+    if (solved) {
+      el.textContent = `Solved · next puzzle in ${clock(untilMidnight())}`;
+      return;
+    }
+    // Both counts reaching 1 is exactly the win condition, so this reads as a
+    // distance-to-solved rather than a bare statistic.
+    const b = groupCount(n, grid, BLACK);
+    const w = groupCount(n, grid, WHITE);
+    el.textContent =
+      `${left} left · black in ${b}, white in ${w}` + (flagged ? ' · 2×2 flagged' : '');
   }
 
   function showStats(root: HTMLElement) {
@@ -573,6 +626,37 @@ import Sheet from '../../components/Sheet.astro';
     }, { signal });
 
     board.addEventListener('contextmenu', (e) => e.preventDefault(), { signal });
+
+    // Ring the group under the pointer, so the connectivity rule is visible
+    // rather than something you hold in your head. Suppressed mid-drag, where
+    // the ring would chase the finger and fight the paint.
+    let ringed: HTMLElement[] = [];
+    const clearRing = () => {
+      for (const el of ringed) el.removeAttribute('data-group');
+      ringed = [];
+    };
+    const ring = (i: number) => {
+      clearRing();
+      if (grid[i] === UNKNOWN) return;
+      const members = groupAt(n, grid, i);
+      if (members.length < 2) return;   // a lone stone rings nothing
+      for (const j of members) {
+        cells[j].setAttribute('data-group', '');
+        ringed.push(cells[j]);
+      }
+    };
+
+    board.addEventListener('pointerover', (e) => {
+      if (painting !== null) return;
+      const el = (e.target as HTMLElement).closest<HTMLElement>('.yy-cell');
+      if (el?.dataset.i) ring(Number(el.dataset.i));
+      else clearRing();
+    }, { signal });
+    board.addEventListener('pointerleave', clearRing, { signal });
+    board.addEventListener('focusin', (e) => {
+      const el = (e.target as HTMLElement).closest<HTMLElement>('.yy-cell');
+      if (el?.dataset.i) ring(Number(el.dataset.i));
+    }, { signal });
     root.querySelector('#yy-restart')!.addEventListener('click', () => start(root, true), { signal });
 
     // Keeps the countdown honest and rolls the board over at midnight.
@@ -586,9 +670,27 @@ import Sheet from '../../components/Sheet.astro';
     }, 1000);
   }
 
-  document.addEventListener('astro:page-load', init);
+  /**
+   * ClientRouter fires astro:page-load, so that is the normal entry point. But
+   * if that module ever fails to load the event never fires and the board would
+   * sit empty forever — so start directly too, and let the flag keep it to one
+   * run per page.
+   */
+  let started = false;
+  const boot = () => {
+    if (started) return;
+    started = true;
+    init();
+  };
+
+  document.addEventListener('astro:page-load', boot);
   document.addEventListener('astro:before-swap', () => {
+    started = false;
     clearInterval(ticker);
     abort?.abort();
   });
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  else boot();
 </script>

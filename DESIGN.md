@@ -22,7 +22,7 @@ colors:
   felt: "#015032"
   card-face: "#f6f5f1"
   card-edge: "rgba(23, 21, 28, 0.55)"
-  board: "#e6e3dc"
+  board: "#a09889"
   stone-black: "#17151c"
   stone-white: "#f6f5f1"
 typography:
@@ -190,6 +190,10 @@ These do not invert. Code is always dark because Shiki runs a single dark theme
   playing card, whose pixel art is dark linework on white.
 - **Board** (`{colors.board}`) with **Stone Black** (`{colors.stone-black}`) and
   **Stone White** (`{colors.stone-white}`): the Yin-Yang board and its stones.
+  The board is a mid warm grey rather than paper so that a white stone reads
+  against it — on a light ground the white stones all but vanished. Its ruled
+  lines cross at the stone positions, go-board fashion, rather than boxing each
+  cell.
 
 ### Named Rules
 
@@ -317,10 +321,10 @@ raised surface, with no third step. Second, **hairline rules**: a 1px `rule`
 border, which is how a panel, a step, a header and a footer all announce their
 edges. That is the entire depth vocabulary.
 
-The one shadow-shaped thing in the codebase is `box-shadow` used as a *hairline*
-on game cells (`0 0 0 1px`), where it draws a grid line rather than suggesting
-lift. Spread-zero, blur-zero, no offset. That is a border by another name and is
-allowed; a blurred, offset shadow is not.
+The one shadow-shaped thing in the codebase is `box-shadow` used to draw a
+**ring**: zero blur, zero offset, spread only. It draws the outline on a white
+stone and the highlight around a connected group. That is a border by another name and is allowed. A shadow with
+blur or offset is not, at any size.
 
 ### Named Rules
 
@@ -421,8 +425,8 @@ than lifted.
 - **Don't** use vermilion, ultramarine or chrome as an accent on an element — no
   coloured borders, icons, chips or highlighted words. They are fields.
 - **Don't** set text in vermilion. It measures 4.24:1 on the plate ground.
-- **Don't** add a `box-shadow` with blur or offset. A spread-zero, blur-zero
-  `0 0 0 1px` used as a hairline is the only permitted form.
+- **Don't** add a `box-shadow` with blur or offset. Zero-blur, zero-offset,
+  spread-only rings are the only permitted form.
 - **Don't** reintroduce a border radius, add a rounded variant, or curve a single
   component. Circles are for physically round objects only.
 - **Don't** author new markup against the legacy token aliases — `--color-stone-*`,

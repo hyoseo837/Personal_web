@@ -544,9 +544,27 @@ import Sheet from '../../components/Sheet.astro';
     reset();
   }
 
-  document.addEventListener('astro:page-load', init);
+  /**
+   * ClientRouter fires astro:page-load, so that is the normal entry point. But
+   * if that module ever fails to load the event never fires and the board would
+   * sit empty forever — so start directly too, and let the flag keep it to one
+   * run per page.
+   */
+  let started = false;
+  const boot = () => {
+    if (started) return;
+    started = true;
+    init();
+  };
+
+  document.addEventListener('astro:page-load', boot);
   document.addEventListener('astro:before-swap', () => {
+    started = false;
     clearTimeout(timer);
     abort?.abort();
   });
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  else boot();
 </script>

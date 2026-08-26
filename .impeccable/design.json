@@ -156,17 +156,17 @@
       },
       "board": {
         "role": "tertiary",
-        "displayName": "Go Board Linen",
-        "canonical": "oklch(91.3% 0.009 85)",
+        "displayName": "Go Board Grey",
+        "canonical": "oklch(66.8% 0.018 82)",
         "tonalRamp": [
-          "oklch(15% 0.006 85)",
-          "oklch(26% 0.007 85)",
-          "oklch(38% 0.008 85)",
-          "oklch(50% 0.009 85)",
-          "oklch(63% 0.009 85)",
-          "oklch(76% 0.009 85)",
-          "oklch(85% 0.009 85)",
-          "oklch(91.3% 0.009 85)"
+          "oklch(15% 0.008 82)",
+          "oklch(26% 0.011 82)",
+          "oklch(38% 0.014 82)",
+          "oklch(50% 0.016 82)",
+          "oklch(66.8% 0.018 82)",
+          "oklch(78% 0.014 82)",
+          "oklch(88% 0.009 82)",
+          "oklch(95% 0.005 82)"
         ]
       },
       "code-bg": {
@@ -226,9 +226,9 @@
         "purpose": "The system default and the only correct answer for chrome. A printed plate has no shadow; separate surfaces with a tonal step or a hairline instead."
       },
       {
-        "name": "hairline",
-        "value": "0 0 0 1px var(--yy-line)",
-        "purpose": "Spread-zero, blur-zero, no offset — a border by another name, used to draw grid lines on game boards. The only permitted box-shadow."
+        "name": "ring",
+        "value": "0 0 0 <spread> <color>",
+        "purpose": "Zero blur, zero offset, spread only — the outline on a white stone, the highlight around a connected group, and grid hairlines. The only permitted box-shadow."
       }
     ],
     "motion": [
@@ -417,7 +417,7 @@
     "donts": [
       "Don't use vermilion, ultramarine or chrome as an accent on an element — no coloured borders, icons, chips or highlighted words. They are fields.",
       "Don't set text in vermilion. It measures 4.24:1 on the plate ground.",
-      "Don't add a box-shadow with blur or offset. A spread-zero, blur-zero 0 0 0 1px used as a hairline is the only permitted form.",
+      "Don't add a box-shadow with blur or offset. Zero-blur, zero-offset, spread-only rings are the only permitted form.",
       "Don't reintroduce a border radius, add a rounded variant, or curve a single component. Circles are for physically round objects only.",
       "Don't author new markup against the legacy token aliases — --color-stone-*, --color-accent-*, --color-surface, --color-text-*, --color-border-*, --color-chip*. They are a migration shim remapped onto this palette so that /about, /projects, /thinking, /archive and /blog keep building, and they will be removed as those routes are rebuilt.",
       "Don't give a component a dark: branch or introduce a colour that exists only in dark mode.",

@@ -7,6 +7,7 @@ import assert from 'node:assert/strict';
 import {
   BLACK, WHITE, UNKNOWN,
   at, parseClues, formatClues, monoSquares, unreachable, check,
+  groupAt, groupCount,
 } from '../utils/yinyang.ts';
 import { decodeTask, parsePage } from './fetch-yinyang.ts';
 import bank from '../data/yinyang.json' with { type: 'json' };
@@ -43,6 +44,31 @@ assert.deepEqual(unreachable(3, g('B..', '...', '..B'), BLACK), [],
   'unknown cells can still carry a connection, so nothing is ruled out yet');
 assert.deepEqual(unreachable(3, g('BWB', 'WWW', 'WWW'), BLACK), [2],
   'a sealed-off black cell is unreachable');
+
+// ---- Connected groups ----
+assert.deepEqual(groupAt(3, g('BBB', 'WWW', 'BBB'), 0), [0, 1, 2],
+  'the top band is its own group');
+assert.deepEqual(groupAt(3, g('BBB', 'WWW', 'BBB'), 6), [6, 7, 8],
+  'and the bottom band is another');
+assert.deepEqual(groupAt(2, g('BW', 'WB'), 0), [0], 'diagonals do not join');
+assert.deepEqual(groupAt(3, g('BBB', 'BWW', 'BWW'), 4).sort((a, b) => a - b), [4, 5, 7, 8],
+  'the white block is one group');
+assert.deepEqual(groupAt(2, g('B.', '..'), 1), [], 'a blank cell has no group');
+assert.deepEqual(groupAt(2, g('BB', 'BB'), 3), [0, 1, 2, 3], 'a full board is one group');
+
+assert.equal(groupCount(3, g('BBB', 'WWW', 'BBB'), BLACK), 2, 'black is split in two');
+assert.equal(groupCount(3, g('BBB', 'WWW', 'BBB'), WHITE), 1, 'white is whole');
+assert.equal(groupCount(2, g('BW', 'WB'), BLACK), 2, 'a checkerboard splits both colours');
+assert.equal(groupCount(2, g('BW', 'WB'), WHITE), 2);
+assert.equal(groupCount(2, g('..', '..'), BLACK), 0, 'no stones, no groups');
+{
+  // The win condition is exactly one group of each, so the count is a
+  // distance-to-solved readout.
+  const solved = g('BBW', 'BWW', 'BBW');
+  assert.equal(check(3, solved).solved, true);
+  assert.equal(groupCount(3, solved, BLACK), 1);
+  assert.equal(groupCount(3, solved, WHITE), 1);
+}
 
 // ---- The player's win check ----
 {
