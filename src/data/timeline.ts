@@ -9,13 +9,13 @@ export interface TimelineEntry {
 export const timeline: TimelineEntry[] = [
   {
     id: "timeline-ottawa-coop",
-    period: "2026.09 - Now",
+    period: "2026.09 -",
     place: "Ottawa, Canada",
-    detail: "Co-op at Statistics Canada",
+    detail: "Incoming co-op at Statistics Canada",
   },
   {
     id: "timeline-waterloo-cs",
-    period: "2026.05 - 2026.08",
+    period: "2026.05 - 2029.12 (expected)",
     place: "Waterloo, Canada",
     detail: "Honours Computer Science",
   },

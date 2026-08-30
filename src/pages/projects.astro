@@ -89,6 +89,12 @@ function parseStack(stack: string): string[] {
                 <Github class="w-4 h-4" /> Source
               </a>
             )}
+            {featured.github_backend && (
+              <a href={featured.github_backend} target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-accent-hover transition-colors">
+                <Github class="w-4 h-4" /> Backend
+              </a>
+            )}
             {featured.video && (
               <a href={featured.video} target="_blank" rel="noopener noreferrer"
                  class="inline-flex items-center gap-2 text-sm font-sans font-semibold text-accent hover:text-accent-hover transition-colors">
@@ -183,6 +189,12 @@ function parseStack(stack: string): string[] {
                           {project.github && (
                             <a href={project.github} target="_blank" rel="noopener noreferrer"
                                class="text-stone-400 hover:text-accent transition-colors" title="Source">
+                              <Github class="w-4 h-4" />
+                            </a>
+                          )}
+                          {project.github_backend && (
+                            <a href={project.github_backend} target="_blank" rel="noopener noreferrer"
+                               class="text-stone-400 hover:text-accent transition-colors" title="Backend source">
                               <Github class="w-4 h-4" />
                             </a>
                           )}

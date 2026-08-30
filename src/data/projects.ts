@@ -19,6 +19,7 @@ export interface Project {
   description: string;
   icon: any;
   github?: string;
+  github_backend?: string;
   link?: string;
   video?: string;
   status?: "archived";
@@ -36,6 +37,7 @@ export const projects: Project[] = [
   //   stack: "Tech Stack",
   //   description: "Project description goes here.",
   //   github: "github link",
+  //   github_backend: "optional second repo link, for a split front/back end",
   //   link: "optional project link",
   //   video: "optional walkthrough video link",
   //   status: "archived",  // omit while the project is still standing
@@ -58,9 +60,9 @@ export const projects: Project[] = [
   {
     id: "macro-dashboard",
     title: "Macro-dashboard",
-    stack: "React · FastAPI · PostgreSQL · yfinance · Gemini AI · Docker",
+    stack: "React 19 · TanStack Query · react-grid-layout · FastAPI · SQLAlchemy · Alembic · APScheduler · PostgreSQL · yfinance · feedparser · Gemini AI · Docker Compose",
     description:
-      "A highly customizable finance dashboard that helps users build the habit of 'looking around' — showing asset prices and news on a single screen.",
+      "A highly customizable finance dashboard that helps users build the habit of 'looking around' — showing asset prices and news on a single screen. Async SQLAlchemy over PostgreSQL with Alembic migrations, APScheduler jobs pulling quotes and feedparser news on a timer, and a React 19 front end where every widget drags into the layout you want. Ships as a production docker-compose.",
     github: "https://github.com/hyoseo837/macro_dashboard",
     icon: LayoutDashboard,
     duration: "2026.04 - 2026.05",
@@ -97,6 +99,8 @@ export const projects: Project[] = [
       "Built a full-stack flashcard architecture aimed at providing a Quizlet-like experience. A deep dive into backend systems and data persistence.",
     icon: BookOpen,
     github: "https://github.com/hyoseo837/Dchup",
+    github_backend: "https://github.com/hyoseo837/dchup2_Backend",
+    status: "archived",
     duration: "2024.03 - 2024.07",
     media: { type: 'demo' },
   },
