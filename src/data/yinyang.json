@@ -26,5 +26,9 @@
  "2026-09-01": {
   "n": 30,
   "clues": "....................B............W....B.BBBBBB.W...W.W.W......B..W.B.BWWWW..B..........B..W..B.BB...W....BBBB.B.B.B...B...B...W..W.WWW....W..W....B....WBW.W.W........B.....WB........BW.W..WWWW..W....W....BBBBB...BW.W.W.....W.W.WB.WW..........BW.W...W..W.W.W..BBBBBBBBBB...B..W..W.W......WWWWWWWW........B.W.....W.W.............BB...B.WW.W..W.W.WWW.B..B.WW.B.....BW.W.W.W........BW.BW.BBB.W...BW.W.W...W.W.WWWW.WW..........BW.W.W....W..BBBBBBBB.BBBW....BW...W....WB.W.....B....B.....BWB.BWB.B..BW.WB.B.W.W....B...BWBB.W.B..WBW...B...W.........B.WW.W.W.W.B.W...BB..W.B........W..W..W.WB...B.W..BBB.B......B.W.W.W..WB.BB.......W..B......W..W....WB.W..B...BW..B.B...B......W.W.BW.WW..B.B..W.W....B..W..W...WB..W.W.......W.....B.B..W.W.W..B.B...B..B.B.W....B.BW.B.....W..B......B.B..B..B...B...B.........W..B.B..B.............W...B.B.......B.W....B.B..B.B..B....B.B.B.B.B.................................."
+ },
+ "2026-09-02": {
+  "n": 30,
+  "clues": "................................W....W.W...B..W...W.W..W.W....W.WWW.....BBB.W.....W.W.......W....W.W...WWW..B..W....B.B....W..W..........W.BW...B.B.B...W..W.....WBBW..W....W....B.......WB..B.....WW..W....B.B.W....W.W.B.BW.B.......B..............WB..BW....W...B....B.B.W...W..W.B.B.W...WWB.W.W...B.........WB...BB..W.B...W..WB.WWW....W.W.B.B.W.BW.WW.W..W........B....B..B...B..W.W.W.W..W.WW..B.WB....B.B..B.W.W............WW.B..B.B.B...B...BB.B.B.B.......B..B.B.....BW.W......W......B.WB.B.B...BBW...........WW..B.........B.....W.W.W.W........W.B...B....B.W.....W.WB.WWW..W.W.B..BW.B....B.WWW..........W..W.B.B.W..B...B......WWW....W..W...BW.WB...B..W.W.....W...WB...B.B..W.B..W...W..WW.W.W.....W....B.B....W.W..W...W......W....BB..........B..WWW.B.W......B...B.B.B.BB.B..B.........B.B..B...B.....W.W...BW.W..W.........W...W.W..W..W...W.W.....B.B.B...B......B.BBB.......................B.............."
  }
 }
