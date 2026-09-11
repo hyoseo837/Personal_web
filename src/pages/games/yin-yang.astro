@@ -41,7 +41,10 @@ import Sheet from '../../components/Sheet.astro';
       </div>
 
       <div class="yy-bar">
-        <button type="button" class="yy-action" id="yy-restart">Start over</button>
+        <div class="yy-buttons">
+          <button type="button" class="yy-action" id="yy-restart">Start over</button>
+          <button type="button" class="yy-action" id="yy-group" aria-pressed="true">Groups on</button>
+        </div>
         <p class="apparatus-sm yy-status" id="yy-status"></p>
       </div>
 
@@ -64,7 +67,8 @@ import Sheet from '../../components/Sheet.astro';
             of them. Right-click cycles the other way. Press <kbd>Z</kbd> to undo —
             a whole drag comes back in one go. The stones carrying a dot are
             the puzzle's given clues and cannot be changed. Hover a stone to light
-            up everything joined to it. Your progress is kept if you close the tab.
+            up everything joined to it — <em>Groups off</em> drops that if you
+            would rather have the frames. Your progress is kept if you close the tab.
           </p>
           <p>
             A new board arrives each day. Solving on consecutive days builds a
@@ -136,6 +140,9 @@ import Sheet from '../../components/Sheet.astro';
        proportion — and leaves room for an edge stone's group ring. */
     padding: calc(100% / var(--n) / 2);
     gap: 0;
+    /* The board's internals are nobody else's business. Without this, a text
+       change in the status bar below can dirty layout for all 900 grid items. */
+    contain: layout paint;
   }
 
   #yinyang .yy-cell {
@@ -239,6 +246,7 @@ import Sheet from '../../components/Sheet.astro';
     margin-top: 1.25rem;
   }
   #yinyang .yy-status { color: var(--color-ink-dim); }
+  #yinyang .yy-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
   #yinyang .yy-action {
     font-family: var(--font-mono);
@@ -253,6 +261,7 @@ import Sheet from '../../components/Sheet.astro';
     transition: background-color 0.15s, color 0.15s;
   }
   #yinyang .yy-action:hover { background: var(--color-ink); color: var(--color-ground); }
+  #yinyang .yy-action[aria-pressed='false'] { color: var(--color-ink-dim); border-color: var(--color-rule); }
 
   /* ---- Instructions ---- */
   #yinyang .yy-help {
@@ -290,7 +299,7 @@ import Sheet from '../../components/Sheet.astro';
   import bank from '../../data/yinyang.json';
   import {
     BLACK, WHITE, UNKNOWN,
-    parseClues, formatClues, monoSquares, check, groupAt, groupCount,
+    parseClues, formatClues, monoSquares, check, groupAt, groupCount, line,
   } from '../../utils/yinyang';
 
   interface Daily { n: number; clues: string }
@@ -305,11 +314,18 @@ import Sheet from '../../components/Sheet.astro';
   let left = 0;                     // unknown cells, tracked so the win check is cheap
   let shownV: Int8Array;            // what each cell is currently painted as
   let shownBad: Uint8Array;
+  let ringed: HTMLElement[] = [];   // cells currently wearing the group highlight
+  let inRing: Uint8Array;
+  let badBuf: Uint8Array;           // reused across repaints rather than reallocated
+  let shownStatus = '';
+  let groups = true;                // the hover highlight, off for a cheaper board
   let stats: Stats = { ...BLANK };
   let solved = false;
   let flagged = 0;
   let ticker: ReturnType<typeof setInterval> | undefined;
   let abort: AbortController | undefined;
+  /** Re-times the clock for what the board is now doing. Set up by init(). */
+  let retime = () => {};
 
   /** One gesture's worth of changes — a click, or a whole drag. */
   type Stroke = { i: number; prev: number }[];
@@ -403,6 +419,10 @@ import Sheet from '../../components/Sheet.astro';
     // Force a full repaint against the fresh DOM.
     shownV = new Int8Array(n * n).fill(-2 as unknown as number);
     shownBad = new Uint8Array(n * n).fill(2);
+    ringed = [];
+    inRing = new Uint8Array(n * n);
+    badBuf = new Uint8Array(n * n);
+    shownStatus = '';
   }
 
   /**
@@ -410,8 +430,9 @@ import Sheet from '../../components/Sheet.astro';
    * every pointermove is what makes a drag stutter, and a drag crosses a lot of
    * cells.
    */
-  function paint(root: HTMLElement) {
-    const bad = new Uint8Array(n * n);
+  function paint(root: HTMLElement, quiet = false) {
+    const bad = badBuf;
+    bad.fill(0);
     let count = 0;
     for (const i of monoSquares(n, grid)) {
       for (const j of [i, i - 1, i - n, i - n - 1]) if (!bad[j]) { bad[j] = 1; count++; }
@@ -430,21 +451,30 @@ import Sheet from '../../components/Sheet.astro';
         shownBad[i] = bad[i];
       }
     }
-    status(root);
+    // status() is two whole-board flood fills plus a text write that relayouts
+    // the bar — and the bar's layout invalidates the 900-item grid above it.
+    // Mid-drag none of that is legible, so it waits for the pointer to lift.
+    if (!quiet) status(root);
+  }
+
+  /** Writes only on a change: a textContent write invalidates the bar's layout,
+   *  and a drag mostly leaves this line reading exactly the same. */
+  function say(root: HTMLElement, text: string) {
+    if (text === shownStatus) return;
+    shownStatus = text;
+    root.querySelector('#yy-status')!.textContent = text;
   }
 
   function status(root: HTMLElement) {
-    const el = root.querySelector('#yy-status')!;
     if (solved) {
-      el.textContent = `Solved · next puzzle in ${clock(untilMidnight())}`;
+      say(root, `Solved · next puzzle in ${clock(untilMidnight())}`);
       return;
     }
     // Both counts reaching 1 is exactly the win condition, so this reads as a
     // distance-to-solved rather than a bare statistic.
     const b = groupCount(n, grid, BLACK);
     const w = groupCount(n, grid, WHITE);
-    el.textContent =
-      `${left} left · black in ${b}, white in ${w}` + (flagged ? ' · 2×2 flagged' : '');
+    say(root, `${left} left · black in ${b}, white in ${w}` + (flagged ? ' · 2×2 flagged' : ''));
   }
 
   function showStats(root: HTMLElement) {
@@ -473,6 +503,7 @@ import Sheet from '../../components/Sheet.astro';
     root.querySelector('#yy-next')!.textContent = `Next puzzle in ${clock(untilMidnight())}`;
     root.querySelector<HTMLElement>('#yy-won')!.hidden = false;
     status(root);
+    retime();
   }
 
   function start(root: HTMLElement, restart = false) {
@@ -509,6 +540,7 @@ import Sheet from '../../components/Sheet.astro';
     paint(root);
     showStats(root);
     if (left === 0 && check(n, grid).solved) finish(root, false);
+    else retime();
   }
 
   function init() {
@@ -536,11 +568,16 @@ import Sheet from '../../components/Sheet.astro';
       return true;
     };
 
+    const save = () => write('yinyang-progress', { day: puzzleDate, grid: formatClues(grid) });
+
     const begin = () => { stroke = []; };
     const commit = () => {
       if (stroke?.length) {
         undo.push(stroke);
         if (undo.length > 200) undo.shift();
+        save();
+        clearRing();
+        status(root);
       }
       stroke = null;
     };
@@ -551,14 +588,26 @@ import Sheet from '../../components/Sheet.astro';
       const last = undo.pop();
       if (!last) return;
       for (let k = last.length - 1; k >= 0; k--) set(last[k].i, last[k].prev);
+      save();
+      clearRing();
       settle();
     };
 
-    const settle = () => {
-      write('yinyang-progress', { day: puzzleDate, grid: formatClues(grid) });
-      paint(root);
-      // check() walks the whole board twice, so only ask once it can succeed.
-      if (left === 0 && check(n, grid).solved) finish(root, true);
+    /**
+     * Repainting is a whole-board pass, so a drag coalesces it to one per frame
+     * rather than one per cell crossed. Progress is written on commit() instead,
+     * once a gesture ends — serialising 900 cells into localStorage on every
+     * cell was the bulk of the input lag.
+     */
+    let frame = 0;
+    const settle = (quiet = false) => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        paint(root, quiet);
+        // check() walks the whole board twice, so only ask once it can succeed.
+        if (left === 0 && check(n, grid).solved) { save(); finish(root, true); }
+      });
     };
 
     const step = (i: number, back: boolean) => {
@@ -574,8 +623,30 @@ import Sheet from '../../components/Sheet.astro';
      * value rather than cycling is what makes a drag predictable.
      */
     let painting: number | null = null;
-    const cellAt = (x: number, y: number) =>
-      (document.elementFromPoint(x, y) as HTMLElement | null)?.closest<HTMLElement>('.yy-cell');
+    let last = -1;                    // cell the drag was in at the previous sample
+    let geo = { x: 0, y: 0, s: 1 };   // board origin and cell pitch, read once per drag
+
+    /** Which cell a point is over, by arithmetic — elementFromPoint hit-tests
+     *  900 elements and forces layout, and a drag asks this many times a frame. */
+    const cellAt = (x: number, y: number) => {
+      const c = Math.floor((x - geo.x) / geo.s);
+      const r = Math.floor((y - geo.y) / geo.s);
+      return r >= 0 && r < n && c >= 0 && c < n ? r * n + c : -1;
+    };
+
+    /**
+     * Paints every cell on the straight line from the previous sample to this
+     * one. Pointer samples are far apart when the finger moves fast, so without
+     * this a quick drag leaves gaps in the cells it visibly crossed.
+     */
+    const paintTo = (i: number) => {
+      if (i < 0 || i === last) return false;
+      let changed = false;
+      for (const j of line(n, last < 0 ? i : last, i))
+        if (clues[j] === UNKNOWN && set(j, painting!)) changed = true;
+      last = i;
+      return changed;
+    };
 
     board.addEventListener('pointerdown', (e) => {
       const el = (e.target as HTMLElement).closest<HTMLElement>('.yy-cell');
@@ -583,23 +654,30 @@ import Sheet from '../../components/Sheet.astro';
       const i = Number(el.dataset.i);
       if (solved || clues[i] !== UNKNOWN) return;
       e.preventDefault();
+      clearRing();
       begin();
       step(i, e.button === 2);
       painting = grid[i];
+      last = i;
+      const first = cells[0].getBoundingClientRect();
+      const end = cells[n - 1].getBoundingClientRect();
+      geo = { x: first.left, y: first.top, s: (end.right - first.left) / n };
       board.setPointerCapture(e.pointerId);
     }, { signal });
 
     board.addEventListener('pointermove', (e) => {
       if (painting === null || solved) return;
-      const el = cellAt(e.clientX, e.clientY);
-      if (!el?.dataset.i) return;
-      const i = Number(el.dataset.i);
-      if (clues[i] !== UNKNOWN) return;
-      if (set(i, painting)) settle();
+      // Coalesced events are the samples the browser dropped to keep up; they
+      // are the ones a laggy frame would otherwise lose.
+      let changed = false;
+      for (const p of e.getCoalescedEvents?.() ?? [e])
+        changed = paintTo(cellAt(p.clientX, p.clientY)) || changed;
+      if (changed) settle(true);
     }, { signal });
 
     const release = (e: PointerEvent) => {
       painting = null;
+      last = -1;
       commit();
       if (board.hasPointerCapture(e.pointerId)) board.releasePointerCapture(e.pointerId);
     };
@@ -630,12 +708,17 @@ import Sheet from '../../components/Sheet.astro';
     // Ring the group under the pointer, so the connectivity rule is visible
     // rather than something you hold in your head. Suppressed mid-drag, where
     // the ring would chase the finger and fight the paint.
-    let ringed: HTMLElement[] = [];
     const clearRing = () => {
       for (const el of ringed) el.removeAttribute('data-group');
+      if (ringed.length) inRing.fill(0);
       ringed = [];
     };
     const ring = (i: number) => {
+      if (!groups) return;
+      // A group can run to hundreds of cells, and every cell you cross inside
+      // one would otherwise strip and re-apply the whole highlight. Membership
+      // says the group is already lit, so moving within it costs nothing.
+      if (inRing[i]) return;
       clearRing();
       if (grid[i] === UNKNOWN) return;
       const members = groupAt(n, grid, i);
@@ -643,6 +726,7 @@ import Sheet from '../../components/Sheet.astro';
       for (const j of members) {
         cells[j].setAttribute('data-group', '');
         ringed.push(cells[j]);
+        inRing[j] = 1;
       }
     };
 
@@ -659,15 +743,52 @@ import Sheet from '../../components/Sheet.astro';
     }, { signal });
     root.querySelector('#yy-restart')!.addEventListener('click', () => start(root, true), { signal });
 
-    // Keeps the countdown honest and rolls the board over at midnight.
+    /**
+     * The highlight is the one thing here that touches hundreds of DOM nodes at
+     * once, so on a slow machine it is worth being able to turn off. The choice
+     * outlives the day's puzzle.
+     */
+    const groupBtn = root.querySelector<HTMLElement>('#yy-group')!;
+    const showGroups = () => {
+      groupBtn.textContent = groups ? 'Groups on' : 'Groups off';
+      groupBtn.setAttribute('aria-pressed', String(groups));
+      if (!groups) clearRing();
+    };
+    groups = read('yinyang-prefs', { groups: true }).groups;
+    showGroups();
+    groupBtn.addEventListener('click', () => {
+      groups = !groups;
+      write('yinyang-prefs', { groups });
+      showGroups();
+    }, { signal });
+
+    /**
+     * Keeps the countdown honest and rolls the board over at midnight. Only the
+     * countdown on a solved board needs a wakeup a second; an unsolved board is
+     * just waiting for midnight, and a hidden tab needs no timer at all — which
+     * is what a phone in battery save is doing most of the time.
+     */
     let shownDay = dayKey();
-    ticker = setInterval(() => {
+    const tick = () => {
       if (dayKey() !== shownDay) { shownDay = dayKey(); start(root); }
       else if (solved) {
         root.querySelector('#yy-next')!.textContent = `Next puzzle in ${clock(untilMidnight())}`;
         status(root);
       }
-    }, 1000);
+    };
+    retime = () => {
+      clearInterval(ticker);
+      ticker = document.hidden ? undefined : setInterval(tick, solved ? 1000 : 30_000);
+    };
+    retime();
+
+    // Backgrounding is where a phone kills a tab, so the stroke in hand is
+    // written now rather than waiting for the pointer to come up.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) save();
+      else tick();
+      retime();
+    }, { signal });
   }
 
   /**

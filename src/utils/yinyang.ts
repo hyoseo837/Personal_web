@@ -36,6 +36,26 @@ export const formatClues = (g: Int8Array): string =>
   Array.from(g, (v) => (v === BLACK ? 'B' : v === WHITE ? 'W' : '.')).join('');
 
 /**
+ * The cells on the straight line from `from` to `to`, excluding `from`. Pointer
+ * samples during a fast drag land several cells apart, so the board fills the
+ * gap between two samples rather than leaving holes in a stroke.
+ */
+export function line(n: number, from: number, to: number): number[] {
+  const r1 = (to / n) | 0;
+  const c1 = to % n;
+  const r0 = (from / n) | 0;
+  const c0 = from % n;
+  const steps = Math.max(Math.abs(r1 - r0), Math.abs(c1 - c0)) || 1;
+  const out: number[] = [];
+  for (let k = 1; k <= steps; k++) {
+    const r = r0 + Math.round(((r1 - r0) * k) / steps);
+    const c = c0 + Math.round(((c1 - c0) * k) / steps);
+    out.push(r * n + c);
+  }
+  return out;
+}
+
+/**
  * The 2x2 squares that are a single colour. Every 2x2 square is identified by
  * its bottom-right cell, which is what the solver relies on: filling row-major,
  * a square becomes checkable exactly when that cell is assigned.
@@ -69,17 +89,15 @@ export function unreachable(n: number, g: Int8Array, colour: number): number[] {
   seen[own[0]] = 1;
   for (let head = 0; head < queue.length; head++) {
     const i = queue[head];
-    const r = (i / n) | 0;
-    const c = i - r * n;
-    const push = (j: number) => {
-      if (seen[j] || (g[j] !== colour && g[j] !== UNKNOWN)) return;
-      seen[j] = 1;
-      queue.push(j);
-    };
-    if (r > 0) push(i - n);
-    if (r < n - 1) push(i + n);
-    if (c > 0) push(i - 1);
-    if (c < n - 1) push(i + 1);
+    const c = i % n;
+    let j = i - n;
+    if (i >= n && !seen[j] && (g[j] === colour || g[j] === UNKNOWN)) { seen[j] = 1; queue.push(j); }
+    j = i + n;
+    if (j < N && !seen[j] && (g[j] === colour || g[j] === UNKNOWN)) { seen[j] = 1; queue.push(j); }
+    j = i - 1;
+    if (c > 0 && !seen[j] && (g[j] === colour || g[j] === UNKNOWN)) { seen[j] = 1; queue.push(j); }
+    j = i + 1;
+    if (c < n - 1 && !seen[j] && (g[j] === colour || g[j] === UNKNOWN)) { seen[j] = 1; queue.push(j); }
   }
   return own.filter((i) => !seen[i]);
 }
@@ -92,22 +110,21 @@ export function unreachable(n: number, g: Int8Array, colour: number): number[] {
 export function groupAt(n: number, g: Int8Array, i: number): number[] {
   const colour = g[i];
   if (colour === UNKNOWN) return [];
-  const seen = new Uint8Array(n * n);
+  const N = n * n;
+  const seen = new Uint8Array(N);
   const queue = [i];
   seen[i] = 1;
   for (let head = 0; head < queue.length; head++) {
     const cur = queue[head];
-    const r = (cur / n) | 0;
-    const c = cur - r * n;
-    const push = (j: number) => {
-      if (seen[j] || g[j] !== colour) return;
-      seen[j] = 1;
-      queue.push(j);
-    };
-    if (r > 0) push(cur - n);
-    if (r < n - 1) push(cur + n);
-    if (c > 0) push(cur - 1);
-    if (c < n - 1) push(cur + 1);
+    const c = cur % n;
+    let j = cur - n;
+    if (cur >= n && !seen[j] && g[j] === colour) { seen[j] = 1; queue.push(j); }
+    j = cur + n;
+    if (j < N && !seen[j] && g[j] === colour) { seen[j] = 1; queue.push(j); }
+    j = cur - 1;
+    if (c > 0 && !seen[j] && g[j] === colour) { seen[j] = 1; queue.push(j); }
+    j = cur + 1;
+    if (c < n - 1 && !seen[j] && g[j] === colour) { seen[j] = 1; queue.push(j); }
   }
   return queue.sort((a, b) => a - b);
 }
@@ -115,15 +132,33 @@ export function groupAt(n: number, g: Int8Array, i: number): number[] {
 /**
  * How many separate groups `colour` is currently in. The win condition wants
  * this at 1 for each colour, so it doubles as a distance-to-solved readout.
+ *
+ * One flood fill over the whole board rather than groupAt() per group, and the
+ * neighbour tests are written out rather than going through a closure — this
+ * runs on every repaint while dragging, so both cost real frames.
  */
 export function groupCount(n: number, g: Int8Array, colour: number): number {
   const N = n * n;
   const seen = new Uint8Array(N);
+  const stack: number[] = [];
   let count = 0;
-  for (let i = 0; i < N; i++) {
-    if (g[i] !== colour || seen[i]) continue;
+  for (let s = 0; s < N; s++) {
+    if (g[s] !== colour || seen[s]) continue;
     count++;
-    for (const j of groupAt(n, g, i)) seen[j] = 1;
+    seen[s] = 1;
+    stack.push(s);
+    while (stack.length) {
+      const i = stack.pop()!;
+      const c = i % n;
+      let j = i - n;
+      if (i >= n && !seen[j] && g[j] === colour) { seen[j] = 1; stack.push(j); }
+      j = i + n;
+      if (j < N && !seen[j] && g[j] === colour) { seen[j] = 1; stack.push(j); }
+      j = i - 1;
+      if (c > 0 && !seen[j] && g[j] === colour) { seen[j] = 1; stack.push(j); }
+      j = i + 1;
+      if (c < n - 1 && !seen[j] && g[j] === colour) { seen[j] = 1; stack.push(j); }
+    }
   }
   return count;
 }

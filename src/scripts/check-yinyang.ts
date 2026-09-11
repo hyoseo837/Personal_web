@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import {
   BLACK, WHITE, UNKNOWN,
   at, parseClues, formatClues, monoSquares, unreachable, check,
-  groupAt, groupCount,
+  groupAt, groupCount, line,
 } from '../utils/yinyang.ts';
 import { decodeTask, parsePage } from './fetch-yinyang.ts';
 import bank from '../data/yinyang.json' with { type: 'json' };
@@ -61,6 +61,12 @@ assert.equal(groupCount(3, g('BBB', 'WWW', 'BBB'), WHITE), 1, 'white is whole');
 assert.equal(groupCount(2, g('BW', 'WB'), BLACK), 2, 'a checkerboard splits both colours');
 assert.equal(groupCount(2, g('BW', 'WB'), WHITE), 2);
 assert.equal(groupCount(2, g('..', '..'), BLACK), 0, 'no stones, no groups');
+
+assert.deepEqual(line(4, 0, 0), [0], 'a line to the same cell still paints it');
+assert.deepEqual(line(4, 0, 3), [1, 2, 3], 'a row skips nothing and excludes the start');
+assert.deepEqual(line(4, 0, 12), [4, 8, 12], 'a column likewise');
+assert.deepEqual(line(4, 0, 10), [5, 10], 'a diagonal steps one cell at a time');
+assert.deepEqual(line(4, 12, 2), [9, 5, 2], 'and it runs backwards too');
 {
   // The win condition is exactly one group of each, so the count is a
   // distance-to-solved readout.
