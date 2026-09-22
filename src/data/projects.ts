@@ -10,6 +10,7 @@ import {
   PersonStanding,
   Languages,
   LayoutDashboard,
+  Newspaper,
 } from "lucide-astro";
 
 export interface Project {
@@ -44,6 +45,17 @@ export const projects: Project[] = [
   //   icon: IconComponent,
   //   duration: "optional project duration",
   // },
+  {
+    id: "hn-scroller",
+    title: "HN Scroller",
+    stack: "Python stdlib · Gemini API · vanilla JS · CSS scroll-snap · GitHub Actions · Cloudflare Pages",
+    description:
+      "Hacker News as a vertical swipe feed, for keeping an eye on tech without reading forty comment threads to get there. Swipe up for the next story as one plain sentence, swipe right for the names and figures behind it — both axes are plain CSS scroll-snap, no framework and no gesture library. A Python script picks every story above 200 points from the last three days, asks Gemini for the card text and writes one JSON file per day; GitHub Actions runs it at 00:00 UTC and the commit is the deploy. No server, no database, no build step, no dependencies, and about $0.31 a day regardless of traffic. Detail cards must return verbatim quotes that the code verifies by exact match, so a claim with no real source behind it gets dropped rather than shipped.",
+    github: "https://github.com/hyoseo837/hn-scroller",
+    link: "https://hn.hyoseo.dev",
+    icon: Newspaper,
+    duration: "2026.09 - present",
+  },
   {
     id: "ww-extension",
     title: "WW Extension",
