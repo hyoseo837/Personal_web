@@ -15,14 +15,12 @@ const recentPosts = writingPosts.slice(0, 4);
 // The three most recent entries; the data file is kept newest-first.
 const selectedProjects = projects.slice(0, 3);
 
-// One continuous run of step numbers across the whole page. Restarting the
-// count per section is what makes a site read as three products rather than
-// one argument, so the spine never resets.
-let cursor = 0;
-const step = () => String(++cursor).padStart(2, '0');
-const proofRows = recentPosts.map((post) => ({ post, n: step() }));
-const constructionRows = selectedProjects.map((project) => ({ project, n: step() }));
-const givenRows = timeline.map((item) => ({ item, n: step() }));
+// Each section numbers its own rows from 00. The lists are newest-first, so
+// the count runs backwards down the page and 00 lands on the oldest entry.
+const step = (i: number, total: number) => String(total - 1 - i).padStart(2, '0');
+const proofRows = recentPosts.map((post, i, a) => ({ post, n: step(i, a.length) }));
+const constructionRows = selectedProjects.map((project, i, a) => ({ project, n: step(i, a.length) }));
+const givenRows = timeline.map((item, i, a) => ({ item, n: step(i, a.length) }));
 
 // Byrne substitutes a coloured figure for a letter in the argument. Each route
 // gets its own figure, sized to its weight in the corpus rather than into
@@ -268,17 +266,43 @@ function parseStack(stack: string): string[] {
 
       <!-- ── GIVEN ──────────────────────────────────────────────────────────
            Biography is what was true before the proof begins. The period sits
-           inline with the place; the spine keeps counting. -->
+           inline with the place. -->
       <section class="pb-20 pt-16 md:pt-20">
         <div class="mb-8 flex items-baseline justify-between gap-6 border-b border-rule pb-3.5">
           <h2 class="apparatus text-ink">Given.</h2>
           <span class="apparatus text-ink-dim">{now.location}</span>
         </div>
 
+        <!-- The spine: a bead per entry, strung on one rule. Drawn per row so it
+             can fade out at the top, where the newest entry has no end date
+             yet, and stop dead on the 00 bead, where the record begins. -->
         <ol class="flex flex-col">
-          {givenRows.map(({ item, n }) => (
-            <li class="step border-b border-rule py-5">
-              <span class="step-numeral">{n}</span>
+          {givenRows.map(({ item, n }, i, a) => (
+            <li class="step relative border-b border-rule py-5">
+              {i < a.length - 1 && (
+                <span
+                  class="pointer-events-none absolute -bottom-px left-[33px] top-0 w-px"
+                  style={
+                    i === 0
+                      ? 'background:linear-gradient(to bottom, transparent 0, var(--color-rule-strong) 5rem)'
+                      : 'background:var(--color-rule-strong)'
+                  }
+                  aria-hidden="true"
+                ></span>
+              )}
+              <span class="step-numeral">
+                {n}
+                <span class="relative ml-1.5 inline-block h-[5px] w-[5px] bg-ink-dim align-middle">
+                  {/* The final segment hangs off the bead itself rather than off a
+                      measured offset, so it ends on 00 however tall the row is. */}
+                  {i === a.length - 1 && (
+                    <span
+                      class="pointer-events-none absolute bottom-1/2 left-1/2 h-40 w-px -translate-x-1/2 bg-rule-strong"
+                      aria-hidden="true"
+                    ></span>
+                  )}
+                </span>
+              </span>
               <span class="min-w-0">
                 <span class="apparatus-sm block text-ink-dim tabular">{item.period}</span>
                 <span class="mt-1.5 block text-base leading-snug text-ink">{item.place}</span>
