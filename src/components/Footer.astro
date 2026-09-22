@@ -30,13 +30,40 @@ const colophon = [
     </div>
 
     <div class="flex flex-wrap items-end justify-between gap-8">
-      <dl class="grid grid-cols-2 gap-x-10 gap-y-5 sm:grid-cols-4">
+      <dl class="flex flex-wrap gap-x-10 gap-y-5">
         {colophon.map((f) => (
           <div class="flex flex-col gap-1.5">
             <dt class="apparatus-sm text-ink-dim">{f.label}</dt>
             <dd class="font-mono text-[11px] text-ink tabular">{f.value}</dd>
           </div>
         ))}
+
+        <!-- The imprint mark: CS UWatering webring, github.com/JusGu/uwatering -->
+        <div class="flex flex-col gap-1.5">
+          <dt class="apparatus-sm text-ink-dim">Webring</dt>
+          <dd class="flex items-center gap-2 font-mono text-[11px] text-ink">
+            <a
+              href="https://cs.uwatering.com/#https://hyoseo.dev?nav=prev"
+              class="text-ink-muted transition-colors hover:text-mark"
+              aria-label="Previous site in the CS UWatering webring"
+            >&#8592;</a>
+            <a href="https://cs.uwatering.com/#https://hyoseo.dev" target="_blank" rel="noopener noreferrer" aria-label="CS UWatering webring">
+              <img
+                src="https://cs.uwatering.com/icon.black.svg"
+                alt="CS UWatering webring"
+                width="24"
+                height="24"
+                loading="lazy"
+                class="h-4 w-auto opacity-70 transition-opacity hover:opacity-100 dark:invert"
+              />
+            </a>
+            <a
+              href="https://cs.uwatering.com/#https://hyoseo.dev?nav=next"
+              class="text-ink-muted transition-colors hover:text-mark"
+              aria-label="Next site in the CS UWatering webring"
+            >&#8594;</a>
+          </dd>
+        </div>
       </dl>
 
       <ul class="flex flex-wrap gap-1">
