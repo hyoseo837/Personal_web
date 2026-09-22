@@ -50,11 +50,12 @@ export const projects: Project[] = [
     title: "HN Scroller",
     stack: "Python stdlib · Gemini API · vanilla JS · CSS scroll-snap · GitHub Actions · Cloudflare Pages",
     description:
-      "Hacker News as a vertical swipe feed, for keeping an eye on tech without reading forty comment threads to get there. Swipe up for the next story as one plain sentence, swipe right for the names and figures behind it — both axes are plain CSS scroll-snap, no framework and no gesture library. A Python script picks every story above 200 points from the last three days, asks Gemini for the card text and writes one JSON file per day; GitHub Actions runs it at 00:00 UTC and the commit is the deploy. No server, no database, no build step, no dependencies, and about $0.31 a day regardless of traffic. Detail cards must return verbatim quotes that the code verifies by exact match, so a claim with no real source behind it gets dropped rather than shipped.",
+      "Hacker News as a vertical swipe feed — enough to know what happened in tech, in about two minutes. Swipe up for the next story as one plain sentence, swipe right for the figures behind it; both axes are plain CSS scroll-snap, no framework. A nightly GitHub Action has Gemini write the cards into one JSON file a day, and the commit is the deploy — no server, no build step, no dependencies.",
     github: "https://github.com/hyoseo837/hn-scroller",
     link: "https://hn.hyoseo.dev",
     icon: Newspaper,
     duration: "2026.09 - present",
+    media: { type: 'demo' },
   },
   {
     id: "ww-extension",

@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/projects';
+import HnScrollerDemo from './demos/HnScrollerDemo.astro';
 import WwExtensionDemo from './demos/WwExtensionDemo.astro';
 import MacroDashboardDemo from './demos/MacroDashboardDemo.astro';
 import EmpklDemo from './demos/EmpklDemo.astro';
@@ -25,6 +26,7 @@ const Icon = project.icon;
 // Demo components keyed by project id.
 // To add a new demo: create src/components/demos/<Name>.astro, import above, add an entry here.
 const demoMap: Record<string, any> = {
+  'hn-scroller': HnScrollerDemo,
   'ww-extension': WwExtensionDemo,
   'macro-dashboard': MacroDashboardDemo,
   'empkl-project': EmpklDemo,
