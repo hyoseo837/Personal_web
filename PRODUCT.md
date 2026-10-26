@@ -11,7 +11,7 @@ web
 Four audiences, all confirmed as real, in the order they change design decisions:
 
 - **Curious peers and readers** — devs, friends, and people who arrived from a link or a post. They came for one piece of writing and may wander: between notes via wiki-links, from a note into a project, from a project into the log that built it.
-- **Co-op recruiters and hiring readers** — screening Hyoseo for a term or a role. They skim for credibility, want to see real work quickly, and need the CV (`public/Hyoseo_Lee_CV.pdf`) to be findable without hunting.
+- **Co-op recruiters and hiring readers** — screening Hyoseo for a term or a role. They skim for credibility, want to see real work quickly, and need the CV (`public/resumes/Hyoseo_Lee_CV_2026-10-25.pdf`) to be findable without hunting.
 - **Hyoseo himself** — the site is also his thinking space and the place notes and projects get parked and connected. Friction to publish is a real cost; findability of his own old notes is a real benefit.
 - **People who found a project** — users of a specific tool (WaterlooWorks Extension, Macro Dashboard) who want to know what it does and where the code lives.
 
@@ -59,7 +59,7 @@ Neighboring student portfolios can copy the sections. They cannot truthfully cop
 
 ## Evidence on Hand
 
-- `public/Hyoseo_Lee_CV.pdf` — the real CV.
+- `public/resumes/Hyoseo_Lee_CV_2026-10-25.pdf` — the real CV.
 - ~200 markdown posts under `src/content/posts/`, the large majority LeetCode solutions; the writing categories are smaller and are the ones that carry voice.
 - Real projects with real repos in `src/data/projects.ts`, including hand-authored CSS demos. The WaterlooWorks Extension's backend is shut down — its status is recorded honestly in the data and must stay that way.
 - Timeline in `src/data/timeline.ts` is factual: born and raised in Anyang, Korea → American School of Warsaw (IB) → Waterloo Honours Mathematics → Republic of Korea Army → Waterloo Honours Computer Science → co-op at Statistics Canada, Ottawa (current).
