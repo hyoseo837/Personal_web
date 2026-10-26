@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Sheet from '../../components/Sheet.astro';
-import { Spade, Grid3x3 } from 'lucide-astro';
+import { Spade, Grid3x3, NotebookPen } from 'lucide-astro';
 
 // Two games is not a collection worth a data file yet. Extract to src/data/
 // when a third one turns up.
@@ -22,22 +22,35 @@ const games = [
       "The Special Daily, a 30×30 board. Fill the grid so each colour forms one connected group and no 2×2 square is a single colour. Carried over each day from puzzle-yin-yang.com with its creator's permission.",
     apparatus: 'Daily · 30 × 30',
   },
+  {
+    href: 'https://notebook-war.hyoseo.dev',
+    title: 'Notebook War',
+    icon: NotebookPen,
+    blurb:
+      "The school-notebook war game, redrawn for the web. Draw your tanks, slip the pencil, wipe out the other side — against a friend on the same device or against the computer.",
+    apparatus: 'Two players · notebook-war.hyoseo.dev',
+    external: true,
+  },
 ];
 ---
 <BaseLayout
   title="Games"
-  description="Two small games to waste time on: a rebuild of SHENZHEN I/O's solitaire, and Yin-Yang, a connectivity puzzle with a unique solution."
+  description="Three small games to waste time on: a rebuild of SHENZHEN I/O's solitaire, Yin-Yang, a connectivity puzzle with a unique solution, and Notebook War, the school-notebook tank game."
 >
   <Sheet
     section="Games"
-    summary="Things built to be played rather than read. Both run entirely in the page — nothing to install, no account, no server keeping score."
+    summary="Things built to be played rather than read. All three run in the browser — nothing to install, no account, no server keeping score."
     numeral="V"
     fields={[{ label: 'Games', value: String(games.length) }]}
   >
     <ul class="border-t border-rule">
       {games.map((game, i) => (
         <li>
-          <a href={game.href} class="step group block border-b border-rule py-7 transition-colors hover:bg-plate">
+          <a
+            href={game.href}
+            target={game.external ? '_blank' : undefined}
+            rel={game.external ? 'noopener noreferrer' : undefined}
+            class="step group block border-b border-rule py-7 transition-colors hover:bg-plate">
             <span class="step-numeral pt-1.5 text-ink-dim">{String(i + 1).padStart(2, '0')}</span>
             <span class="block">
               <span class="flex items-baseline gap-3">
